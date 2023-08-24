@@ -10,7 +10,7 @@ class RegisterUseCase extends UseCase<void,SendRegisterParam>{
 
   @override
   Future<Either<Failure,void>> call(SendRegisterParam param) async {
-    return await repository.register(param.email,param.password);
+    return await repository.register(param.email,param.password,"bio","temp ","kjkdfjs");
   }
 }
 class SendRegisterParam extends Equatable{
