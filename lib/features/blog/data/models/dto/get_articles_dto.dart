@@ -1,3 +1,6 @@
+import 'package:blog_application/features/blog/domain/entities/article.dart';
+import 'package:blog_application/features/blog/domain/entities/user.dart';
+
 class GetArticlesResponseDto {
   bool? success;
   List<ArticleModel>? data;
@@ -85,6 +88,23 @@ class ArticleModel {
     data['id'] = this.id;
     return data;
   }
+  Article toDomain(){
+    return Article(
+      id: id ?? '',
+      content: content ?? '',
+      title: title ?? '',
+      subTitle: subTitle ?? '',
+      estimatedReadTime: estimatedReadTime ?? '',
+      image: image ?? '',
+      tags: tags ?? [],
+      user: user?.toDomain(),
+      createdAt: DateTime.parse(createdAt ?? ''),
+    );
+  }
+  @override
+  String toString() {
+    return 'ArticleModel{sId: $sId, tags: $tags, content: $content, title: $title, subTitle: $subTitle, estimatedReadTime: $estimatedReadTime, user: $user, image: $image, imageCloudinaryPublicId: $imageCloudinaryPublicId, createdAt: $createdAt, iV: $iV, id: $id}';
+  }
 }
 
 class UserModel {
@@ -138,4 +158,19 @@ class UserModel {
     data['id'] = this.id;
     return data;
   }
+  User toDomain(){
+    return User(
+      id: id ?? '',
+      bio: bio ?? '',
+      email: email ?? '',
+      expertise: expertise ?? '',
+      fullName: fullName ?? '',
+      image: image ?? '',
+    );
+  }
+  @override
+  String toString() {
+    return 'UserModel{sId: $sId, fullName: $fullName, email: $email, expertise: $expertise, bio: $bio, createdAt: $createdAt, iV: $iV, image: $image, imageCloudinaryPublicId: $imageCloudinaryPublicId, id: $id}';
+  }
 }
+
