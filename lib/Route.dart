@@ -8,13 +8,13 @@ import "./core/routes/blog_app_routes.dart";
 import "./features/blog/presentation/pages/auth.dart";
 import "./features/blog/presentation/pages/articles_reading_screen.dart";
 
-
 Route<dynamic> controller(RouteSettings settings) {
   switch (settings.name) {
     case BlogAppRoutes.AUTH:
       return MaterialPageRoute(builder: (context) => const Auth());
     case BlogAppRoutes.ARTICLE_DETAIL:
-      return MaterialPageRoute(builder: (context) => const ArticleReading(likes: 4));
+      return MaterialPageRoute(
+          builder: (context) => const ArticleReading(likes: 4));
     case BlogAppRoutes.HOME:
       return MaterialPageRoute(builder: (context) => const HomePage());
     case BlogAppRoutes.ARTICLE_CREATE:

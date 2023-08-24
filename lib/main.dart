@@ -7,6 +7,6 @@ void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     onGenerateRoute: route.controller,
-    initialRoute: BlogAppRoutes.ARTICLE_CREATE,
+    initialRoute: BlogAppRoutes.ONBOARDING,
   ));
 }
