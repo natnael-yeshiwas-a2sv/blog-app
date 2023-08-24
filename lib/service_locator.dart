@@ -11,7 +11,7 @@ import 'package:http/http.dart';
 
 final sl = GetIt.instance;
 
-void setup() async {
+Future<void> setup() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sl.registerSingleton(() => sharedPreferences);
   sl.registerSingleton(() => Client());

@@ -7,7 +7,10 @@ import "core/routes/blog_app_routes.dart";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
+    theme: ThemeData(
+      useMaterial3:  true,
+    ),
     debugShowCheckedModeBanner: false,
     onGenerateRoute: route.controller,
     initialRoute: BlogAppRoutes.ARTICLE_CREATE,
