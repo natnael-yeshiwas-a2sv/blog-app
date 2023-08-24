@@ -68,7 +68,7 @@ class _AuthState extends State<Auth> {
                                   child: const Text(
                                     "LOGIN",
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -85,7 +85,7 @@ class _AuthState extends State<Auth> {
                                   child: const Text(
                                     "SIGN UP",
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -121,7 +121,7 @@ class _AuthState extends State<Auth> {
                                     Text(
                                       login ? "Welcome back" : "Welcome",
                                       style: const TextStyle(
-                                        fontSize: 27,
+                                        fontSize: 20,
                                         color: Color.fromARGB(255, 13, 37, 60),
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -132,7 +132,7 @@ class _AuthState extends State<Auth> {
                                           ? "Sign in with your account"
                                           : "provide credentials to signup",
                                       style: const TextStyle(
-                                        fontSize: 17,
+                                        fontSize: 14,
                                         color: Color.fromARGB(255, 45, 67, 121),
                                         fontWeight: FontWeight.w900,
                                       ),
@@ -141,14 +141,14 @@ class _AuthState extends State<Auth> {
                                     const Text(
                                       "Username",
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 17,
                                         color: Color.fromARGB(255, 45, 67, 121),
                                         fontWeight: FontWeight.w200,
                                         fontStyle: FontStyle.italic,
                                       ),
                                     ),
                                     TextField(
-                                      style: const TextStyle(fontSize: 22),
+                                      style: const TextStyle(fontSize: 17),
                                       onChanged: (String? text) => setState(() {
                                         username = text;
                                         usernameErr = username!.isNotEmpty
@@ -179,11 +179,11 @@ class _AuthState extends State<Auth> {
                                       usernameErr ?? "",
                                       style: TextStyle(color: Colors.red),
                                     ),
-                                    const SizedBox(height: 15),
+                                    const SizedBox(height: 7),
                                     const Text(
                                       "Password",
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 17,
                                         color: Color.fromARGB(255, 45, 67, 121),
                                         fontWeight: FontWeight.w200,
                                         fontStyle: FontStyle.italic,
@@ -205,7 +205,7 @@ class _AuthState extends State<Auth> {
                                             hintText: "password",
                                             hintStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 20,
+                                              fontSize: 17,
                                               color: Color.fromARGB(
                                                   255, 184, 184, 184),
                                             ),
@@ -236,7 +236,7 @@ class _AuthState extends State<Auth> {
                                                 hidePassword ? "show" : "hide",
                                                 style: const TextStyle(
                                                   color: Colors.blue,
-                                                  fontSize: 17,
+                                                  fontSize: 14,
                                                 ),
                                               ),
                                             ),
@@ -262,7 +262,7 @@ class _AuthState extends State<Auth> {
                                               255, 230, 230, 230),
                                           color:
                                               Color.fromARGB(255, 55, 106, 237),
-                                          padding: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(17),
                                           onPressed: state is AuthLoading
                                               ? null
                                               : () {
@@ -282,7 +282,6 @@ class _AuthState extends State<Auth> {
                                                         .add(sendBloc);
                                                   }
 
-                                                  
                                                   if (state is AuthFailed) {
                                                     print("----");
                                                     print(state.error);
@@ -297,7 +296,7 @@ class _AuthState extends State<Auth> {
                                                   login ? "LOGIN" : "SIGN UP",
                                                   style: const TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 )),
@@ -306,8 +305,8 @@ class _AuthState extends State<Auth> {
                                     BlocListener<AuthBloc, AuthState>(
                                       listener: (context, state) {
                                         if (state is AuthPass) {
-                                           Navigator.popAndPushNamed(context,
-                                                        BlogAppRoutes.HOME);
+                                          Navigator.popAndPushNamed(
+                                              context, BlogAppRoutes.HOME);
                                         }
                                       },
                                       child: Row(
@@ -320,7 +319,7 @@ class _AuthState extends State<Auth> {
                                                 : "Have an account?",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 17,
+                                              fontSize: 14,
                                               color: Color.fromARGB(
                                                   255, 45, 67, 121),
                                             ),
@@ -337,7 +336,7 @@ class _AuthState extends State<Auth> {
                                               style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 55, 106, 237),
-                                                fontSize: 17,
+                                                fontSize: 14,
                                               ),
                                             ),
                                           )
