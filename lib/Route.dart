@@ -1,5 +1,6 @@
   import "package:blog_application/features/blog/presentation/pages/create_article_screans.dart";
   import "package:blog_application/features/blog/presentation/pages/home_page.dart";
+import "package:blog_application/features/blog/presentation/pages/onboarding_page.dart";
   import "package:blog_application/features/blog/presentation/pages/profile_screen.dart";
   import 'package:flutter/material.dart';
   // import 'package:todo_app/features/todo/domain/entities/task_entity.dart';
@@ -21,6 +22,8 @@
         return MaterialPageRoute(builder: (context) => CreateTaskScreen());
       case BlogAppRoutes.PROFILE:
         return MaterialPageRoute(builder: (context) => const ProfileScreen());
+      case BlogAppRoutes.ONBOARDING:
+        return MaterialPageRoute(builder: (context) => const Onboarding());
       default:
         return throw ("invalid navigation");
     }

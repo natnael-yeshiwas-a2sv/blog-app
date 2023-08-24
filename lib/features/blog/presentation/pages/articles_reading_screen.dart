@@ -1,3 +1,4 @@
+import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/presentation/widgets/author_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:blog_application/features/blog/presentation/widgets/article_reading_title.dart';
@@ -34,12 +35,14 @@ class _ArticleReadingState extends State<ArticleReading> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        leading: const Padding(
+        leading: Padding(
           padding: EdgeInsets.only(left: 25),
-          child: const Icon(
-            Icons.chevron_left,
-            color: Colors.black,
-          ),
+          child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(
+                Icons.chevron_left,
+                color: Colors.black,
+              )),
         ),
         actions: const [
           Padding(
@@ -68,13 +71,16 @@ class _ArticleReadingState extends State<ArticleReading> {
             const ArticleReadingTitle(
               title: 'Four Things Everyone Needs To Know',
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: const AuthorBar(
-                  image: AssetImage("./assets/images/author_image.png"),
-                  name: 'Richard Gervain',
-                  time: '2m ago',
-                  isBookmarked: true),
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: const AuthorBar(
+                    image: AssetImage("./assets/images/author_image.png"),
+                    name: 'Richard Gervain',
+                    time: '2m ago',
+                    isBookmarked: true),
+              ),
             ),
           ]),
         ),

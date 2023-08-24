@@ -1,3 +1,4 @@
+import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/presentation/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,14 +29,20 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: const [
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/images/photocv.jpg'),
+        actions: [
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
+            child: const CircleAvatar(
+              backgroundImage: AssetImage('assets/images/photocv.jpg'),
+            ),
           )
         ],
       ),
-      floatingActionButton: const CustomizedButton(
-        icon: Icon(Icons.add),
+      floatingActionButton: FilledButton(
+        
+        onPressed: () =>
+            Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE),
+        child: Icon(Icons.add),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -84,10 +91,13 @@ class HomePage extends StatelessWidget {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount:1,
+                        itemCount: 4,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, BlogAppRoutes.ARTICLE_DETAIL);
+                            },
                             child: const Column(
                               children: [
                                 ArticleCard(
