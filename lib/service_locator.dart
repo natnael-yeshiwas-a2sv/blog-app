@@ -8,6 +8,7 @@ import 'package:blog_application/features/blog/domain/repositories/article_repos
 import 'package:blog_application/features/blog/domain/repositories/auth_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 

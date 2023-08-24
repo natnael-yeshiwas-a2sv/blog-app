@@ -44,7 +44,8 @@ dependencies:
   google_fonts: ^5.1.0
   flutter_svg: ^0.22.0
   formz: ^0.6.0
-  shared_preference: ^2.2.0
+  shared_preferences: ^2.2.0
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
