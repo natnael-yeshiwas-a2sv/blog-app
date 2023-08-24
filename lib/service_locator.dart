@@ -8,6 +8,9 @@ import 'package:blog_application/features/blog/data/repositories/article_reposit
 import 'package:blog_application/features/blog/data/repositories/auth_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/article_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/auth_repository.dart';
+import 'package:blog_application/features/blog/domain/usecases/login_usecase.dart';
+import 'package:blog_application/features/blog/domain/usecases/register_usecase.dart';
+import 'package:blog_application/features/blog/presentation/blocs/auth/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,4 +34,13 @@ Future<void> setup() async {
     authRemoteDataSource: sl(),
     localDataSource: sl(),
   ));
+
+  sl.registerFactory(() => LoginUseCase(sl()));
+  sl.registerFactory(() => RegisterUseCase(sl()));
+
+  sl.registerSingleton<AuthBloc>(AuthBloc(
+    sl<LoginUseCase>(),
+    sl<RegisterUseCase>(),
+  ));
+  
 }
