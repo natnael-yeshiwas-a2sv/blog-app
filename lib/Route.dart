@@ -1,6 +1,6 @@
 import "package:blog_application/features/blog/presentation/pages/create_article_screans.dart";
-import "package:blog_application/features/blog/presentation/screens/home_page.dart";
-import "package:blog_application/features/blog/presentation/screens/profile_screen.dart";
+import "package:blog_application/features/blog/presentation/pages/home_page.dart";
+import "package:blog_application/features/blog/presentation/pages/profile_screen.dart";
 import 'package:flutter/material.dart';
 // import 'package:todo_app/features/todo/domain/entities/task_entity.dart';
 import "./core/routes/blog_app_routes.dart";
