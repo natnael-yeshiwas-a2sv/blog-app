@@ -1,4 +1,6 @@
+import 'package:blog_application/features/blog/data/datasources/article_api_resources.dart';
 import 'package:blog_application/features/blog/data/datasources/article_api_resources_impl.dart';
+import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_data_source_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_datasource.dart';
@@ -14,18 +16,19 @@ final sl = GetIt.instance;
 
 Future<void> setup() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerSingleton(() => sharedPreferences);
-  sl.registerSingleton(() => Client());
-  sl.registerSingleton<LocalDataSource>(LocalDataSourceImpl(sharedPreferences: sl()));
-  sl.registerSingleton<ArticleApiResourceImpl>(ArticleApiResourceImpl(client: sl()));
+  sl.registerSingleton(Client());
+  sl.registerSingleton<LocalDataSource>(
+      LocalDataSourceImpl(sharedPreferences: sharedPreferences));
+  sl.registerSingleton<ArticleApiResource>(
+      ArticleApiResourceImpl(client: sl()));
   sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(
     localDataSource: sl(),
     articleApiResourceImpl: sl(),
   ));
-  sl.registerSingleton<AuthRemoteDataSourceImpl>(AuthRemoteDataSourceImpl(client: sl()));
+  sl.registerSingleton<AuthRemoteDataSource>(
+      AuthRemoteDataSourceImpl(client: sl()));
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl(
     authRemoteDataSource: sl(),
     localDataSource: sl(),
   ));
-
 }

@@ -19,11 +19,11 @@ class GetArticles extends UseCase<List<Article>, GetArticlesParam> {
 
 class GetArticlesParam extends Equatable{
 
-  late final List<String>? tags;
-  late final String? searchParams;
-  
+  final List<String>? tags;
+  final String? searchParams;
+  const GetArticlesParam({this.tags, this.searchParams});
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props =>[tags,searchParams];
 
 }

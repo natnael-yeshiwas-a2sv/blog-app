@@ -1,3 +1,4 @@
+import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:flutter/material.dart';
 
 class Auth extends StatefulWidget {
@@ -35,7 +36,7 @@ class _AuthState extends State<Auth> {
               height: 235,
               width: double.infinity,
               child: Image.asset(
-                'images/A2SV Blue 2.png',
+                'assets/images/a2sv_blue_2.png',
               ),
             ),
             SizedBox(
@@ -254,7 +255,9 @@ class _AuthState extends State<Auth> {
                                   minWidth: double.infinity,
                                   color: Color.fromARGB(255, 55, 106, 237),
                                   padding: EdgeInsets.all(20),
-                                  onPressed: submit,
+                                  onPressed: (){
+                                    Navigator.pushNamed(context, BlogAppRoutes.HOME);
+                                  },
                                   child: Text(
                                     login ? "LOGIN" : "SIGN UP",
                                     style: const TextStyle(

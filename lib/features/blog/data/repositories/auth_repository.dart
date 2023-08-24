@@ -1,4 +1,5 @@
 import 'package:blog_application/core/exceptions/Failure.dart';
+import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_datasource.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
@@ -8,7 +9,7 @@ import 'package:dartz/dartz.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   LocalDataSource localDataSource;
-  AuthRemoteDataSourceImpl authRemoteDataSource;
+  AuthRemoteDataSource authRemoteDataSource;
   AuthRepositoryImpl(
       {required this.localDataSource, required this.authRemoteDataSource}) {
         final user = localDataSource.getCachedUser();

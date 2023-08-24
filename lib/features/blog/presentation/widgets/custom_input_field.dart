@@ -36,8 +36,9 @@ class CustomInputField extends StatelessWidget {
                   fontSize: 15,
                   fontWeight: FontWeight.w300,
                 ),
-                suffixIcon: const CustomizedButton(
+                suffixIcon: CustomizedButton(
                   icon: Icon(Icons.search),
+                  onpressed:() {},
                 ),
               ),
             ) ,
