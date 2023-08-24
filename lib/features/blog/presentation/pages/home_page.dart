@@ -38,12 +38,16 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: FilledButton(
+      floatingActionButton: CustomizedButton(
+        onpressed: () => Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE),
+        icon: const Icon(Icons.add),
+      ), 
+      // FilledButton(
         
-        onPressed: () =>
-            Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE),
-        child: Icon(Icons.add),
-      ),
+      //   onPressed: () =>
+      //       Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE),
+      //   child: Icon(Icons.add),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Container(
