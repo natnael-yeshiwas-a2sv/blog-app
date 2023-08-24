@@ -70,7 +70,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-  setToken(String? fold) {
+  void setToken(String? fold) {
     token = fold ?? '';
   }
 

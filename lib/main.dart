@@ -6,8 +6,8 @@ import "./Route.dart" as route;
 import "core/routes/blog_app_routes.dart";
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await setup();
+  WidgetsFlutterBinding.ensureInitialized();
+  await setup();
   runApp(MaterialApp(
     theme: ThemeData(
         useMaterial3: true,
