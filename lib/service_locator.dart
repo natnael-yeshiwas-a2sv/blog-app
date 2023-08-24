@@ -8,6 +8,8 @@ import 'package:blog_application/features/blog/data/repositories/article_reposit
 import 'package:blog_application/features/blog/data/repositories/auth_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/article_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/auth_repository.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_profile.dart';
+import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,4 +33,8 @@ Future<void> setup() async {
     authRemoteDataSource: sl(),
     localDataSource: sl(),
   ));
+  sl.registerFactory(() => GetProfile(sl()));
+  sl.registerSingleton(
+    ProfileBloc(sl())
+  );
 }

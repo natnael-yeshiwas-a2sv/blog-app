@@ -26,7 +26,7 @@ class ArticleInfo extends StatelessWidget {
          SizedBox(
           width: 163,
           child: Text(
-            'Why Big Data Needs Thick Data?',
+            subtitle,
             style: TextStyle(
               color: const Color(0xFF0D253C),
               fontSize: 14,

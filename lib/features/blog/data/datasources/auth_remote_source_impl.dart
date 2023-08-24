@@ -61,7 +61,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       {"AUTHORIZATION": "Bearer $token"}
     );
     if(response.statusCode == 200){
-      print(response.body);
+     
       var data = jsonDecode(response.body);
       var get_profile_dto = GetProfileDto.fromJson(data);
       return Right(get_profile_dto);

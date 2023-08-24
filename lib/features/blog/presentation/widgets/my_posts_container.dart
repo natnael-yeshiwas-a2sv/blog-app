@@ -1,13 +1,32 @@
+import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'my_post_card.dart';
 
 class MyPostsContainer extends StatelessWidget {
-  const MyPostsContainer({super.key});
+  List<Article> articles;
+  MyPostsContainer({super.key, required this.articles});
 
   @override
   Widget build(BuildContext context) {
+    Widget myPost = Container();
+    if(articles.isEmpty){
+      myPost = Column(children:[Center(child: Text("You've No Post"),)]);
+    } else {
+      myPost =Expanded(
+              child: ListView.builder(
+                itemCount: articles.length,
+                itemBuilder: (context, index) {
+                  return MyPostCard(
+                    title: articles[index].title,
+                    subtitle: articles[index].subTitle,
+                  );
+                },
+              ),
+            );
+
+    }
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(20),
@@ -62,18 +81,7 @@ class MyPostsContainer extends StatelessWidget {
                 )
               ],              
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return const MyPostCard(
-                    title: 'Title',
-                    subtitle: 'Subtitle',
-                  );
-                },
-              ),
-            ),
-
+            myPost
           ],
         ),
       ),
