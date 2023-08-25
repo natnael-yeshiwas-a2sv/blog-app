@@ -9,9 +9,22 @@ sealed class ArticleEvent extends Equatable {
 
 class LoadAllArticles extends ArticleEvent {
   final String searchparams;
-  final List<String> tags;
+  final String selectedTag;
 
   const LoadAllArticles({
+    required this.searchparams,
+    required this.selectedTag,
+   });
+
+  @override
+  List<Object> get props => [searchparams, selectedTag];
+}
+
+class LoadArticlesAndTags extends ArticleEvent {
+  final String searchparams;
+  final List<String> tags;
+
+  const LoadArticlesAndTags({
     required this.searchparams,
     required this.tags,
    });
@@ -21,9 +34,12 @@ class LoadAllArticles extends ArticleEvent {
 }
 
 class LoadAllTags extends ArticleEvent {
-  const LoadAllTags();
+  final String searchparams;
+  const LoadAllTags(
+    this.searchparams,
+  );
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [searchparams];
 }
 
