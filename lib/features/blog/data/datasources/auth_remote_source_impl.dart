@@ -32,10 +32,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return Right(login_response_dto);
     } else {
-      var data = jsonDecode(response.body);
-      print(data);
-      print("----------------");
-      return Left(ServerFailure(message: data.toString()));
+      var data = await jsonDecode(response.body);
+      return Left(ServerFailure(message: data["error"]));
     }
   }
 
@@ -55,10 +53,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       var data = jsonDecode(response.body);
       return Right(unit);
     } else {
-      var data = jsonDecode(response.body);
-      print(data);
-      print("----------------");
-      return Left(ServerFailure(message: "data.error"));
+      var data = await jsonDecode(response.body);
+      return Left(ServerFailure(message: data["error"]));
+      
     }
   }
 
@@ -74,10 +71,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       var get_profile_dto = GetProfileDto.fromJson(data);
       return Right(get_profile_dto);
     } else {
-      var data = jsonDecode(response.body);
-      print(data);
-      // print("----------------");
-      return Left(ServerFailure(message: "data.error"));
+      var data = await jsonDecode(response.body);
+      return Left(ServerFailure(message: data["error"]));
+      
     }
   }
 
