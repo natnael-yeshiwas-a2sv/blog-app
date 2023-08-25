@@ -1,9 +1,15 @@
+import 'package:blog_application/features/blog/domain/entities/article.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_articles.dart';
+import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'customized_button.dart';
 
 class CustomInputField extends StatelessWidget {
-  const CustomInputField({super.key});
+  final TextEditingController controller;
+  const CustomInputField({super.key, required this.controller});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +31,7 @@ class CustomInputField extends StatelessWidget {
               ],
             ),
             child:TextField(
+              controller: controller ,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
@@ -38,10 +45,20 @@ class CustomInputField extends StatelessWidget {
                 ),
                 suffixIcon: CustomizedButton(
                   icon: Icon(Icons.search),
-                  onpressed:() {},
+                  onpressed:()=>dispatchCreate(context),
                 ),
               ),
             ) ,
           );
   }
+void dispatchCreate(BuildContext context) {
+    
+    BlocProvider.of<ArticleBloc>(context).add(LoadAllArticles(
+      searchparams: controller.text,
+      selectedTag: "",
+      
+    ));
+  
+  }
+
 }
