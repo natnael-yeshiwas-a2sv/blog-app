@@ -11,9 +11,12 @@ import 'package:blog_application/features/blog/domain/repositories/auth_reposito
 import 'package:blog_application/features/blog/domain/usecases/login_usecase.dart';
 import 'package:blog_application/features/blog/domain/usecases/register_usecase.dart';
 import 'package:blog_application/features/blog/presentation/blocs/auth/auth_bloc.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
+import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_articles.dart';
 
 final sl = GetIt.instance;
 
@@ -43,4 +46,17 @@ Future<void> setup() async {
     sl<RegisterUseCase>(),
   ));
   
+  sl.registerSingleton(
+    GetArticles(sl()),
+  );
+  sl.registerSingleton(
+    GetTags(sl()),
+  );
+
+  sl.registerFactory(()=> 
+    ArticleBloc(
+      getArticles : sl(), 
+      getTags: sl(),
+      )
+  );
 }

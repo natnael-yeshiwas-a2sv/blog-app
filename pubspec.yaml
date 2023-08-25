@@ -46,6 +46,7 @@ dependencies:
   formz: ^0.6.0
   shared_preferences: ^2.2.0
   get: ^4.6.5
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:
