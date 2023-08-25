@@ -4,7 +4,10 @@ import 'package:blog_application/features/blog/data/models/dto/login_response_dt
 import 'package:dartz/dartz.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<Either<Failure, LoginResponseDto>> login({required String email, required String password});
-  Future<Either<Failure,void>> register(String email, String password, [String? bio, String? fullName, String? expertise]);
+  Future<Either<Failure, LoginResponseDto>> login(
+      {required String email, required String password});
+  Future<Either<Failure, void>> register(String email, String password,
+      [String? bio, String? fullName, String? expertise]);
   Future<Either<Failure, GetProfileDto>> getProfile();
+  void setToken(String? fold);
 }

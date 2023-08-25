@@ -11,7 +11,8 @@ import 'package:blog_application/features/blog/presentation/pages/articles_readi
 
 void main() async {
   // Initialize any necessary services or configurations here.
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await setup();
   runApp(MyApp());
 }
 

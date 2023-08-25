@@ -1,4 +1,6 @@
+import 'package:blog_application/features/blog/data/datasources/article_api_resources.dart';
 import 'package:blog_application/features/blog/data/datasources/article_api_resources_impl.dart';
+import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_data_source_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_datasource.dart';
@@ -17,22 +19,22 @@ final sl = GetIt.instance;
 
 Future<void> setup() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-  sl.registerSingleton<Client>(Client());
+  sl.registerSingleton(Client());
   sl.registerSingleton<LocalDataSource>(
       LocalDataSourceImpl(sharedPreferences: sharedPreferences));
-  sl.registerSingleton<ArticleApiResourceImpl>(
+  sl.registerSingleton<ArticleApiResource>(
       ArticleApiResourceImpl(client: sl()));
   sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(
     localDataSource: sl(),
     articleApiResourceImpl: sl(),
   ));
-  sl.registerSingleton<AuthRemoteDataSourceImpl>(
+  sl.registerSingleton<AuthRemoteDataSource>(
       AuthRemoteDataSourceImpl(client: sl()));
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl(
     authRemoteDataSource: sl(),
     localDataSource: sl(),
   ));
+
   sl.registerFactory(() => GetBookMarkedArticleUseCase(sl()));
   sl.registerFactory(() => BookMarkArticleUseCase(sl()));
   sl.registerSingleton<BookmarkBloc>(BookmarkBloc(

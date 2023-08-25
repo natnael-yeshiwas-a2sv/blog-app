@@ -31,7 +31,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
     var response = await client.post(url, body: {
       'title': title,
       'content': content,
-      'tags':"${tags.join(',')}",
+      'tags': "${tags.join(',')}",
       'subTitle': subTitle,
       'estimatedReadTime': estimatedReadTime ?? '',
       'photo': image ?? '',
@@ -58,7 +58,8 @@ class ArticleApiResourceImpl implements ArticleApiResource {
   @override
   Future<Either<Failure, List<Article>>> getArticles(
       {List<String>? tags, String? searchParams}) async {
-    var urlString = "${base_url}article${tags != null ? "?tags=${tags.join(',')}" : ""}${searchParams != null ? "?searchParams=$searchParams" : ""}";
+    var urlString =
+        "${base_url}article${tags != null ? "?tags=${tags.join(',')}" : ""}${searchParams != null ? "?searchParams=$searchParams" : ""}";
     var url = Uri.parse(urlString);
     var response =
         await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});
@@ -97,7 +98,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
     throw UnimplementedError();
   }
 
-  setToken(String? fold) {
+  void setToken(String? fold) {
     token = fold ?? '';
   }
 }

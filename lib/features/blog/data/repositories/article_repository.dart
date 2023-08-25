@@ -1,4 +1,5 @@
 import 'package:blog_application/core/exceptions/Failure.dart';
+import 'package:blog_application/features/blog/data/datasources/article_api_resources.dart';
 import 'package:blog_application/features/blog/data/datasources/article_api_resources_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_datasource.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
@@ -6,21 +7,35 @@ import 'package:blog_application/features/blog/domain/repositories/article_repos
 import 'package:dartz/dartz.dart';
 
 class ArticleRepositoryImpl implements ArticleRepository {
-  ArticleApiResourceImpl articleApiResourceImpl;
+  ArticleApiResource articleApiResourceImpl;
   LocalDataSource localDataSource;
-  ArticleRepositoryImpl({required this.articleApiResourceImpl, required this.localDataSource}){
+  ArticleRepositoryImpl(
+      {required this.articleApiResourceImpl, required this.localDataSource}) {
     final user = localDataSource.getCachedUser();
-    user.then((value) => articleApiResourceImpl.setToken(value.fold((l) => '', (r) => r.token)));
+    user.then((value) =>
+        articleApiResourceImpl.setToken(value.fold((l) => '', (r) => r.token)));
   }
   @override
   Future<Either<Failure, void>> bookmarkArticle(String id) {
-     return localDataSource.bookMarkArticle(id);
+    return localDataSource.bookMarkArticle(id);
   }
 
   @override
-  Future<Either<Failure, Article>> createArticle({required String title, required String content, required List<String> tags, required String subTitle, String? estimatedReadTime, String? image}) {
-     final articleResponse = articleApiResourceImpl.createArticle(title: title, content: content, tags: tags, subTitle: subTitle, estimatedReadTime: estimatedReadTime, image: image);
-     return articleResponse;
+  Future<Either<Failure, Article>> createArticle(
+      {required String title,
+      required String content,
+      required List<String> tags,
+      required String subTitle,
+      String? estimatedReadTime,
+      String? image}) {
+    final articleResponse = articleApiResourceImpl.createArticle(
+        title: title,
+        content: content,
+        tags: tags,
+        subTitle: subTitle,
+        estimatedReadTime: estimatedReadTime,
+        image: image);
+    return articleResponse;
   }
 
   @override
@@ -39,8 +54,10 @@ class ArticleRepositoryImpl implements ArticleRepository {
   }
 
   @override
-  Future<Either<Failure, List<Article>>> getArticles({List<String>? tags, String? searchParams}) {
-    final articleResponse = articleApiResourceImpl.getArticles(tags: tags, searchParams: searchParams);
+  Future<Either<Failure, List<Article>>> getArticles(
+      {List<String>? tags, String? searchParams}) {
+    final articleResponse = articleApiResourceImpl.getArticles(
+        tags: tags, searchParams: searchParams);
     return articleResponse;
   }
 
@@ -53,7 +70,8 @@ class ArticleRepositoryImpl implements ArticleRepository {
   @override
   Future<bool> isArticleBookmarked(String id) {
     final bookmarked = localDataSource.getCachedBookmarkedArticles();
-    return bookmarked.then((value) => value.fold((l) => false, (r) => r.contains(id)));
+    return bookmarked
+        .then((value) => value.fold((l) => false, (r) => r.contains(id)));
   }
 
   @override
@@ -66,5 +84,4 @@ class ArticleRepositoryImpl implements ArticleRepository {
     // TODO: implement updateArticle
     throw UnimplementedError();
   }
-  
 }

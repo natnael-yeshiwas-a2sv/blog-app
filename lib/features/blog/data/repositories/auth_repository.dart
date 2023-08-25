@@ -1,4 +1,5 @@
 import 'package:blog_application/core/exceptions/Failure.dart';
+import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_datasource.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
@@ -8,29 +9,30 @@ import 'package:dartz/dartz.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   LocalDataSource localDataSource;
-  AuthRemoteDataSourceImpl authRemoteDataSource;
+  AuthRemoteDataSource authRemoteDataSource;
   AuthRepositoryImpl(
       {required this.localDataSource, required this.authRemoteDataSource}) {
-        final user = localDataSource.getCachedUser();
-        
-         user.then((value) => authRemoteDataSource.setToken(value.fold((l) => '', (r) => r.token)));
-      }
-  
+    final user = localDataSource.getCachedUser();
+
+    user.then((value) =>
+        authRemoteDataSource.setToken(value.fold((l) => '', (r) => r.token)));
+  }
+
   @override
   Future<User> getCurrentUser() {
     final user = localDataSource.getCachedUser();
     return user.then((value) => value.fold((l) {
-      return User(email: '', id: '', fullName: '', bio: '', expertise: '');
-    }, (r) {
-        User user = User(
-          bio: r.data?.bio,
-          email: r.data?.email ?? '',
-          fullName: r.data?.fullName,
-          expertise: r.data?.expertise,
-          id: r.data?.id ?? '',
-        );
-        return (user);
-    }));
+          return User(email: '', id: '', fullName: '', bio: '', expertise: '');
+        }, (r) {
+          User user = User(
+            bio: r.data?.bio,
+            email: r.data?.email ?? '',
+            fullName: r.data?.fullName,
+            expertise: r.data?.expertise,
+            id: r.data?.id ?? '',
+          );
+          return (user);
+        }));
   }
 
   @override
@@ -63,19 +65,22 @@ class AuthRepositoryImpl implements AuthRepository {
           return const Right(unit);
         }));
   }
-  Future<Either<Failure, Tuple2<User, List<Article>>>>  getProfile() async {
+
+  Future<Either<Failure, Tuple2<User, List<Article>>>> getProfile() async {
     final getProfileResponse = await authRemoteDataSource.getProfile();
     return getProfileResponse.fold((l) => Left(l), (r) async {
-     final user = User(
-          bio: r.data?.bio,
-          email: r.data?.email ?? '',
-          fullName: r.data?.fullName,
-          expertise: r.data?.expertise,
-          id: r.data?.id ?? '',
-        );
+      final user = User(
+        bio: r.data?.bio,
+        email: r.data?.email ?? '',
+        fullName: r.data?.fullName,
+        expertise: r.data?.expertise,
+        id: r.data?.id ?? '',
+      );
       var articles = r.data?.articles ?? [];
       var articlesDomain = articles.map((e) async {
-        var isArticleBookmarked = await localDataSource.getCachedBookmarkedArticles().then((value) => value.fold((l) => false, (r) => r.contains(e.id)));
+        var isArticleBookmarked = await localDataSource
+            .getCachedBookmarkedArticles()
+            .then((value) => value.fold((l) => false, (r) => r.contains(e.id)));
         return Article(
           id: e.id ?? '',
           title: e.title ?? '',
@@ -83,10 +88,10 @@ class AuthRepositoryImpl implements AuthRepository {
           tags: e.tags ?? [],
           user: user,
           subTitle: e.subTitle ?? '',
-          estimatedReadTime:  e.estimatedReadTime ?? '',
+          estimatedReadTime: e.estimatedReadTime ?? '',
           image: e.image ?? '',
           isArticleBookmarked: isArticleBookmarked,
-          );
+        );
       }).toList();
       var articlesD = await Future.wait(articlesDomain);
       return Right(Tuple2(user, articlesD));
