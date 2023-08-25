@@ -1,55 +1,84 @@
 part of 'article_bloc.dart';
 
 sealed class ArticleState extends Equatable {
-  const ArticleState();
-  
+  final List<String> selectedTags;
+  final List<String> tags;
+  const ArticleState({
+    required this.tags,
+    required this.selectedTags,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [tags , selectedTags];
 }
 
-final class ArticleInitial extends ArticleState {}
-final class ArticleLoading extends ArticleState {}
-final class TagsLoading extends ArticleState {}
-final class ArticlesLoaded extends ArticleState {
+final class ArticleInitial extends ArticleState {
+  const ArticleInitial(List<String> selectedtags, List<String> tags)
+      : super(selectedTags: selectedtags, tags: tags);
+}
+
+final class ArticleAndTagLoading extends ArticleState {
+  const ArticleAndTagLoading(
+    List<String> selectedtags,
+    List<String> tags,
+  ) : super(selectedTags: selectedtags,
+            tags: tags);
+}
+
+final class ArticlesAndTagLoaded extends ArticleState {
   final List<Article> articles;
 
-  const ArticlesLoaded({
+
+  ArticlesAndTagLoaded({
+    selectedTags,
     required this.articles,
-  });
+    required List<String> tags,
+  }) : super(selectedTags: selectedTags, tags: tags);
 
   @override
-  List<Object> get props => [articles];
+  List<Object> get props => [articles , tags];
 }
 
-final class TagsLoaded extends ArticleState {
-  final List<String> tags;
-
-  const TagsLoaded({
-    required this.tags,
-  });
+final class ArticlesLoaded extends ArticleState {
+  final List<Article> articles;
+  int count = 0;
+  ArticlesLoaded({
+    selectedTags,
+    required this.articles,
+    required this.count,
+    tags,
+  }) : super(selectedTags: selectedTags,
+            tags: tags);
 
   @override
-  List<Object> get props => [tags];
+  List<Object> get props => [articles, count , tags];
 }
 
-final class ArticleError extends ArticleState {
+final class ArticlesLoadeds extends ArticleState {
+  final List<Article> articles;
+  int count = 0;
+  ArticlesLoadeds({
+    selectedTags,
+    required this.articles,
+    required this.count,
+    tags,
+  }) : super(selectedTags: selectedTags,
+  tags: tags);
+
+  @override
+  List<Object> get props => [articles, count ,tags];
+}
+
+final class ArticleAndTagError extends ArticleState {
   final String message;
 
-  const ArticleError({
+  const ArticleAndTagError({
+    selectedTags,
+    tags,
     required this.message,
-  });
+  }) : super(selectedTags: selectedTags,
+       tags: tags);
 
   @override
-  List<Object> get props => [message];
-}
-
-final class TagsError extends ArticleState {
-  final String message;
-
-  const TagsError({
-    required this.message,
-  });
-
-  @override
-  List<Object> get props => [message,];
+  List<Object> get props => [message , tags];
 }

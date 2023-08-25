@@ -1,128 +1,197 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
+import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:blog_application/features/blog/presentation/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../service_locator.dart';
+import '../../domain/entities/article.dart';
 import '../widgets/article_card.dart';
 import '../widgets/customized_button.dart';
 import '../widgets/filter_tag_chip.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final List<Article>? articles;
+  final List<String>? tags;
+  final articleController = TextEditingController();
+  HomePage({super.key, this.articles, this.tags});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Container(
-          padding: const EdgeInsets.all(14),
-          child: SvgPicture.asset(
-            'assets/icons/Vector.svg',
-            width: 20,
-            height: 10,
-          ),
-        ),
-        title: const Text(
-          'Welcome Back!',
-          style: TextStyle(
-            fontSize: 27,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/photocv.jpg'),
-            ),
-          )
-        ],
-      ),
-      floatingActionButton: CustomizedButton(
-        onpressed: () => Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE),
-        icon: const Icon(Icons.add),
-      ), 
-      // FilledButton(
-        
-      //   onPressed: () =>
-      //       Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE),
-      //   child: Icon(Icons.add),
-      // ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Container(
-          decoration: ShapeDecoration(
-            color: const Color(0xFFF8FAFF),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+    return BlocProvider(
+      create: (context) => sl<ArticleBloc>()
+        ..add(const LoadArticlesAndTags(searchparams: "", tags: [])),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Container(
+            padding: const EdgeInsets.all(14),
+            child: SvgPicture.asset(
+              'assets/icons/Vector.svg',
+              width: 20,
+              height: 10,
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const CustomInputField(),
-              const SizedBox(
-                height: 20,
+          title: const Text(
+            'Welcome Back!',
+            style: TextStyle(
+              fontSize: 27,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          actions: [
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
+              child: const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/photocv.jpg'),
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  FilterTagChip(
-                    name: 'All',
-                    selected: true,
-                  ),
-                  FilterTagChip(
-                    name: 'Sports',
-                    selected: false,
-                  ),
-                  FilterTagChip(
-                    name: 'Tech',
-                    selected: false,
-                  ),
-                  FilterTagChip(
-                    name: 'Politics',
-                    selected: false,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, BlogAppRoutes.ARTICLE_DETAIL);
-                            },
-                            child: const Column(
-                              children: [
-                                ArticleCard(
-                                  author: 'Joe Doe',
-                                  date: 'Jan 12, 2020',
-                                  tag: 'Education',
-                                  title:
-                                      'STUDENTS SHOULD WORK ON IMPROVING THEIR WRITING SKILLS',
-                                ),
-                                SizedBox(height: 20),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+            )
+          ],
+        ),
+        floatingActionButton: CustomizedButton(
+          onpressed: () =>
+              Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE),
+          icon: const Icon(Icons.add),
+        ),
+        body: BlocConsumer<ArticleBloc, ArticleState>(
+          listener: (context, state) {
+            if (state is ArticleAndTagError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            } else if (state is ArticleAndTagLoading) {
+              const CircularProgressIndicator();
+            }
+          },
+          builder: (context, state) {
+             
+            List<Article> articles = [];
+            if(state is ArticlesAndTagLoaded){
+              articles = state.articles;
+            } else if(state is ArticlesLoadeds){
+              articles = state.articles;
+            }
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFF8FAFF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    CustomInputField(
+                      controller: articleController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    if ((state is ArticlesAndTagLoaded || state.tags.isNotEmpty))
+                      GridView(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 3,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
+                          children: [
+                            ...state.tags.map((tag) {
+                              return FilterTagChip(
+                                controller: articleController,
+                                name: tag,
+                                selected: state.selectedTags.contains(tag),
+                              );
+                            }),
+                          ]),
+                       
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //   children: [
+                    //     FilterTagChip(
+                    //       name: 'All',
+                    //       selected: true,
+                    //     ),
+                    //     FilterTagChip(
+                    //       name: 'Sports',
+                    //       selected: false,
+                    //     ),
+                    //     FilterTagChip(
+                    //       name: 'Tech',
+                    //       selected: false,
+                    //     ),
+                    //     FilterTagChip(
+                    //       name: 'Politics',
+                    //       selected: false,
+                    //     ),
+                    //   ],
+                    // ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    if (state is ArticleAndTagLoading) 
+               const Center(child:CircularProgressIndicator())
+                  else  if ((state is ArticlesAndTagLoaded &&
+                            state.articles.isEmpty) ||
+                    (state is ArticlesLoadeds && state.articles.isEmpty))
+                      Container(
+                        child: const Center(
+                          child: Text("No Article is found"),
+                        ),
+                      )
+                    else if ((state is ArticlesAndTagLoaded &&
+                            state.articles.isNotEmpty) ||
+                        (state is ArticlesLoadeds && state.articles.isNotEmpty))
+                       
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: articles.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(context,
+                                          BlogAppRoutes.ARTICLE_DETAIL);
+                                    },
+                                    child: Column(
+                                      children: [
+                                        ArticleCard(
+                                          author: articles[index].user
+                                                  ?.fullName ??
+                                              'Joe Doe',
+                                          date: articles[index].createdAt
+                                              .toString(),
+                                          tag: articles[index].tags
+                                                  .isNotEmpty
+                                              ? articles[index].tags[0]
+                                              : '',
+                                          title: articles[index].title,
+                                        ),
+                                        const SizedBox(height: 20),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
