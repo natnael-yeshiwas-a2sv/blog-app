@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/presentation/util/input_converter.dart';
 import '../../../../service_locator.dart';
 import '../../domain/entities/article.dart';
 import '../widgets/article_card.dart';
@@ -40,10 +41,13 @@ class HomePage extends StatelessWidget {
             ),
           ),
           actions: [
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
-              child: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/photocv.jpg'),
+            Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: GestureDetector(
+                onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
+                child: const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/photocv.jpg',),
+                ),
               ),
             )
           ],
@@ -111,27 +115,6 @@ class HomePage extends StatelessWidget {
                             }),
                           ]),
                        
-                    // const Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //   children: [
-                    //     FilterTagChip(
-                    //       name: 'All',
-                    //       selected: true,
-                    //     ),
-                    //     FilterTagChip(
-                    //       name: 'Sports',
-                    //       selected: false,
-                    //     ),
-                    //     FilterTagChip(
-                    //       name: 'Tech',
-                    //       selected: false,
-                    //     ),
-                    //     FilterTagChip(
-                    //       name: 'Politics',
-                    //       selected: false,
-                    //     ),
-                    //   ],
-                    // ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -158,19 +141,23 @@ class HomePage extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: articles.length,
                                 itemBuilder: (context, index) {
+                                  String date = InputConverter.toDateFormat(articles[index].createdAt);
                                   return GestureDetector(
                                     onTap: () {
                                       Navigator.pushNamed(context,
-                                          BlogAppRoutes.ARTICLE_DETAIL);
+                                          BlogAppRoutes.ARTICLE_DETAIL,
+                                          arguments: articles[index]
+                                          );
                                     },
                                     child: Column(
                                       children: [
+                                    
+
                                         ArticleCard(
                                           author: articles[index].user
                                                   ?.fullName ??
                                               'Joe Doe',
-                                          date: articles[index].createdAt
-                                              .toString(),
+                                          date: date,
                                           tag: articles[index].tags
                                                   .isNotEmpty
                                               ? articles[index].tags[0]
