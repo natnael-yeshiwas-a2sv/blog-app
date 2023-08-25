@@ -17,7 +17,7 @@ import "package:blog_application/features/blog/presentation/pages/onboarding_pag
       case BlogAppRoutes.ARTICLE_DETAIL:
         return MaterialPageRoute(builder: (context) => const ArticleReading(likes: 4));
       case BlogAppRoutes.HOME:
-        return MaterialPageRoute(builder: (context) => const HomePage());
+        return MaterialPageRoute(builder: (context) => HomePage());
       case BlogAppRoutes.ARTICLE_CREATE:
         return MaterialPageRoute(builder: (context) => CreateTaskScreen());
       case BlogAppRoutes.PROFILE:
