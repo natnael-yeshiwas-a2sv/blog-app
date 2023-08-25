@@ -1,5 +1,6 @@
 class BlogAppRoutes {
   static const HOME = '/';
+  static const SPLASH = "/splash";
   static const ARTICLES = '/articles';
   static const ARTICLE_DETAIL = '/article-detail';
   static const ARTICLE_CREATE = '/article-create';

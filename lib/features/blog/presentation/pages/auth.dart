@@ -3,6 +3,7 @@ import 'package:blog_application/features/blog/presentation/blocs/auth/auth_bloc
 import 'package:blog_application/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import "../widgets/auth_custome_alert.dart";
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -26,6 +27,8 @@ class _AuthState extends State<Auth> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double fontNormal = MediaQuery.of(context).size.width * 0.04 + 1;
     return BlocProvider(
         create: (context) => sl<AuthBloc>(),
         child: Scaffold(
@@ -33,7 +36,7 @@ class _AuthState extends State<Auth> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 235,
+                  height: 225,
                   width: double.infinity,
                   child: Image.asset(
                     'assets/images/a2sv_blue_2.png',
@@ -68,7 +71,6 @@ class _AuthState extends State<Auth> {
                                   child: const Text(
                                     "LOGIN",
                                     style: TextStyle(
-                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -85,7 +87,6 @@ class _AuthState extends State<Auth> {
                                   child: const Text(
                                     "SIGN UP",
                                     style: TextStyle(
-                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -132,23 +133,23 @@ class _AuthState extends State<Auth> {
                                           ? "Sign in with your account"
                                           : "provide credentials to signup",
                                       style: const TextStyle(
-                                        fontSize: 14,
                                         color: Color.fromARGB(255, 45, 67, 121),
                                         fontWeight: FontWeight.w900,
                                       ),
                                     ),
                                     const SizedBox(height: 25),
-                                    const Text(
+                                    Text(
                                       "Username",
                                       style: TextStyle(
-                                        fontSize: 17,
-                                        color: Color.fromARGB(255, 45, 67, 121),
+                                        fontSize: fontNormal,
+                                        color: const Color.fromARGB(
+                                            255, 45, 67, 121),
                                         fontWeight: FontWeight.w200,
                                         fontStyle: FontStyle.italic,
                                       ),
                                     ),
                                     TextField(
-                                      style: const TextStyle(fontSize: 17),
+                                      style: TextStyle(fontSize: fontNormal),
                                       onChanged: (String? text) => setState(() {
                                         username = text;
                                         usernameErr = username!.isNotEmpty
@@ -180,10 +181,10 @@ class _AuthState extends State<Auth> {
                                       style: TextStyle(color: Colors.red),
                                     ),
                                     const SizedBox(height: 7),
-                                    const Text(
+                                    Text(
                                       "Password",
                                       style: TextStyle(
-                                        fontSize: 17,
+                                        fontSize: fontNormal,
                                         color: Color.fromARGB(255, 45, 67, 121),
                                         fontWeight: FontWeight.w200,
                                         fontStyle: FontStyle.italic,
@@ -193,6 +194,8 @@ class _AuthState extends State<Auth> {
                                       children: [
                                         TextField(
                                           obscureText: hidePassword,
+                                          style:
+                                              TextStyle(fontSize: fontNormal),
                                           onChanged: (String? text) =>
                                               setState(() {
                                             password = text;
@@ -200,16 +203,16 @@ class _AuthState extends State<Auth> {
                                                 ? ""
                                                 : "invalid password";
                                           }),
-                                          style: const TextStyle(fontSize: 22),
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                             hintText: "password",
                                             hintStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 17,
-                                              color: Color.fromARGB(
+                                              fontSize: fontNormal,
+                                              color: const Color.fromARGB(
                                                   255, 184, 184, 184),
                                             ),
-                                            enabledBorder: UnderlineInputBorder(
+                                            enabledBorder:
+                                                const UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: Color.fromARGB(
                                                     255, 217, 223, 235),
@@ -236,7 +239,6 @@ class _AuthState extends State<Auth> {
                                                 hidePassword ? "show" : "hide",
                                                 style: const TextStyle(
                                                   color: Colors.blue,
-                                                  fontSize: 14,
                                                 ),
                                               ),
                                             ),
@@ -266,10 +268,10 @@ class _AuthState extends State<Auth> {
                                           onPressed: state is AuthLoading
                                               ? null
                                               : () {
-                                                  if (username!.isEmpty ==
-                                                          false &&
-                                                      password!.isEmpty ==
-                                                          false) {
+                                                  if (username != null &&
+                                                      username != "" &&
+                                                      password != null &&
+                                                      password != "") {
                                                     dynamic sendBloc = login
                                                         ? AuthLogin(
                                                             username ?? "",
@@ -280,12 +282,17 @@ class _AuthState extends State<Auth> {
                                                     context
                                                         .read<AuthBloc>()
                                                         .add(sendBloc);
-                                                  }
-
-                                                  if (state is AuthFailed) {
-                                                    print("----");
-                                                    print(state.error);
-                                                    print("----");
+                                                  } else {
+                                                    setState(() {
+                                                      if (username == null ||
+                                                          username == "") {
+                                                        usernameErr =
+                                                            "empty username";
+                                                      } else {
+                                                        passwordErr =
+                                                            "empty password";
+                                                      }
+                                                    });
                                                   }
                                                 },
                                           child: state is AuthLoading
@@ -296,7 +303,6 @@ class _AuthState extends State<Auth> {
                                                   login ? "LOGIN" : "SIGN UP",
                                                   style: const TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 14,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 )),
@@ -305,8 +311,13 @@ class _AuthState extends State<Auth> {
                                     BlocListener<AuthBloc, AuthState>(
                                       listener: (context, state) {
                                         if (state is AuthPass) {
-                                          Navigator.popAndPushNamed(
-                                              context, BlogAppRoutes.HOME);
+                                          
+                                          Navigator.pushNamedAndRemoveUntil(context, BlogAppRoutes.HOME , (r) => false);
+
+                                        }
+                                        
+                                        if (state is AuthFailed) {
+                                          showAlertDialog(context, state.error);
                                         }
                                       },
                                       child: Row(
@@ -319,7 +330,6 @@ class _AuthState extends State<Auth> {
                                                 : "Have an account?",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w900,
-                                              fontSize: 14,
                                               color: Color.fromARGB(
                                                   255, 45, 67, 121),
                                             ),
@@ -336,7 +346,6 @@ class _AuthState extends State<Auth> {
                                               style: const TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 55, 106, 237),
-                                                fontSize: 14,
                                               ),
                                             ),
                                           )
