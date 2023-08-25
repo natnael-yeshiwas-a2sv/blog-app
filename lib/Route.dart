@@ -18,7 +18,7 @@ Route<dynamic> controller(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => const ArticleReading(likes: 4));
     case BlogAppRoutes.HOME:
-      return MaterialPageRoute(builder: (context) => const HomePage());
+      return MaterialPageRoute(builder: (context) =>  HomePage());
     case BlogAppRoutes.ARTICLE_CREATE:
       return MaterialPageRoute(builder: (context) => CreateTaskScreen());
     case BlogAppRoutes.PROFILE:
