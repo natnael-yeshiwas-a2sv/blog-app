@@ -9,8 +9,6 @@ import "./features/blog/domain/usecases/isloged_in_usecase.dart";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
-  IsLogedIn ins = sl<IsLogedIn>();
-  bool islogedin = await ins.call();
   runApp(MaterialApp(
     theme: ThemeData(
         useMaterial3: true,
