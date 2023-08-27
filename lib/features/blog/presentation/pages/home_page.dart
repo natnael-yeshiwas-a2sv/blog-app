@@ -42,11 +42,15 @@ class HomePage extends StatelessWidget {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.all(7.0),
+              padding: const EdgeInsets.only(right:10.0),
               child: GestureDetector(
                 onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
                 child: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/photocv.jpg',),
+                  radius: 26,
+                  backgroundImage: AssetImage(
+                    'assets/images/photocv.jpg',
+                    
+                  ),
                 ),
               ),
             )
@@ -154,6 +158,7 @@ class HomePage extends StatelessWidget {
                                     
 
                                         ArticleCard(
+                                          
                                           author: articles[index].user
                                                   ?.fullName ??
                                               'Joe Doe',
@@ -163,6 +168,7 @@ class HomePage extends StatelessWidget {
                                               ? articles[index].tags[0]
                                               : '',
                                           title: articles[index].title,
+                                          imageUrl: articles[index].image,
                                         ),
                                         const SizedBox(height: 20),
                                       ],
