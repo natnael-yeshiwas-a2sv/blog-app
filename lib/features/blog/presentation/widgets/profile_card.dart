@@ -1,8 +1,10 @@
+import 'package:blog_application/features/blog/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({super.key});
+  final User user;
+  ProfileCard({super.key, required this.user});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,7 +58,7 @@ class ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '@joviedan',
+                      "@" + user.email.substring(0,5),
                       style: TextStyle(
                         color: Color(0xFF2D4379),
                         fontSize: 14,
@@ -66,7 +68,7 @@ class ProfileCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Jovi Daniel',
+                      user.fullName ?? "Jovi Daniel",
                       style: TextStyle(
                         color: Color(0xFF0D253C),
                         fontSize: 18,
@@ -76,7 +78,7 @@ class ProfileCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'UX Designer',
+                      user.expertise ?? 'UX Designer',
                       style: TextStyle(
                         color: Color(0xFF376AED),
                         fontSize: 16,
@@ -103,7 +105,7 @@ class ProfileCard extends StatelessWidget {
             ),
             SizedBox(height: 11),
             Text(
-              'Madison Blackstone is a director of user experience design, with experience managing global teams.',
+              user.bio ?? 'Madison Blackstone is a director of user experience design, with experience managing global teams.',
               style: TextStyle(
                 color: Color(0xFF2D4379),
                 fontSize: 14,

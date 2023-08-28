@@ -11,6 +11,7 @@ import "./features/blog/domain/usecases/isloged_in_usecase.dart";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
+
   runApp(
     BlocProvider(
     create: (context) => sl<AuthBloc>(),
@@ -24,5 +25,6 @@ void main() async {
       onGenerateRoute: route.controller,
       initialRoute: BlogAppRoutes.AUTH,
     ),
+
   ));
 }

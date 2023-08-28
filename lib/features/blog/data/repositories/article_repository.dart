@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/data/datasources/article_api_resources.dart';
 import 'package:blog_application/features/blog/data/datasources/article_api_resources_impl.dart';
@@ -19,7 +21,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
   }
 
   @override
-  Future<Either<Failure, Article>> createArticle({required String title, required String content, required List<String> tags, required String subTitle, String? estimatedReadTime, String? image}) {
+  Future<Either<Failure, Article>> createArticle({required String title, required String content, required List<String> tags, required String subTitle, String? estimatedReadTime, File? image}) {
      final articleResponse = articleApiResourceImpl.createArticle(title: title, content: content, tags: tags, subTitle: subTitle, estimatedReadTime: estimatedReadTime, image: image);
      return articleResponse;
   }

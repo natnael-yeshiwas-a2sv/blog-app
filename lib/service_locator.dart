@@ -8,6 +8,12 @@ import 'package:blog_application/features/blog/data/repositories/article_reposit
 import 'package:blog_application/features/blog/data/repositories/auth_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/article_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/auth_repository.dart';
+
+import 'package:blog_application/features/blog/domain/usecases/get_profile.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
+import 'package:blog_application/features/blog/presentation/blocs/create_task/create_task_bloc.dart';
+import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
+
 import 'package:blog_application/features/blog/domain/usecases/isloged_in_usecase.dart';
 import 'package:blog_application/features/blog/domain/usecases/login_usecase.dart';
 import 'package:blog_application/features/blog/domain/usecases/logout_usecase.dart';
@@ -15,6 +21,7 @@ import 'package:blog_application/features/blog/domain/usecases/register_usecase.
 import 'package:blog_application/features/blog/presentation/blocs/auth/auth_bloc.dart';
 import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
 import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +46,14 @@ Future<void> setup() async {
     authRemoteDataSource: sl(),
     localDataSource: sl(),
   ));
+
+  sl.registerFactory(() => GetProfile(sl()));
+  sl.registerSingleton(
+    ProfileBloc(sl())
+  );
+  sl.registerFactory(()=> GetTags(sl()));
+  sl.registerSingleton(CreateTaskCubit(getTagsUsecase: sl(), articleRepository: sl()));
+
   
   sl.registerFactory(() => IsLogedIn(sl()));
   sl.registerFactory(() => LoginUseCase(sl()));
@@ -64,4 +79,5 @@ Future<void> setup() async {
       getTags: sl(),
       )
   );
+
 }

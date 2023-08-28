@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/data/datasources/article_api_resources.dart';
@@ -7,6 +8,7 @@ import 'package:blog_application/features/blog/data/models/dto/get_tags_dto.dart
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class ArticleApiResourceImpl implements ArticleApiResource {
   final http.Client client;
@@ -24,29 +26,54 @@ class ArticleApiResourceImpl implements ArticleApiResource {
       required List<String> tags,
       required String subTitle,
       String? estimatedReadTime,
-      String? image}) async {
+      File? image}) async {
     var urlString = base_url + "article";
     var url = Uri.parse(urlString);
     print(url.toString());
-    var response = await client.post(url, body: {
-      'title': title,
-      'content': content,
-      'tags':"${tags.join(',')}",
-      'subTitle': subTitle,
-      'estimatedReadTime': estimatedReadTime ?? '',
-      'photo': image ?? '',
-    }, headers: {
-      "AUTHORIZATION": "Bearer $token"
+    var response = http.MultipartRequest('POST', url);
+    response.headers.addAll({
+      "AUTHORIZATION": "Bearer $token",
+      "Content-type": "multipart/form-data"
     });
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      print(data);
-      var article = ArticleModel.fromJson(data).toDomain();
-      return Right(article);
-    } else {
-      print(response.body);
-      return const Left(ServerFailure(message: 'Server Failure'));
+    response.fields['title'] = title;
+    response.fields['content'] = content;
+    response.fields['subTitle'] = subTitle;
+    if (estimatedReadTime != null) {
+      response.fields['estimatedReadTime'] = estimatedReadTime;
     }
+   if(tags.isNotEmpty){
+    response.fields['tags'] = tags.first;
+   }
+    var headers = {'Content-Type': 'image/jpeg'};
+    if (image != null) {
+      print("hello from this");
+
+      // ...
+      var ext = image.path.split('.').last;
+      print(ext);
+      response.files.add(await http.MultipartFile.fromPath(
+        'photo',
+        image.path,
+        contentType: MediaType('image', 'jpeg'),
+      ));
+      print(response.files.length);
+    }
+
+    var res = await response.send();
+    if(res.statusCode == 200){
+      return Right(Article(
+        content: content,
+        id: "",
+        image: "",
+        subTitle: subTitle,
+        tags: tags,
+        title: title,
+        estimatedReadTime: estimatedReadTime ?? "",
+        createdAt: DateTime.now(),
+      ));
+    }
+    print(res.statusCode);
+    return Left(ServerFailure(message: 'message'));
   }
 
   @override
@@ -58,8 +85,10 @@ class ArticleApiResourceImpl implements ArticleApiResource {
   @override
   Future<Either<Failure, List<Article>>> getArticles(
       {List<String>? tags, String? searchParams}) async {
+
         print(tags);
     var urlString = "${base_url}article${tags != null && tags.isNotEmpty ? "?tags=${tags.join(',')}" : ""}${searchParams != null && searchParams.isNotEmpty ? "?searchParams=$searchParams" : ""}";
+
     var url = Uri.parse(urlString);
     var response =
         await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});
