@@ -35,18 +35,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthRestart(event, emit) => emit(AuthInitial());
-  
+
   void _onAuthRegister(AuthRegister event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    final result =
-        await registerUseCase(SendRegisterParam(event.email, event.password));
-    if (result.isRight()) {
-      print("Working .....");
-    } else {
-      print("Error .....");
-    }
+    final result = await registerUseCase(SendRegisterParam(
+      event.email,
+      event.password,
+      
+    ));
+
     result.fold((l) => emit(AuthFailed(l.message)), (r) => emit(AuthPass()));
   }
+
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     await logout(NoParams());
