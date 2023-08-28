@@ -29,9 +29,7 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double fontNormal = MediaQuery.of(context).size.width * 0.04 + 1;
-    return BlocProvider(
-        create: (context) => sl<AuthBloc>(),
-        child: Scaffold(
+    return  Scaffold(
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -312,10 +310,16 @@ class _AuthState extends State<Auth> {
                                       listener: (context, state) {
                                         if (state is AuthPass) {
                                           
-                                          Navigator.pushNamedAndRemoveUntil(context, BlogAppRoutes.HOME , (r) => false);
-
+                                          context
+                                              .read<AuthBloc>()
+                                              .add(AuthRestart());
+                                              
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              BlogAppRoutes.HOME,
+                                              (r) => false);
                                         }
-                                        
+
                                         if (state is AuthFailed) {
                                           showAlertDialog(context, state.error);
                                         }
@@ -366,6 +370,6 @@ class _AuthState extends State<Auth> {
               ],
             ),
           ),
-        ));
+        );
   }
 }

@@ -19,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLogin>(_onAuthLogin);
     on<AuthRegister>(_onAuthRegister);
     on<AuthLogout>(_onAuthLogout);
+    on<AuthRestart>(_onAuthRestart);
   }
 
   final LoginUseCase loginUseCase;
@@ -33,13 +34,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold((l) => emit(AuthFailed(l.message)), (r) => emit(AuthPass()));
   }
 
+  void _onAuthRestart(event, emit) => emit(AuthInitial());
+  
   void _onAuthRegister(AuthRegister event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final result =
         await registerUseCase(SendRegisterParam(event.email, event.password));
     if (result.isRight()) {
       print("Working .....");
-    } else{
+    } else {
       print("Error .....");
     }
     result.fold((l) => emit(AuthFailed(l.message)), (r) => emit(AuthPass()));
@@ -47,7 +50,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     await logout(NoParams());
-    await Future.delayed(const Duration(seconds: 2));
-    emit(AuthPass());
+    emit(AuthInitial());
   }
 }
