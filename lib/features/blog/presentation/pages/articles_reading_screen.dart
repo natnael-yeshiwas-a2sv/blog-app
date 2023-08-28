@@ -1,4 +1,7 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
+import 'package:blog_application/features/blog/data/models/dto/get_profile_dto.dart';
+import 'package:blog_application/features/blog/domain/entities/article.dart';
+import 'package:blog_application/features/blog/domain/entities/user.dart';
 import 'package:blog_application/features/blog/presentation/widgets/author_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:blog_application/features/blog/presentation/widgets/article_reading_title.dart';
@@ -6,8 +9,15 @@ import 'package:blog_application/features/blog/presentation/widgets/article_body
 
 class ArticleReading extends StatefulWidget {
   final int likes;
-  const ArticleReading({super.key, required this.likes});
+  final Article article;
 
+  const ArticleReading({
+    super.key,
+    required this.likes,
+    required this.article,
+  });
+
+  @override
   _ArticleReadingState createState() => _ArticleReadingState();
 }
 
@@ -21,22 +31,40 @@ class _ArticleReadingState extends State<ArticleReading> {
     });
   }
 
+  @override
   void initState() {
     super.initState();
     _likes = widget.likes;
   }
 
+  String calculatePostDate(DateTime createdAt) {
+    Duration difference = DateTime.now().difference(createdAt);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays} ${difference.inDays > 1 ? "days" : "day"} ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} ${difference.inHours > 1 ? "hours" : "hour"} ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} ${difference.inMinutes > 1 ? "minutes" : "minute"} ago';
+    } else {
+      return 'Just now';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    String articleText =
-        'That marked a turnaround from last year, when the social network reported a decline in users for the first time.\n\nThe drop wiped billions from the firm\'s market value.\n\nSince executives disclosed the fall in February, the firm\'s share price has nearly halved.\nBut shares jumped 19% in after-hours trade on Wednesday.\n\n\n fglfkg;sfkgsg;sggs;gkfssfgkfs;gkfs;gfskgfs \n\n\n sflsfgjlskfgjfdkl';
-
+    String articleText = widget.article.content;
+    String articleTitle = widget.article.title;
+    String articleImage = widget.article.image;
+    String? articleAuthor = widget.article.user?.fullName;
+    DateTime? postDate = widget.article.createdAt;
+    print(widget.article.createdAt.runtimeType);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
         leading: Padding(
-          padding: EdgeInsets.only(left: 25),
+          padding: const EdgeInsets.only(left: 25),
           child: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(
@@ -68,26 +96,24 @@ class _ArticleReadingState extends State<ArticleReading> {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            const ArticleReadingTitle(
-              title: 'Four Things Everyone Needs To Know',
+            ArticleReadingTitle(
+              title: articleTitle,
             ),
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
-                child: const AuthorBar(
-                    image: AssetImage("./assets/images/author_image.png"),
-                    name: 'Richard Gervain',
-                    time: '2m ago',
+                child: AuthorBar(
+                    image: const AssetImage("./assets/images/author_image.png"),
+                    name: articleAuthor!,
+                    time: calculatePostDate(postDate!),
                     isBookmarked: true),
               ),
             ),
           ]),
         ),
         Expanded(
-          child: ArticleBody(
-              article_body: articleText,
-              image: const AssetImage('assets/images/article_image.png')),
+          child: ArticleBody(article_body: articleText, image: articleImage),
         ),
       ]),
     );

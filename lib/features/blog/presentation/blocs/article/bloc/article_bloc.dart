@@ -1,8 +1,6 @@
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../../../core/usecases/usecase.dart';
 import '../../../../domain/entities/article.dart';
@@ -25,12 +23,11 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     on<LoadArticlesAndTags>(_onLoadAllArticlesAndTags);
     on<LoadAllArticles>(_onLoadAllArticles);
   }
-  
   void _onLoadAllArticlesAndTags(LoadArticlesAndTags event, Emitter<ArticleState> emit) async {
     emit(ArticleAndTagLoading(state.selectedTags,const []));
     final result = await getArticles(GetArticlesParam(tags: event.tags,
                                         searchParams: event.searchparams,));
-                                        
+                                        print(result);
     final tags = await getTags(NoParams());
     
     result.fold((l) => emit(ArticleAndTagError(message: l.message)), (r) => emit(ArticlesAndTagLoaded(articles: r, 
@@ -53,5 +50,6 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
                                         searchParams: event.searchparams,));
     result.fold((l) => emit(ArticleAndTagError(message: l.message)), (r) => emit(ArticlesAndTagLoaded(articles: r,
                         selectedTags: state.selectedTags, tags:state.tags )));
+                        print(state);
   }
 }
