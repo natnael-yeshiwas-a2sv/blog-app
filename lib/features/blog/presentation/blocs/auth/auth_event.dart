@@ -27,3 +27,7 @@ class AuthLogout extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+class AuthRestart extends AuthEvent {
+  @override
+  List<Object?> get props => throw UnimplementedError();
+ }

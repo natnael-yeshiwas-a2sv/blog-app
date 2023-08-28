@@ -16,7 +16,7 @@ class _homeState extends State<home> {
     super.initState();
 //
 
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 5),  () async {
       // IsLogedIn loggedInst = sl<IsLogedIn>();
       // bool islogedin = await loggedInst();
       // String route = islogedin ? BlogAppRoutes.HOME : BlogAppRoutes.ONBOARDING;

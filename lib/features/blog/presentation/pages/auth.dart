@@ -311,11 +311,16 @@ class _AuthState extends State<Auth> {
                                     BlocListener<AuthBloc, AuthState>(
                                       listener: (context, state) {
                                         if (state is AuthPass) {
-                                          
-                                          Navigator.pushNamedAndRemoveUntil(context, BlogAppRoutes.HOME , (r) => false);
-
+                                          context
+                                              .read<AuthBloc>()
+                                              .add(AuthRestart());
+                                              
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              BlogAppRoutes.HOME,
+                                              (r) => false);
                                         }
-                                        
+
                                         if (state is AuthFailed) {
                                           showAlertDialog(context, state.error);
                                         }
