@@ -37,6 +37,7 @@ class ArticleCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
+      
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,13 +45,16 @@ class ArticleCard extends StatelessWidget {
               Flexible(
                 child: Stack(
                   children: [
-                    Image(
-                      image: NetworkImage(imageUrl),
-                      width: 200,
-                      height: 200,
-                      
-                      
-                      fit: BoxFit.cover,
+                    Padding(
+                      padding: const EdgeInsets.only(top:8.0 , left: 8),
+                      child: Image(
+                        image: NetworkImage(imageUrl),
+                        width: 200,
+                        height: 160,
+                        
+                        
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     Positioned(
                       left: 20,
