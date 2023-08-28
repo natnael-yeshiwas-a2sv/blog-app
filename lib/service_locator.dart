@@ -10,6 +10,7 @@ import 'package:blog_application/features/blog/domain/repositories/article_repos
 import 'package:blog_application/features/blog/domain/repositories/auth_repository.dart';
 import 'package:blog_application/features/blog/domain/usecases/isloged_in_usecase.dart';
 import 'package:blog_application/features/blog/domain/usecases/login_usecase.dart';
+import 'package:blog_application/features/blog/domain/usecases/logout_usecase.dart';
 import 'package:blog_application/features/blog/domain/usecases/register_usecase.dart';
 import 'package:blog_application/features/blog/presentation/blocs/auth/auth_bloc.dart';
 import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
@@ -42,10 +43,12 @@ Future<void> setup() async {
   sl.registerFactory(() => IsLogedIn(sl()));
   sl.registerFactory(() => LoginUseCase(sl()));
   sl.registerFactory(() => RegisterUseCase(sl()));
+  sl.registerFactory(() => Logout(sl()));
 
   sl.registerSingleton<AuthBloc>(AuthBloc(
     sl<LoginUseCase>(),
     sl<RegisterUseCase>(),
+    sl<Logout>(),
   ));
   
   sl.registerSingleton(
