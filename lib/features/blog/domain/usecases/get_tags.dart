@@ -1,7 +1,6 @@
 import 'package:blog_application/core/exceptions/Failure.dart';
 
 import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/article_repository.dart';

@@ -33,7 +33,7 @@ class ProfileCard extends StatelessWidget {
                     height: 84,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 2, color: Color(0xFF376AED)),
+                        side: const BorderSide(width: 2, color: Color(0xFF376AED)),
                         borderRadius: BorderRadius.circular(28),
                       ),
                     ),
@@ -55,7 +55,7 @@ class ProfileCard extends StatelessWidget {
                  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '@joviedan',
                       style: TextStyle(
                         color: Color(0xFF2D4379),
@@ -68,7 +68,7 @@ class ProfileCard extends StatelessWidget {
                     Text(
                       'Jovi Daniel',
                       style: TextStyle(
-                        color: Color(0xFF0D253C),
+                        color: const Color(0xFF0D253C),
                         fontSize: 18,
                         fontStyle: FontStyle.italic,
                         fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -78,7 +78,7 @@ class ProfileCard extends StatelessWidget {
                     Text(
                       'UX Designer',
                       style: TextStyle(
-                        color: Color(0xFF376AED),
+                        color: const Color(0xFF376AED),
                         fontSize: 16,
                         fontStyle: FontStyle.italic,
                         fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -90,22 +90,22 @@ class ProfileCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               'About me',
               style: TextStyle(
-                color: Color(0xFF0D253C),
+                color: const Color(0xFF0D253C),
                 fontSize: 16,
                 fontStyle: FontStyle.italic,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
                 fontWeight: FontWeight.w100,
               ),
             ),
-            SizedBox(height: 11),
+            const SizedBox(height: 11),
             Text(
               'Madison Blackstone is a director of user experience design, with experience managing global teams.',
               style: TextStyle(
-                color: Color(0xFF2D4379),
+                color: const Color(0xFF2D4379),
                 fontSize: 14,
                 fontStyle: FontStyle.italic,
                 fontFamily: GoogleFonts.urbanist().fontFamily,

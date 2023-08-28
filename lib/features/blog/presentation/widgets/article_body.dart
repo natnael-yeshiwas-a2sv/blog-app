@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ArticleBody extends StatelessWidget {
-  final ImageProvider<Object> image;
+  final String image;
   final String article_body;
 
   const ArticleBody({Key? key, required this.article_body, required this.image})
@@ -18,7 +18,8 @@ class ArticleBody extends StatelessWidget {
             margin: const EdgeInsets.only(top: 10, bottom: 20),
             width: double.infinity,
             decoration: BoxDecoration(
-                image: DecorationImage(image: image, fit: BoxFit.fill),
+                image: DecorationImage(
+                    image: NetworkImage(image), fit: BoxFit.cover),
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(28),
                     topRight: Radius.circular(28))),
@@ -33,7 +34,7 @@ class ArticleBody extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Text(
                 article_body,
                 style: const TextStyle(

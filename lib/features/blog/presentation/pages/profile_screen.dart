@@ -23,13 +23,13 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body:
-          Column(
+          const Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Center(
-                child: Container(
+                child: SizedBox(
                   height: 370,
-                  child: const Stack(
+                  child: Stack(
                      alignment: Alignment.topCenter,
                     children: [
                      ProfileCard(),
@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
               ),
               ),
-              const MyPostsContainer(),
+              MyPostsContainer(),
             ],
           ),
     );

@@ -1,6 +1,5 @@
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/data/datasources/article_api_resources.dart';
-import 'package:blog_application/features/blog/data/datasources/article_api_resources_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_datasource.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:blog_application/features/blog/domain/repositories/article_repository.dart';

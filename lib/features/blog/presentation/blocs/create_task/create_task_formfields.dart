@@ -1,4 +1,3 @@
-
 import 'package:formz/formz.dart';
 
 class TitleInput extends FormzInput<String, InvalidTitleError> {
@@ -7,9 +6,9 @@ class TitleInput extends FormzInput<String, InvalidTitleError> {
 
   @override
   InvalidTitleError? validator(String? value) {
-    if(value!.isEmpty){
+    if (value!.isEmpty) {
       return InvalidTitleError.empty;
-    } else if(value!.length < 3){
+    } else if (value!.length < 3) {
       return InvalidTitleError._('Title must be at least 3 characters long');
     } else {
       return null;
@@ -31,10 +30,11 @@ class SubtitleInput extends FormzInput<String, InvalidSubtitleError> {
   const SubtitleInput.dirty([String value = '']) : super.dirty(value);
   @override
   InvalidSubtitleError? validator(String? value) {
-    if(value!.isEmpty){
+    if (value!.isEmpty) {
       return InvalidSubtitleError.empty;
-    } else if(value!.length < 3){
-      return InvalidSubtitleError._('Subtitle must be at least 3 characters long');
+    } else if (value!.length < 3) {
+      return InvalidSubtitleError._(
+          'Subtitle must be at least 3 characters long');
     } else {
       return null;
     }
@@ -49,16 +49,16 @@ class InvalidSubtitleError {
   static const empty = InvalidSubtitleError._('Subtitle cannot be empty');
 }
 
-
 class ContentInput extends FormzInput<String, InvalidContentError> {
   const ContentInput.pure() : super.pure('');
   const ContentInput.dirty([String value = '']) : super.dirty(value);
   @override
   InvalidContentError? validator(String? value) {
-    if(value!.isEmpty){
+    if (value!.isEmpty) {
       return InvalidContentError.empty;
-    } else if(value!.length < 10){
-      return InvalidContentError._('Content must be at least 10 characters long');
+    } else if (value!.length < 10) {
+      return InvalidContentError._(
+          'Content must be at least 10 characters long');
     } else {
       return null;
     }
@@ -78,9 +78,7 @@ class TagInput extends FormzInput<String, InvalidTagError> {
   const TagInput.dirty([String value = '']) : super.dirty(value);
   @override
   InvalidTagError? validator(String? value) {
-    return value?.length == 0
-        ? InvalidTagError.empty
-        : null;
+    return value?.length == 0 ? InvalidTagError.empty : null;
   }
 }
 

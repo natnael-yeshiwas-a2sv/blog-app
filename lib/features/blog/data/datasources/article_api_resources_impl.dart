@@ -25,13 +25,13 @@ class ArticleApiResourceImpl implements ArticleApiResource {
       required String subTitle,
       String? estimatedReadTime,
       String? image}) async {
-    var urlString = base_url + "article";
+    var urlString = "${base_url}article";
     var url = Uri.parse(urlString);
     print(url.toString());
     var response = await client.post(url, body: {
       'title': title,
       'content': content,
-      'tags':"${tags.join(',')}",
+      'tags':tags.join(','),
       'subTitle': subTitle,
       'estimatedReadTime': estimatedReadTime ?? '',
       'photo': image ?? '',
@@ -66,8 +66,8 @@ class ArticleApiResourceImpl implements ArticleApiResource {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
-      var get_articles_dto = GetArticlesResponseDto.fromJson(data);
-      var articleslist = get_articles_dto!.data;
+      var getArticlesDto = GetArticlesResponseDto.fromJson(data);
+      var articleslist = getArticlesDto.data;
       var articles = articleslist!.map((e) => e.toDomain()).toList();
       print(articles);
       return Right(articles);
@@ -78,7 +78,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
 
   @override
   Future<Either<Failure, List<String>>> getTags() async {
-    var urlString = base_url + "tags";
+    var urlString = "${base_url}tags";
     var url = Uri.parse(urlString);
     print(url.toString());
     var response = await client.get(url);
@@ -98,6 +98,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
     throw UnimplementedError();
   }
 
+  @override
   setToken(String? fold) {
     token = fold ?? '';
   }

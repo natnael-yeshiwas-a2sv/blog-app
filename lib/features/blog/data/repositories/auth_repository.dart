@@ -1,6 +1,5 @@
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
-import 'package:blog_application/features/blog/data/datasources/auth_remote_source_impl.dart';
 import 'package:blog_application/features/blog/data/datasources/local_datasource.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:blog_application/features/blog/domain/entities/user.dart';
@@ -21,7 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<User> getCurrentUser() {
     final user = localDataSource.getCachedUser();
     return user.then((value) => value.fold((l) {
-      return User(email: '', id: '', fullName: '', bio: '', expertise: '');
+      return const User(email: '', id: '', fullName: '', bio: '', expertise: '');
     }, (r) {
         User user = User(
           bio: r.data?.bio,

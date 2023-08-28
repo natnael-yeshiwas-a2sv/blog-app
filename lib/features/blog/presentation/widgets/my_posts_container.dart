@@ -10,7 +10,7 @@ class MyPostsContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         width: 375,
         height: 345,
         decoration: const ShapeDecoration(

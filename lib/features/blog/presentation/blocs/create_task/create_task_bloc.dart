@@ -6,7 +6,7 @@ import 'create_task_formfields.dart';
 part 'create_task_state.dart';
 
 class CreateTaskCubit extends Cubit<CreateTaskState> {
-  CreateTaskCubit() : super(CreateTaskState(tags: []));
+  CreateTaskCubit() : super(const CreateTaskState(tags: []));
 
   void titleChanged(String value) {
     final title = TitleInput.dirty(value);

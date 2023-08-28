@@ -1,6 +1,4 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
-import 'package:blog_application/features/blog/domain/usecases/isloged_in_usecase.dart';
-import 'package:blog_application/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class home extends StatefulWidget {
@@ -16,7 +14,7 @@ class _homeState extends State<home> {
     super.initState();
 //
 
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // IsLogedIn ins = sl<IsLogedIn>();
       // bool islogedin = false;
       // String route = islogedin ? BlogAppRoutes.HOME : BlogAppRoutes.ONBOARDING;
@@ -27,7 +25,7 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 244, 243, 244),
+      backgroundColor: const Color.fromARGB(255, 244, 243, 244),
       body: Stack(
         // mainAxisAlignment: MainAxisAlignment.center,
         // crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,7 +34,7 @@ class _homeState extends State<home> {
             child: Container(
               width: 233,
               height: 94,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/images/a2sv.png"),
                   fit: BoxFit.fill,

@@ -7,17 +7,17 @@ class LoginResponseDto {
 
   LoginResponseDto.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['token'] = this.token;
+    data['token'] = token;
     return data;
   }
 }
@@ -63,18 +63,18 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['fullName'] = this.fullName;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['expertise'] = this.expertise;
-    data['bio'] = this.bio;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
-    data['image'] = this.image;
-    data['imageCloudinaryPublicId'] = this.imageCloudinaryPublicId;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['fullName'] = fullName;
+    data['email'] = email;
+    data['password'] = password;
+    data['expertise'] = expertise;
+    data['bio'] = bio;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
+    data['image'] = image;
+    data['imageCloudinaryPublicId'] = imageCloudinaryPublicId;
+    data['id'] = id;
     return data;
   }
 }

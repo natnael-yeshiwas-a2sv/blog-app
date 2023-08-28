@@ -12,14 +12,14 @@ class GetArticlesResponseDto {
     if (json['data'] != null) {
       data = <ArticleModel>[];
       json['data'].forEach((v) {
-        data!.add(new ArticleModel.fromJson(v));
+        data!.add(ArticleModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -62,7 +62,7 @@ class ArticleModel {
     title = json['title'];
     subTitle = json['subTitle'];
     estimatedReadTime = json['estimatedReadTime'];
-    user = json['user'] != null ? new UserModel.fromJson(json['user']) : null;
+    user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
     image = json['image'];
     imageCloudinaryPublicId = json['imageCloudinaryPublicId'];
     createdAt = json['createdAt'];
@@ -71,21 +71,21 @@ class ArticleModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['tags'] = this.tags;
-    data['content'] = this.content;
-    data['title'] = this.title;
-    data['subTitle'] = this.subTitle;
-    data['estimatedReadTime'] = this.estimatedReadTime;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['tags'] = tags;
+    data['content'] = content;
+    data['title'] = title;
+    data['subTitle'] = subTitle;
+    data['estimatedReadTime'] = estimatedReadTime;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    data['image'] = this.image;
-    data['imageCloudinaryPublicId'] = this.imageCloudinaryPublicId;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
-    data['id'] = this.id;
+    data['image'] = image;
+    data['imageCloudinaryPublicId'] = imageCloudinaryPublicId;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
+    data['id'] = id;
     return data;
   }
   Article toDomain(){
@@ -145,17 +145,17 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['fullName'] = this.fullName;
-    data['email'] = this.email;
-    data['expertise'] = this.expertise;
-    data['bio'] = this.bio;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
-    data['image'] = this.image;
-    data['imageCloudinaryPublicId'] = this.imageCloudinaryPublicId;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['fullName'] = fullName;
+    data['email'] = email;
+    data['expertise'] = expertise;
+    data['bio'] = bio;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
+    data['image'] = image;
+    data['imageCloudinaryPublicId'] = imageCloudinaryPublicId;
+    data['id'] = id;
     return data;
   }
   User toDomain(){

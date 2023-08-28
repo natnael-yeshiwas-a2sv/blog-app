@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateTaskScreen extends StatelessWidget {
   CreateTaskScreen({super.key});
-  final ScrollController? _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
   TextEditingController tagController = TextEditingController();
@@ -22,7 +22,7 @@ class CreateTaskScreen extends StatelessWidget {
             foregroundColor: Colors.black,
             centerTitle: true,
             leading: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: IconButton(
                   style: ButtonStyle(
                       padding:
@@ -67,7 +67,7 @@ class CreateTaskScreen extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ));
               return Form(
-                child: Container(
+                child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -17,12 +17,12 @@ class RegisterRequestDto {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bio'] = this.bio;
-    data['fullName'] = this.fullName;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['expertise'] = this.expertise;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['bio'] = bio;
+    data['fullName'] = fullName;
+    data['email'] = email;
+    data['password'] = password;
+    data['expertise'] = expertise;
     return data;
   }
 }

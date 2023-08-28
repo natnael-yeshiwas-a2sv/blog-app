@@ -35,7 +35,7 @@ class ArticleModel {
     title = json['title'];
     subTitle = json['subTitle'];
     estimatedReadTime = json['estimatedReadTime'];
-    user = json['user'] != null ? new UserModel.fromJson(json['user']) : null;
+    user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
     image = json['image'];
     imageCloudinaryPublicId = json['imageCloudinaryPublicId'];
     createdAt = json['createdAt'];
@@ -44,21 +44,21 @@ class ArticleModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['tags'] = this.tags;
-    data['content'] = this.content;
-    data['title'] = this.title;
-    data['subTitle'] = this.subTitle;
-    data['estimatedReadTime'] = this.estimatedReadTime;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['tags'] = tags;
+    data['content'] = content;
+    data['title'] = title;
+    data['subTitle'] = subTitle;
+    data['estimatedReadTime'] = estimatedReadTime;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    data['image'] = this.image;
-    data['imageCloudinaryPublicId'] = this.imageCloudinaryPublicId;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
-    data['id'] = this.id;
+    data['image'] = image;
+    data['imageCloudinaryPublicId'] = imageCloudinaryPublicId;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
+    data['id'] = id;
     return data;
   }
 }

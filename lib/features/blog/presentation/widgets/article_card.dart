@@ -92,7 +92,7 @@ class ArticleCard extends StatelessWidget {
                       child: Text(
                         title,
                         style: TextStyle(
-                          color: Color(0xFF4D4A49),
+                          color: const Color(0xFF4D4A49),
                           fontSize: 15,
                           fontFamily: GoogleFonts.urbanist().fontFamily,
                           fontWeight: FontWeight.w600,

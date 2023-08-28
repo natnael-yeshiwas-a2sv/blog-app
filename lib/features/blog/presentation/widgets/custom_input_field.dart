@@ -1,5 +1,3 @@
-import 'package:blog_application/features/blog/domain/entities/article.dart';
-import 'package:blog_application/features/blog/domain/usecases/get_articles.dart';
 import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +42,7 @@ class CustomInputField extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                 ),
                 suffixIcon: CustomizedButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   onpressed:()=>dispatchCreate(context),
                 ),
               ),

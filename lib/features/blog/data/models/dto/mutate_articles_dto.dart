@@ -6,14 +6,14 @@ class MutateArticleResponse {
 
   MutateArticleResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    date = json['date'] != null ? new Date.fromJson(json['date']) : null;
+    date = json['date'] != null ? Date.fromJson(json['date']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.date != null) {
-      data['date'] = this.date!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    if (date != null) {
+      data['date'] = date!.toJson();
     }
     return data;
   }
@@ -63,19 +63,19 @@ class Date {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['tags'] = this.tags;
-    data['content'] = this.content;
-    data['title'] = this.title;
-    data['subTitle'] = this.subTitle;
-    data['estimatedReadTime'] = this.estimatedReadTime;
-    data['user'] = this.user;
-    data['image'] = this.image;
-    data['imageCloudinaryPublicId'] = this.imageCloudinaryPublicId;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['tags'] = tags;
+    data['content'] = content;
+    data['title'] = title;
+    data['subTitle'] = subTitle;
+    data['estimatedReadTime'] = estimatedReadTime;
+    data['user'] = user;
+    data['image'] = image;
+    data['imageCloudinaryPublicId'] = imageCloudinaryPublicId;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
+    data['id'] = id;
     return data;
   }
 }

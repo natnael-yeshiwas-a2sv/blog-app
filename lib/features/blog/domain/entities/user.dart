@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
-  User({
+  const User({
     required this.id,
     required this.email,
     this.bio,
@@ -21,15 +21,15 @@ class User extends Equatable {
   final DateTime? updatedAt;
   final String? image;
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.id;
-    data['bio'] = this.bio;
-    data['email'] = this.email;
-    data['expertise'] = this.expertise;
-    data['fullName'] = this.fullName;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = id;
+    data['bio'] = bio;
+    data['email'] = email;
+    data['expertise'] = expertise;
+    data['fullName'] = fullName;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['image'] = image;
     return data;
   }
   User.fromJson(Map<String, dynamic> json)

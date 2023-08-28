@@ -66,7 +66,7 @@ class _AuthState extends State<Auth> {
                                   if (login == false) switchAuth();
                                 },
                                 child: AnimatedOpacity(
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   opacity: login ? 1 : .25,
                                   child: const Text(
                                     "LOGIN",
@@ -82,7 +82,7 @@ class _AuthState extends State<Auth> {
                                   if (login == true) switchAuth();
                                 },
                                 child: AnimatedOpacity(
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   opacity: login ? .25 : 1,
                                   child: const Text(
                                     "SIGN UP",
@@ -178,14 +178,14 @@ class _AuthState extends State<Auth> {
                                     const SizedBox(height: 2),
                                     Text(
                                       usernameErr ?? "",
-                                      style: TextStyle(color: Colors.red),
+                                      style: const TextStyle(color: Colors.red),
                                     ),
                                     const SizedBox(height: 7),
                                     Text(
                                       "Password",
                                       style: TextStyle(
                                         fontSize: fontNormal,
-                                        color: Color.fromARGB(255, 45, 67, 121),
+                                        color: const Color.fromARGB(255, 45, 67, 121),
                                         fontWeight: FontWeight.w200,
                                         fontStyle: FontStyle.italic,
                                       ),
@@ -218,7 +218,7 @@ class _AuthState extends State<Auth> {
                                                     255, 217, 223, 235),
                                               ),
                                             ),
-                                            focusedBorder: UnderlineInputBorder(
+                                            focusedBorder: const UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.blue),
                                             ),
@@ -227,7 +227,7 @@ class _AuthState extends State<Auth> {
                                         Positioned(
                                           right: 0,
                                           child: DecoratedBox(
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 color: Colors.white),
                                             child: TextButton(
                                               onPressed: () {
@@ -249,7 +249,7 @@ class _AuthState extends State<Auth> {
                                     const SizedBox(height: 2),
                                     Text(
                                       passwordErr ?? "",
-                                      style: TextStyle(color: Colors.red),
+                                      style: const TextStyle(color: Colors.red),
                                     ),
                                   ],
                                 ),
@@ -263,8 +263,8 @@ class _AuthState extends State<Auth> {
                                           disabledColor: const Color.fromARGB(
                                               255, 230, 230, 230),
                                           color:
-                                              Color.fromARGB(255, 55, 106, 237),
-                                          padding: EdgeInsets.all(17),
+                                              const Color.fromARGB(255, 55, 106, 237),
+                                          padding: const EdgeInsets.all(17),
                                           onPressed: state is AuthLoading
                                               ? null
                                               : () {
