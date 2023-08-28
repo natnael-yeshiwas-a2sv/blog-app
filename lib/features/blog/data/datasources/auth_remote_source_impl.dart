@@ -19,7 +19,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       this.token =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTY0YTFhNTdmNjZkNzVlOGJiNzMxMyIsImlhdCI6MTY5MjgxNDQ0MywiZXhwIjoxNjk1NDA2NDQzfQ.5owvXykhKJnvrwe-MvJnk1Z5aM_neuOpZVYS4f1_vUI"});
 
-
   @override
   Future<Either<Failure, LoginResponseDto>> login(
       {required String email, required String password}) async {
@@ -57,13 +56,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } else {
       var data = await jsonDecode(response.body);
       return Left(ServerFailure(message: data["error"]));
-      
     }
   }
 
   @override
   Future<Either<Failure, GetProfileDto>> getProfile() async {
     final urlString = base_url + "user";
+    print("token $token");
     final url = Uri.parse(urlString);
 
     final response =
@@ -77,7 +76,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } else {
       var data = await jsonDecode(response.body);
       return Left(ServerFailure(message: data["error"]));
-      
     }
   }
 

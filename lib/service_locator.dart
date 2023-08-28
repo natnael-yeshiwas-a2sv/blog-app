@@ -48,7 +48,7 @@ Future<void> setup() async {
   ));
 
   sl.registerFactory(() => GetProfile(sl()));
-  sl.registerSingleton(
+  sl.registerFactory(() =>
     ProfileBloc(sl())
   );
   sl.registerFactory(()=> GetTags(sl()));
