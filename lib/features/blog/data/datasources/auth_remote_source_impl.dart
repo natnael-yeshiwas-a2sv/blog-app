@@ -19,65 +19,74 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       this.token =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTY0YTFhNTdmNjZkNzVlOGJiNzMxMyIsImlhdCI6MTY5MjgxNDQ0MywiZXhwIjoxNjk1NDA2NDQzfQ.5owvXykhKJnvrwe-MvJnk1Z5aM_neuOpZVYS4f1_vUI"});
 
-
   @override
   Future<Either<Failure, LoginResponseDto>> login(
       {required String email, required String password}) async {
-    var urlString = "${base_url}user/login";
-    var url = Uri.parse(urlString);
-    var response =
-        await client.post(url, body: {'email': email, 'password': password});
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      print(data);
-      var login_response_dto = LoginResponseDto.fromJson(data);
+    try {
+      var urlString = "${base_url}user/login";
+      var url = Uri.parse(urlString);
+      var response =
+          await client.post(url, body: {'email': email, 'password': password});
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        print(data);
+        var login_response_dto = LoginResponseDto.fromJson(data);
 
-      return Right(login_response_dto);
-    } else {
-      var data = await jsonDecode(response.body);
-      return Left(ServerFailure(message: data["error"]));
+        return Right(login_response_dto);
+      } else {
+        var data = await jsonDecode(response.body);
+        return Left(ServerFailure(message: data["error"]));
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
   @override
   Future<Either<Failure, void>> register(String email, String password,
       [String? bio, String? fullName, String? expertise]) async {
-    var urlString = base_url + "user";
-    var url = Uri.parse(urlString);
-    var response = await client.post(url, body: {
-      'email': email,
-      'password': password,
-      'fullName': fullName ?? '',
-      'bio': bio ?? '',
-      'expertise': expertise ?? ''
-    });
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      return Right(unit);
-    } else {
-      var data = await jsonDecode(response.body);
-      return Left(ServerFailure(message: data["error"]));
-      
+    try {
+      var urlString = base_url + "user";
+      var url = Uri.parse(urlString);
+      var response = await client.post(url, body: {
+        'email': email,
+        'password': password,
+        'fullName': fullName ?? '',
+        'bio': bio ?? '',
+        'expertise': expertise ?? ''
+      });
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        return Right(unit);
+      } else {
+        var data = await jsonDecode(response.body);
+        return Left(ServerFailure(message: data["error"]));
+      }
+    } catch (e) {
+      return Left(NetworkFailure(message: e.toString()));
     }
   }
 
   @override
   Future<Either<Failure, GetProfileDto>> getProfile() async {
-    final urlString = base_url + "user";
-    final url = Uri.parse(urlString);
+    try {
+      final urlString = base_url + "user";
+      final url = Uri.parse(urlString);
 
-    final response =
-        await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});
-    if (response.statusCode == 200) {
-      print(response.body);
+      final response =
+          await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});
+      if (response.statusCode == 200) {
+        print(response.body);
 
-      var data = jsonDecode(response.body);
-      var get_profile_dto = GetProfileDto.fromJson(data);
-      return Right(get_profile_dto);
-    } else {
-      var data = await jsonDecode(response.body);
-      return Left(ServerFailure(message: data["error"]));
-      
+        var data = jsonDecode(response.body);
+        var get_profile_dto = GetProfileDto.fromJson(data);
+        return Right(get_profile_dto);
+      } else {
+        var data = await jsonDecode(response.body);
+        return Left(ServerFailure(message: data["error"]));
+      }
+    } catch (e) {
+      return Left(NetworkFailure(message: e.toString()));
     }
   }
 

@@ -106,7 +106,12 @@ class CreateTaskCubit extends Cubit<CreateTaskState> {
         await articleRepository.createArticle(content: content.value, title: title.value, subTitle: subtitle.value, tags: state.selectedTags, image: state.image).then((value) => value.fold((l) => emit(state.copyWith(
           status: Status.submitFailed
         )), (r) => emit(state.copyWith(
-          status: Status.submitSuccessFul
+          status: Status.submitSuccessFul,
+          title: const TitleInput.pure(),
+          subtitle: const SubtitleInput.pure(),
+          content: const ContentInput.pure(),
+          tag: const TagInput.pure(),
+          selectedTags: const <String>[],
         ))));
         
       }
