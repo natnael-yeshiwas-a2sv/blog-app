@@ -69,7 +69,7 @@ Future<void> setup() async {
   sl.registerSingleton(
     GetArticles(sl()),
   );
- 
+
   sl.registerFactory(()=> 
     ArticleBloc(
       getArticles : sl(), 
