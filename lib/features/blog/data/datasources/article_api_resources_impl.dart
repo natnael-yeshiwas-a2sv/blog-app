@@ -85,8 +85,10 @@ class ArticleApiResourceImpl implements ArticleApiResource {
   @override
   Future<Either<Failure, List<Article>>> getArticles(
       {List<String>? tags, String? searchParams}) async {
-    var urlString =
-        "${base_url}article${tags != null ? "?tags=${tags.join(',')}" : ""}${searchParams != null ? "?searchParams=$searchParams" : ""}";
+
+        print(tags);
+    var urlString = "${base_url}article${tags != null && tags.isNotEmpty ? "?tags=${tags.join(',')}" : ""}${searchParams != null && searchParams.isNotEmpty ? "?searchParams=$searchParams" : ""}";
+
     var url = Uri.parse(urlString);
     var response =
         await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});

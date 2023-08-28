@@ -6,13 +6,14 @@ class ArticleCard extends StatelessWidget {
   final String author;
   final String date;
   final String tag;
-
+  final String imageUrl;
   const ArticleCard({
     required this.title,
     required this.author,
     required this.date,
     required this.tag,
     super.key,
+    required this.imageUrl,
   });
 
   @override
@@ -23,19 +24,20 @@ class ArticleCard extends StatelessWidget {
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15),
         ),
         shadows: const [
           BoxShadow(
-          color: Color(0x07000000),
-          blurRadius: 8,
-          offset: Offset(-4, -4),
-          spreadRadius: 0,
+            color: Color(0x07000000),
+            blurRadius: 8,
+            offset: Offset(-4, -4),
+            spreadRadius: 0,
           )
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
+      
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,8 +45,16 @@ class ArticleCard extends StatelessWidget {
               Flexible(
                 child: Stack(
                   children: [
-                    const Image(
-                      image: AssetImage('assets/images/article.jpg'),
+                    Padding(
+                      padding: const EdgeInsets.only(top:8.0 , left: 8),
+                      child: Image(
+                        image: NetworkImage(imageUrl),
+                        width: 200,
+                        height: 160,
+                        
+                        
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     Positioned(
                       left: 20,
@@ -74,54 +84,59 @@ class ArticleCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   SizedBox(
-                    width: 150,
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: Color(0xFF4D4A49),
-                        fontSize: 15,
-                        fontFamily: GoogleFonts.urbanist().fontFamily,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.36,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    width: 71,
-                    height: 21,
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFF5D5E6F),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ),
-                    child:  Center(
+              
+              const SizedBox(width: 20),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 150,
                       child: Text(
-                        tag,
-                        style: const TextStyle(
-                          fontSize: 10,
+                        title,
+                        style: TextStyle(
+                          color: Color(0xFF4D4A49),
+                          fontSize: 15,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                          letterSpacing: 0.36,
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                   Text(
-                    "by $author",
-                    style: const TextStyle(
-                      color: Color(0xFF414141),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.28,
+                    const SizedBox(height: 15),
+                    Container(
+                      width: 71,
+                      height: 21,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFF5D5E6F),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          tag,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 15),
+                    Text(
+                      "by $author",
+                      style: const TextStyle(
+                        color: Color(0xFF414141),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.28,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

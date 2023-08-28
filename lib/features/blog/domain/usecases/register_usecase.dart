@@ -1,12 +1,24 @@
+import "package:blog_application/core/usecases/usecase.dart";
 import 'package:dartz/dartz.dart';
+import "package:equatable/equatable.dart";
 import "../../../../core/exceptions/Failure.dart";
 import "../repositories/auth_repository.dart";
 
-class RegisterUseCase {
+class RegisterUseCase extends UseCase<void,SendRegisterParam>{
   RegisterUseCase(this.repository);
   AuthRepository repository;
 
-  Future<Either<Failure,void>> call(String email,String password) async {
-    return await repository.register(email,password);
+  @override
+  Future<Either<Failure,void>> call(SendRegisterParam param) async {
+    return await repository.register(param.email,param.password,"bio","temp ","kjkdfjs");
   }
+}
+class SendRegisterParam extends Equatable{
+
+  const SendRegisterParam(this.email,this.password);
+  final String email;
+  final String password;
+  @override
+  List<Object?> get props => throw UnimplementedError();
+
 }
