@@ -22,7 +22,7 @@ void main() async {
               ColorScheme.fromSeed(seedColor: const Color(0xFF376AED))),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: route.controller,
-      initialRoute: BlogAppRoutes.HOME,
+      initialRoute: BlogAppRoutes.SPLASH,
     ),
   ));
 }

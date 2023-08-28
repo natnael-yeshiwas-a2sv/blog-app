@@ -80,10 +80,6 @@ Future<void> setup() async {
       )
   );
 
-  sl.registerFactory(() => ArticleBloc(
-        getArticles: sl(),
-        getTags: sl(),
-      ));
   sl.registerFactory(() => GetBookMarkedArticleUseCase(sl()));
   sl.registerFactory(() => BookMarkArticleUseCase(sl()));
   sl.registerSingleton<BookmarkBloc>(BookmarkBloc(
