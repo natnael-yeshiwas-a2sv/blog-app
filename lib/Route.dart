@@ -1,3 +1,6 @@
+import "package:blog_application/features/blog/data/models/dto/article_model.dart";
+import "package:blog_application/features/blog/data/models/dto/get_profile_dto.dart";
+import "package:blog_application/features/blog/domain/entities/article.dart";
 import "package:blog_application/features/blog/presentation/pages/create_article_screans.dart";
 import "package:blog_application/features/blog/presentation/pages/home_page.dart";
 import "package:blog_application/features/blog/presentation/pages/onboarding_page.dart";
@@ -15,10 +18,12 @@ Route<dynamic> controller(RouteSettings settings) {
     case BlogAppRoutes.AUTH:
       return MaterialPageRoute(builder: (context) => const Auth());
     case BlogAppRoutes.ARTICLE_DETAIL:
+      final Article article = settings.arguments as Article;
       return MaterialPageRoute(
-          builder: (context) => const ArticleReading(likes: 4));
+        builder: (context) => ArticleReading(likes: 4, article: article),
+      );
     case BlogAppRoutes.HOME:
-      return MaterialPageRoute(builder: (context) =>  HomePage());
+      return MaterialPageRoute(builder: (context) => HomePage());
     case BlogAppRoutes.ARTICLE_CREATE:
       return MaterialPageRoute(builder: (context) => CreateTaskScreen());
     case BlogAppRoutes.PROFILE:

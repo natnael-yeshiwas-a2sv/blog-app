@@ -8,9 +8,12 @@ import 'package:blog_application/features/blog/data/repositories/article_reposit
 import 'package:blog_application/features/blog/data/repositories/auth_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/article_repository.dart';
 import 'package:blog_application/features/blog/domain/repositories/auth_repository.dart';
+import 'package:blog_application/features/blog/domain/usecases/bookmark_article.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_bookmarked.dart';
 
 import 'package:blog_application/features/blog/domain/usecases/get_profile.dart';
 import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
+import 'package:blog_application/features/blog/presentation/blocs/bookmark/bookmark_bloc.dart';
 import 'package:blog_application/features/blog/presentation/blocs/create_task/create_task_bloc.dart';
 import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 
@@ -48,13 +51,11 @@ Future<void> setup() async {
   ));
 
   sl.registerFactory(() => GetProfile(sl()));
+  sl.registerSingleton(ProfileBloc(sl()));
+  sl.registerFactory(() => GetTags(sl()));
   sl.registerSingleton(
-    ProfileBloc(sl())
-  );
-  sl.registerFactory(()=> GetTags(sl()));
-  sl.registerSingleton(CreateTaskCubit(getTagsUsecase: sl(), articleRepository: sl()));
+      CreateTaskCubit(getTagsUsecase: sl(), articleRepository: sl()));
 
-  
   sl.registerFactory(() => IsLogedIn(sl()));
   sl.registerFactory(() => LoginUseCase(sl()));
   sl.registerFactory(() => RegisterUseCase(sl()));
@@ -65,16 +66,17 @@ Future<void> setup() async {
     sl<RegisterUseCase>(),
     sl<Logout>(),
   ));
-  
+
   sl.registerSingleton(
     GetArticles(sl()),
   );
- 
-  sl.registerFactory(()=> 
-    ArticleBloc(
-      getArticles : sl(), 
-      getTags: sl(),
-      )
-  );
 
+  sl.registerFactory(() => ArticleBloc(
+        getArticles: sl(),
+        getTags: sl(),
+      ));
+  sl.registerFactory(() => GetBookMarkedArticleUseCase(sl()));
+  sl.registerFactory(() => BookMarkArticleUseCase(sl()));
+  sl.registerSingleton<BookmarkBloc>(BookmarkBloc(
+      getBookMarkedArticleUseCase: sl(), bookMarkArticleUseCase: sl()));
 }

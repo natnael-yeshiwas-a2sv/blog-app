@@ -12,8 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
 
-  runApp(
-    BlocProvider(
+  runApp(BlocProvider(
     create: (context) => sl<AuthBloc>(),
     child: MaterialApp(
       theme: ThemeData(
@@ -23,8 +22,7 @@ void main() async {
               ColorScheme.fromSeed(seedColor: const Color(0xFF376AED))),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: route.controller,
-      initialRoute: BlogAppRoutes.SPLASH,
+      initialRoute: BlogAppRoutes.HOME,
     ),
-
   ));
 }
