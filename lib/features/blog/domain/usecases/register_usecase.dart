@@ -13,8 +13,9 @@ class RegisterUseCase extends UseCase<void, SendRegisterParam> {
     String bio =
         "madison blockstone is a director of user experience deisgn, with experience managing global teams";
     String fullname = "Jovi Daniel";
+    String experience = "3 years of experience";
     return await repository.register(
-        param.email, param.password, bio, fullname, "kjkdfjs");
+        param.email, param.password, bio, fullname, experience);
   }
 }
 

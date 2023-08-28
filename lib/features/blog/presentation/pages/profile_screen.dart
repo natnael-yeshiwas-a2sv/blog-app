@@ -13,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return BlocProvider(
       create: (context)=> sl<ProfileBloc>()..add(GetProfileEvent()),
       child: Scaffold(

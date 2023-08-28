@@ -12,8 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
 
-  runApp(
-    BlocProvider(
+  runApp(BlocProvider(
     create: (context) => sl<AuthBloc>(),
     child: MaterialApp(
       theme: ThemeData(
@@ -25,6 +24,5 @@ void main() async {
       onGenerateRoute: route.controller,
       initialRoute: BlogAppRoutes.SPLASH,
     ),
-
   ));
 }

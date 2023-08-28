@@ -45,6 +45,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<Either<Failure, void>> register(String email, String password,
       [String? bio, String? fullName, String? expertise]) async {
+
     try {
       var urlString = base_url + "user";
       var url = Uri.parse(urlString);
@@ -64,19 +65,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } catch (e) {
       return Left(NetworkFailure(message: e.toString()));
+
     }
   }
 
   @override
   Future<Either<Failure, GetProfileDto>> getProfile() async {
+
     try {
       final urlString = base_url + "user";
       final url = Uri.parse(urlString);
+
 
       final response =
           await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});
       if (response.statusCode == 200) {
         print(response.body);
+
 
         var data = jsonDecode(response.body);
         var get_profile_dto = GetProfileDto.fromJson(data);
@@ -87,6 +92,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } catch (e) {
       return Left(NetworkFailure(message: e.toString()));
+
     }
   }
 
