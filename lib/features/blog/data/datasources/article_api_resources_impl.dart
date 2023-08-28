@@ -27,53 +27,58 @@ class ArticleApiResourceImpl implements ArticleApiResource {
       required String subTitle,
       String? estimatedReadTime,
       File? image}) async {
-    var urlString = base_url + "article";
-    var url = Uri.parse(urlString);
-    print(url.toString());
-    var response = http.MultipartRequest('POST', url);
-    response.headers.addAll({
-      "AUTHORIZATION": "Bearer $token",
-      "Content-type": "multipart/form-data"
-    });
-    response.fields['title'] = title;
-    response.fields['content'] = content;
-    response.fields['subTitle'] = subTitle;
-    if (estimatedReadTime != null) {
-      response.fields['estimatedReadTime'] = estimatedReadTime;
-    }
-   if(tags.isNotEmpty){
-    response.fields['tags'] = tags.first;
-   }
-    var headers = {'Content-Type': 'image/jpeg'};
-    if (image != null) {
-      print("hello from this");
+    try {
+      var urlString = base_url + "article";
+      var url = Uri.parse(urlString);
+      print(url.toString());
+      var response = http.MultipartRequest('POST', url);
+      response.headers.addAll({
+        "AUTHORIZATION": "Bearer $token",
+        "Content-type": "multipart/form-data"
+      });
+      response.fields['title'] = title;
+      response.fields['content'] = content;
+      response.fields['subTitle'] = subTitle;
+      if (estimatedReadTime != null) {
+        response.fields['estimatedReadTime'] = estimatedReadTime;
+      }
+      if (tags.isNotEmpty) {
+        response.fields['tags'] = tags.first;
+      }
+      var headers = {'Content-Type': 'image/jpeg'};
+      if (image != null) {
+        print("hello from this");
 
-      // ...
-      var ext = image.path.split('.').last;
-      print(ext);
-      response.files.add(await http.MultipartFile.fromPath(
-        'photo',
-        image.path,
-        contentType: MediaType('image', 'jpeg'),
-      ));
-      print(response.files.length);
-    }
+        // ...
+        var ext = image.path.split('.').last;
+        print(ext);
+        response.files.add(await http.MultipartFile.fromPath(
+          'photo',
+          image.path,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+        print(response.files.length);
+      }
 
-    var res = await response.send();
-    if(res.statusCode == 200){
-      return Right(Article(
-        content: content,
-        id: "",
-        image: "",
-        subTitle: subTitle,
-        tags: tags,
-        title: title,
-        estimatedReadTime: estimatedReadTime ?? "",
-        createdAt: DateTime.now(),
-      ));
+      var res = await response.send();
+      if (res.statusCode == 200) {
+        return Right(Article(
+          content: content,
+          id: "",
+          image: "",
+          subTitle: subTitle,
+          tags: tags,
+          title: title,
+          estimatedReadTime: estimatedReadTime ?? "",
+          createdAt: DateTime.now(),
+        ));
+      }
+      print(res.statusCode);
+      return Left(ServerFailure(message: 'message'));
+    } catch (e) {
+      print(e);
+      return Left(NetworkFailure(message: 'message'));
     }
-    print(res.statusCode);
-    return Left(ServerFailure(message: 'message'));
   }
 
   @override
@@ -85,39 +90,46 @@ class ArticleApiResourceImpl implements ArticleApiResource {
   @override
   Future<Either<Failure, List<Article>>> getArticles(
       {List<String>? tags, String? searchParams}) async {
+    try {
+      var urlString =
+          "${base_url}article${tags != null && tags.isNotEmpty ? "?tags=${tags.join(',')}" : ""}${searchParams != null && searchParams.isNotEmpty ? "?searchParams=$searchParams" : ""}";
 
-        print(tags);
-    var urlString = "${base_url}article${tags != null && tags.isNotEmpty ? "?tags=${tags.join(',')}" : ""}${searchParams != null && searchParams.isNotEmpty ? "?searchParams=$searchParams" : ""}";
+      var url = Uri.parse(urlString);
+      var response =
+          await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
 
-    var url = Uri.parse(urlString);
-    var response =
-        await client.get(url, headers: {"AUTHORIZATION": "Bearer $token"});
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-
-      var get_articles_dto = GetArticlesResponseDto.fromJson(data);
-      var articleslist = get_articles_dto!.data;
-      var articles = articleslist!.map((e) => e.toDomain()).toList();
-      print(articles);
-      return Right(articles);
-    } else {
-      return const Left(ServerFailure(message: 'Server Failure'));
+        var get_articles_dto = GetArticlesResponseDto.fromJson(data);
+        var articleslist = get_articles_dto!.data;
+        var articles = articleslist!.map((e) => e.toDomain()).toList();
+        print(articles);
+        return Right(articles);
+      } else {
+        return const Left(ServerFailure(message: 'Server Failure'));
+      }
+    } catch (e) {
+      return const Left(NetworkFailure(message: 'Server Failure'));
     }
   }
 
   @override
   Future<Either<Failure, List<String>>> getTags() async {
-    var urlString = base_url + "tags";
-    var url = Uri.parse(urlString);
-    print(url.toString());
-    var response = await client.get(url);
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      var tags = GetTagsResponseDto.fromJson(data).tags ?? [];
+    try {
+      var urlString = base_url + "tags";
+      var url = Uri.parse(urlString);
+      print(url.toString());
+      var response = await client.get(url);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        var tags = GetTagsResponseDto.fromJson(data).tags ?? [];
 
-      return Right(tags);
-    } else {
-      return const Left(ServerFailure(message: 'Server Failure'));
+        return Right(tags);
+      } else {
+        return const Left(ServerFailure(message: 'Server Failure'));
+      }
+    } catch (e) {
+      return const Left(NetworkFailure(message: 'Server Failure'));
     }
   }
 
