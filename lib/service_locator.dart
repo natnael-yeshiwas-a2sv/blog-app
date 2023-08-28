@@ -71,6 +71,13 @@ Future<void> setup() async {
     GetArticles(sl()),
   );
 
+  sl.registerFactory(()=> 
+    ArticleBloc(
+      getArticles : sl(), 
+      getTags: sl(),
+      )
+  );
+
   sl.registerFactory(() => ArticleBloc(
         getArticles: sl(),
         getTags: sl(),

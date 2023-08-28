@@ -133,7 +133,7 @@ class HomePage extends StatelessWidget {
                             state.articles.isEmpty) ||
                         (state is ArticlesLoadeds && state.articles.isEmpty))
                       Container(
-                        child: const Center(
+                        child:  const Center(
                           child: Text("No Article is found"),
                         ),
                       )
@@ -141,42 +141,45 @@ class HomePage extends StatelessWidget {
                             state.articles.isNotEmpty) ||
                         (state is ArticlesLoadeds && state.articles.isNotEmpty))
                       Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: articles.length,
-                                itemBuilder: (context, index) {
-                                  String date = InputConverter.toDateFormat(
-                                      articles[index].createdAt);
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, BlogAppRoutes.ARTICLE_DETAIL,
-                                          arguments: articles[index]);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        ArticleCard(
-                                          author:
-                                              articles[index].user?.fullName ??
-                                                  'Joe Doe',
-                                          date: date,
-                                          tag: articles[index].tags.isNotEmpty
-                                              ? articles[index].tags[0]
-                                              : '',
-                                          title: articles[index].title,
-                                          imageUrl: articles[index].image,
-                                        ),
-                                        const SizedBox(height: 20),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
+                        child: RefreshIndicator(
+                            onRefresh: ()=>dispatchCreate(context),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: articles.length,
+                                  itemBuilder: (context, index) {
+                                    String date = InputConverter.toDateFormat(
+                                        articles[index].createdAt);
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, BlogAppRoutes.ARTICLE_DETAIL,
+                                            arguments: articles[index]);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ArticleCard(
+                                            author:
+                                                articles[index].user?.fullName ??
+                                                    'Joe Doe',
+                                            date: date,
+                                            tag: articles[index].tags.isNotEmpty
+                                                ? articles[index].tags[0]
+                                                : '',
+                                            title: articles[index].title,
+                                            imageUrl: articles[index].image,
+                                          ),
+                                          const SizedBox(height: 20),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -188,5 +191,14 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+  Future<void> dispatchCreate(BuildContext context) async{
+    
+    BlocProvider.of<ArticleBloc>(context).add(LoadAllArticles(
+      searchparams: articleController.text,
+      selectedTag: "",
+      
+    ));
+  
   }
 }
