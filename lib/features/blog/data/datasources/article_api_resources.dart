@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:dartz/dartz.dart';
@@ -12,7 +14,7 @@ abstract class ArticleApiResource {
       required List<String> tags,
       required String subTitle,
       String? estimatedReadTime,
-      String? image});
+      File? image});
   Future<Either<Failure, Article>> updateArticle(Article article);
   Future<Either<Failure, void>> deleteArticle(String id);
   void setToken(String? fold);

@@ -15,6 +15,6 @@ void main() async {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF376AED))),
     debugShowCheckedModeBanner: false,
     onGenerateRoute: route.controller,
-    initialRoute: BlogAppRoutes.PROFILE,
+    initialRoute: BlogAppRoutes.ARTICLE_CREATE,
   ));
 }

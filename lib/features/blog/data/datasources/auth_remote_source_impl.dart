@@ -12,7 +12,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final String base_url;
   String token;
   AuthRemoteDataSourceImpl({required this.client, this.base_url = "https://blog-api-4z3m.onrender.com/api/v1/", 
-    this.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTY0YTFhNTdmNjZkNzVlOGJiNzMxMyIsImlhdCI6MTY5MjgxNDQ0MywiZXhwIjoxNjk1NDA2NDQzfQ.5owvXykhKJnvrwe-MvJnk1Z5aM_neuOpZVYS4f1_vUI"
+    this.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTY0YTFhNTdmNjZkNzVlOGJiNzMxMyIsImlhdCI6MTY5Mjk2ODc4MiwiZXhwIjoxNjk1NTYwNzgyfQ.Gk722mzLWROwtekrX6xXqfdhZ0yZJHiOwkYShxyvhrY"
   });
 
   @override
