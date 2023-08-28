@@ -1,6 +1,8 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:blog_application/features/blog/presentation/widgets/custom_input_field.dart';
+import 'package:blog_application/features/blog/presentation/widgets/loading_screen.dart';
+import 'package:blog_application/features/blog/presentation/widgets/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/presentation/util/input_converter.dart';
 import '../../../../service_locator.dart';
 import '../../domain/entities/article.dart';
+import '../blocs/auth/auth_bloc.dart';
 import '../widgets/article_card.dart';
 import '../widgets/customized_button.dart';
 import '../widgets/filter_tag_chip.dart';
@@ -24,13 +27,19 @@ class HomePage extends StatelessWidget {
       create: (context) => sl<ArticleBloc>()
         ..add(const LoadArticlesAndTags(searchparams: "", tags: [])),
       child: Scaffold(
+        drawer: BlocProvider<AuthBloc>(
+          create: (context) => sl<AuthBloc>(), // assuming you have a service locator set up
+          child: const Menu(),
+        ),
         appBar: AppBar(
-          leading: Container(
-            padding: const EdgeInsets.all(14),
-            child: SvgPicture.asset(
-              'assets/icons/Vector.svg',
-              width: 20,
-              height: 10,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(
+                Icons.sort,
+                size: 35,
+              ),
+              
+              onPressed: () => Scaffold.of(context).openDrawer(),
             ),
           ),
           title: const Text(
@@ -42,14 +51,14 @@ class HomePage extends StatelessWidget {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right:10.0),
+              padding: const EdgeInsets.only(right: 10.0),
               child: GestureDetector(
-                onTap: () => Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
+                onTap: () =>
+                    Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
                 child: const CircleAvatar(
                   radius: 26,
                   backgroundImage: AssetImage(
                     'assets/images/photocv.jpg',
-                    
                   ),
                 ),
               ),
@@ -70,15 +79,14 @@ class HomePage extends StatelessWidget {
                 ),
               );
             } else if (state is ArticleAndTagLoading) {
-              const CircularProgressIndicator();
+              const LoadingScreen();
             }
           },
           builder: (context, state) {
-             
             List<Article> articles = [];
-            if(state is ArticlesAndTagLoaded){
+            if (state is ArticlesAndTagLoaded) {
               articles = state.articles;
-            } else if(state is ArticlesLoadeds){
+            } else if (state is ArticlesLoadeds) {
               articles = state.articles;
             }
             return Padding(
@@ -99,7 +107,8 @@ class HomePage extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    if ((state is ArticlesAndTagLoaded || state.tags.isNotEmpty))
+                    if ((state is ArticlesAndTagLoaded ||
+                        state.tags.isNotEmpty))
                       GridView(
                           shrinkWrap: true,
                           gridDelegate:
@@ -118,15 +127,14 @@ class HomePage extends StatelessWidget {
                               );
                             }),
                           ]),
-                       
                     const SizedBox(
                       height: 20,
                     ),
-                    if (state is ArticleAndTagLoading) 
-               const Center(child:CircularProgressIndicator())
-                  else  if ((state is ArticlesAndTagLoaded &&
+                    if (state is ArticleAndTagLoading)
+                      const LoadingScreen()
+                    else if ((state is ArticlesAndTagLoaded &&
                             state.articles.isEmpty) ||
-                    (state is ArticlesLoadeds && state.articles.isEmpty))
+                        (state is ArticlesLoadeds && state.articles.isEmpty))
                       Container(
                         child: const Center(
                           child: Text("No Article is found"),
@@ -135,7 +143,6 @@ class HomePage extends StatelessWidget {
                     else if ((state is ArticlesAndTagLoaded &&
                             state.articles.isNotEmpty) ||
                         (state is ArticlesLoadeds && state.articles.isNotEmpty))
-                       
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
@@ -145,26 +152,22 @@ class HomePage extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: articles.length,
                                 itemBuilder: (context, index) {
-                                  String date = InputConverter.toDateFormat(articles[index].createdAt);
+                                  String date = InputConverter.toDateFormat(
+                                      articles[index].createdAt);
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context,
-                                          BlogAppRoutes.ARTICLE_DETAIL,
-                                          arguments: articles[index]
-                                          );
+                                      Navigator.pushNamed(
+                                          context, BlogAppRoutes.ARTICLE_DETAIL,
+                                          arguments: articles[index]);
                                     },
                                     child: Column(
                                       children: [
-                                    
-
                                         ArticleCard(
-                                          
-                                          author: articles[index].user
-                                                  ?.fullName ??
-                                              'Joe Doe',
+                                          author:
+                                              articles[index].user?.fullName ??
+                                                  'Joe Doe',
                                           date: date,
-                                          tag: articles[index].tags
-                                                  .isNotEmpty
+                                          tag: articles[index].tags.isNotEmpty
                                               ? articles[index].tags[0]
                                               : '',
                                           title: articles[index].title,
