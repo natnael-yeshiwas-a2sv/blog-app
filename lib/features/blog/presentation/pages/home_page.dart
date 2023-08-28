@@ -27,10 +27,7 @@ class HomePage extends StatelessWidget {
       create: (context) => sl<ArticleBloc>()
         ..add(const LoadArticlesAndTags(searchparams: "", tags: [])),
       child: Scaffold(
-        drawer: BlocProvider<AuthBloc>(
-          create: (context) => sl<AuthBloc>(), // assuming you have a service locator set up
-          child: const Menu(),
-        ),
+        drawer: const Menu(),
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(

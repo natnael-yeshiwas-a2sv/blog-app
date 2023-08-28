@@ -29,9 +29,7 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double fontNormal = MediaQuery.of(context).size.width * 0.04 + 1;
-    return BlocProvider(
-        create: (context) => sl<AuthBloc>(),
-        child: Scaffold(
+    return  Scaffold(
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -311,6 +309,7 @@ class _AuthState extends State<Auth> {
                                     BlocListener<AuthBloc, AuthState>(
                                       listener: (context, state) {
                                         if (state is AuthPass) {
+                                          
                                           context
                                               .read<AuthBloc>()
                                               .add(AuthRestart());
@@ -371,6 +370,6 @@ class _AuthState extends State<Auth> {
               ],
             ),
           ),
-        ));
+        );
   }
 }

@@ -50,7 +50,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     await logout(NoParams());
-    await Future.delayed(const Duration(seconds: 2));
-    emit(AuthPass());
+    emit(AuthInitial());
   }
 }

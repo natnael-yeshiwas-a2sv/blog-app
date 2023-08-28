@@ -11,7 +11,6 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Drawer(
       child: ListView(
         children: [
@@ -22,9 +21,9 @@ class Menu extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               backgroundImage: AssetImage('assets/images/photocv.jpg'),
             ),
-            accountName: Text('Ahmed Elsayed'), 
+            accountName: Text('Ahmed Elsayed'),
             accountEmail: Text('Bazabizi3@gmail.com'),
-            ),
+          ),
           // const DrawerHeader(
           //   decoration: BoxDecoration(
           //     color: Color(0xFF659AFF),
@@ -56,15 +55,14 @@ class Menu extends StatelessWidget {
         ],
       ),
     );
-
-    
   }
+
   void logout(BuildContext context) {
-    BlocProvider.of<AuthBloc>(context).add(AuthLogout());
+    context.read<AuthBloc>().add(AuthLogout());
     Navigator.pushNamedAndRemoveUntil(
       context,
       BlogAppRoutes.AUTH,
       (route) => false,
-);
+    );
   }
 }
