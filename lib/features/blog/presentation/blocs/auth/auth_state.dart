@@ -25,3 +25,13 @@ class AuthPass extends AuthState {
   @override
   List<Object?> get props => throw UnimplementedError();
 }
+
+class AuthUser extends AuthState{
+  final User user;
+  AuthUser(this.user);
+  
+  @override
+  List<Object?> get props => [user];
+
+
+}

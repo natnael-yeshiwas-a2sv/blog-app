@@ -31,3 +31,11 @@ class AuthRestart extends AuthEvent {
   @override
   List<Object?> get props => throw UnimplementedError();
  }
+
+class AuthUserEvent extends AuthEvent{
+  
+  @override
+  List<Object?> get props => throw UnimplementedError();
+ 
+  
+}

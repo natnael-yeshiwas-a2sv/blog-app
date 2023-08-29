@@ -1,4 +1,5 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_current_user.dart';
 import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:blog_application/features/blog/presentation/widgets/custom_input_field.dart';
 import 'package:blog_application/features/blog/presentation/widgets/loading_screen.dart';
@@ -27,7 +28,7 @@ class HomePage extends StatelessWidget {
       create: (context) => sl<ArticleBloc>()
         ..add(const LoadArticlesAndTags(searchparams: "", tags: [])),
       child: Scaffold(
-        drawer: const Menu(),
+        drawer: Menu(),
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
