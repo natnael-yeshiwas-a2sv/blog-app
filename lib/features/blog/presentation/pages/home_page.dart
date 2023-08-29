@@ -35,7 +35,6 @@ class HomePage extends StatelessWidget {
                 Icons.sort,
                 size: 35,
               ),
-              
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
           ),
@@ -106,24 +105,20 @@ class HomePage extends StatelessWidget {
                     ),
                     if ((state is ArticlesAndTagLoaded ||
                         state.tags.isNotEmpty))
-                      GridView(
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 3,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                          children: [
-                            ...state.tags.map((tag) {
-                              return FilterTagChip(
-                                controller: articleController,
-                                name: tag,
-                                selected: state.selectedTags.contains(tag),
-                              );
-                            }),
-                          ]),
+                      SizedBox(
+                        height: 50,
+                        child: ListView.separated(
+                          separatorBuilder: (_,__) => SizedBox(width: 10),
+                           scrollDirection: Axis.horizontal,
+                           itemCount: state.tags.length, 
+                           itemBuilder: (_, ind) {
+                          return FilterTagChip(
+                            controller: articleController,
+                            name: state.tags[ind],
+                            selected: state.selectedTags.contains(state.tags[ind]),
+                          );
+                        }),
+                      ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -133,7 +128,7 @@ class HomePage extends StatelessWidget {
                             state.articles.isEmpty) ||
                         (state is ArticlesLoadeds && state.articles.isEmpty))
                       Container(
-                        child:  const Center(
+                        child: const Center(
                           child: Text("No Article is found"),
                         ),
                       )
@@ -142,7 +137,7 @@ class HomePage extends StatelessWidget {
                         (state is ArticlesLoadeds && state.articles.isNotEmpty))
                       Expanded(
                         child: RefreshIndicator(
-                            onRefresh: ()=>dispatchCreate(context),
+                          onRefresh: () => dispatchCreate(context),
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
@@ -155,16 +150,17 @@ class HomePage extends StatelessWidget {
                                         articles[index].createdAt);
                                     return GestureDetector(
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, BlogAppRoutes.ARTICLE_DETAIL,
+                                        Navigator.pushNamed(context,
+                                            BlogAppRoutes.ARTICLE_DETAIL,
                                             arguments: articles[index]);
                                       },
                                       child: Column(
                                         children: [
                                           ArticleCard(
-                                            author:
-                                                articles[index].user?.fullName ??
-                                                    'Joe Doe',
+                                            author: articles[index]
+                                                    .user
+                                                    ?.fullName ??
+                                                'Joe Doe',
                                             date: date,
                                             tag: articles[index].tags.isNotEmpty
                                                 ? articles[index].tags[0]
@@ -192,13 +188,11 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-  Future<void> dispatchCreate(BuildContext context) async{
-    
+
+  Future<void> dispatchCreate(BuildContext context) async {
     BlocProvider.of<ArticleBloc>(context).add(LoadAllArticles(
       searchparams: articleController.text,
       selectedTag: "",
-      
     ));
-  
   }
 }
