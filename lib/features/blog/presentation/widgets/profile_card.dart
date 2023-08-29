@@ -7,6 +7,12 @@ class ProfileCard extends StatelessWidget {
   ProfileCard({super.key, required this.user});
   @override
   Widget build(BuildContext context) {
+    
+    const image_url = AssetImage("assets/images/avator.jpg");
+    if(user.image!= null){
+      NetworkImage image_url = NetworkImage(user.image?? "");
+    }
+    
     return Container(
         width: 295,
         height: 284,
@@ -24,6 +30,8 @@ class ProfileCard extends StatelessWidget {
             )
           ],
         ),
+      
+
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child:
@@ -43,10 +51,11 @@ class ProfileCard extends StatelessWidget {
                       width: 66.71,
                       height: 66.71,
                       decoration: ShapeDecoration(
-                        image: const DecorationImage(
-                          image:
-                              AssetImage('assets/images/photocv.jpg'),
-                          fit: BoxFit.fill,
+                        image: DecorationImage(
+                        scale: 10,
+                        image: image_url,
+                          
+                          fit: BoxFit.scaleDown,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(22),
@@ -59,7 +68,7 @@ class ProfileCard extends StatelessWidget {
                   children: [
                     Text(
                       "@" + user.email.substring(0,5),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF2D4379),
                         fontSize: 14,
                         fontFamily: 'Poppins',
@@ -70,7 +79,7 @@ class ProfileCard extends StatelessWidget {
                     Text(
                       user.fullName ?? "Jovi Daniel",
                       style: TextStyle(
-                        color: Color(0xFF0D253C),
+                        color:const  Color(0xFF0D253C),
                         fontSize: 18,
                         fontStyle: FontStyle.italic,
                         fontFamily: GoogleFonts.urbanist().fontFamily,

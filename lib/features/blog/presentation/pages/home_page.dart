@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
                 child: const CircleAvatar(
                   radius: 26,
                   backgroundImage: AssetImage(
-                    'assets/images/photocv.jpg',
+                    'assets/images/avator.jpg',
                   ),
                 ),
               ),
@@ -86,6 +86,49 @@ class HomePage extends StatelessWidget {
             } else if (state is ArticlesLoadeds) {
               articles = state.articles;
             }
+            
+            var articleCard = SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: articles.length,
+                                  itemBuilder: (context, index) {
+                                    String title = articles[index].title;
+                                    if(title.length > 90){
+                                      title  = "${title.substring(0,90)}...";
+                                    }
+                                    String date = InputConverter.toDateFormat(
+                                        articles[index].createdAt);
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, BlogAppRoutes.ARTICLE_DETAIL,
+                                            arguments: articles[index]);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          ArticleCard(
+                                            author:
+                                                articles[index].user?.fullName ??
+                                                    'Joe Doe',
+                                            date: date,
+                                            tag: articles[index].tags.isNotEmpty
+                                                ? articles[index].tags[0]
+                                                : '',
+                                            title: title,
+                                            imageUrl: articles[index].image,
+                                          ),
+                                          const SizedBox(height: 20),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
             return Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
@@ -143,44 +186,7 @@ class HomePage extends StatelessWidget {
                       Expanded(
                         child: RefreshIndicator(
                             onRefresh: ()=>dispatchCreate(context),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: articles.length,
-                                  itemBuilder: (context, index) {
-                                    String date = InputConverter.toDateFormat(
-                                        articles[index].createdAt);
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, BlogAppRoutes.ARTICLE_DETAIL,
-                                            arguments: articles[index]);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          ArticleCard(
-                                            author:
-                                                articles[index].user?.fullName ??
-                                                    'Joe Doe',
-                                            date: date,
-                                            tag: articles[index].tags.isNotEmpty
-                                                ? articles[index].tags[0]
-                                                : '',
-                                            title: articles[index].title,
-                                            imageUrl: articles[index].image,
-                                          ),
-                                          const SizedBox(height: 20),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
+                          child: articleCard,
                         ),
                       ),
                   ],

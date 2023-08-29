@@ -19,7 +19,7 @@ class Menu extends StatelessWidget {
               color: Color(0xFF659AFF),
             ),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/photocv.jpg'),
+              backgroundImage: AssetImage('assets/images/avator.jpg'),
             ),
             accountName: Text('Ahmed Elsayed'),
             accountEmail: Text('Bazabizi3@gmail.com'),

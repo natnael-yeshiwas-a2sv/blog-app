@@ -7,12 +7,14 @@ class MyPostCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imageUrl;
+  final DateTime date;
   final Null Function() onClick;
   final Null Function() onDelete;
   const MyPostCard({
     required this.title,
     required this.subtitle,
     required this.imageUrl,
+    required this.date,
     super.key,
     required this.onClick,
     required this.onDelete
@@ -46,10 +48,11 @@ class MyPostCard extends StatelessWidget {
             height: 105,
             fit: BoxFit.cover,
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           ArticleInfo(
             title: title,
             subtitle: subtitle,
+            date : date,
 
           ),
           IconButton(icon: const Icon(Icons.delete_forever_outlined, color: Colors.redAccent),onPressed: onDelete,)

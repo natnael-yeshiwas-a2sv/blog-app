@@ -2,8 +2,10 @@ import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'article_grid_view.dart';
 import 'my_post_card.dart';
 
 class MyPostsContainer extends StatelessWidget {
@@ -19,22 +21,50 @@ class MyPostsContainer extends StatelessWidget {
       myPost = Column(children:[Center(child: Text("You've No Post"),)]);
     } else {
       myPost =Expanded(
-              child: ListView.builder(
-                itemCount: articles.length,
-                itemBuilder: (context, index) {
-                  return MyPostCard(
-                    title: articles[index].title,
-                    subtitle: articles[index].subTitle,
-                    onClick: (){
-                      Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_EDIT,arguments: articles[index]);
-                    },
-                    imageUrl: articles[index].image,
-                    onDelete: (){
-                      onDelete(articles[index].id);
-                    },
-                  );
-                },
-              ),
+              child: 
+                GridView(
+                  shrinkWrap: true,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 20,
+                  ),
+                  children: [
+                    ...articles.map((article) {
+                      return ArticleGridView(
+                        article : article
+                      );
+                    }),
+                  ],
+                ),
+              // child: ListView.builder(
+              //   itemCount: articles.length,
+              //   itemBuilder: (context, index) {
+              //     String title = articles[index].title;
+              //     if(articles[index].title.length > 50){
+              //       title = "${articles[index].title.substring(0,25)}...";
+              //     }
+              //     String subtitle = articles[index].subTitle;
+              //     if(articles[index].subTitle.length > 80){
+              //       subtitle = "${articles[index].subTitle.substring(0,80)}...";
+              //     }
+                  
+              //     return MyPostCard(
+              //       title: title,
+              //       subtitle: subtitle,
+              //       date : articles[index].createdAt?? DateTime.now(),
+              //       onClick: (){
+              //         Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_EDIT,arguments: articles[index]);
+              //       },
+              //       imageUrl: articles[index].image,
+              //       onDelete: (){
+              //         onDelete(articles[index].id);
+              //       },
+              //     );
+              //   },
+              // ),
             );
 
     }
@@ -92,6 +122,8 @@ class MyPostsContainer extends StatelessWidget {
                 )
               ],              
             ),
+            const SizedBox(
+              height: 20,),
             myPost
           ],
         ),
