@@ -38,5 +38,10 @@ class _homeState extends State<home> {
         duration: 2000, // Duration in milliseconds
       ),
     );
+    
+    
+    
+    
+    
   }
 }
