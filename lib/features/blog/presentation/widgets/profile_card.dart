@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:blog_application/features/blog/domain/entities/user.dart';
+import 'package:blog_application/features/blog/presentation/widgets/select_image%20copy.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileCard extends StatelessWidget {
   final User user;
-  ProfileCard({super.key, required this.user});
+  final File? file;
+  final Null Function(File?) onSelected;
+  final bool uploading;
+  const ProfileCard({super.key, required this.user, required this.onSelected, this.file, required  this.uploading});
   @override
   Widget build(BuildContext context) {
     
@@ -38,37 +44,44 @@ class ProfileCard extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               children: [
-                Container(
-                    width: 84,
-                    height: 84,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 2, color: Color(0xFF376AED)),
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                    ),
-                    child: Container(
-                      width: 66.71,
-                      height: 66.71,
-                      decoration: ShapeDecoration(
-                        image: DecorationImage(
-                        scale: 10,
-                        image: image_url,
-                          
-                          fit: BoxFit.scaleDown,
+                Stack(
+                  children: [
+                    Container(
+                        width: 84,
+                        height: 84,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 2, color: Color(0xFF376AED)),
+                            borderRadius: BorderRadius.circular(28),
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                      ),
-                    )),
+                        child: Container(
+                          width: 66.71,
+                          height: 66.71,
+                          decoration: ShapeDecoration(
+                            image: DecorationImage(
+                              image: image_url,
+                              fit: BoxFit.fill,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                          ),
+                        )),
+                    Positioned(
+                        child: uploading?Center(child: CircularProgressIndicator()) :ProfileImageSelect(onSelected: onSelected),
+                        right: 0,
+                        bottom: 0)
+                  ],
+                ),
                 const SizedBox(width: 24),
-                 Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "@" + user.email.substring(0,5),
-                      style: const TextStyle(
+                      "@" + user.email.substring(0, 5),
+                      style: TextStyle(
                         color: Color(0xFF2D4379),
                         fontSize: 14,
                         fontFamily: 'Poppins',
@@ -114,7 +127,8 @@ class ProfileCard extends StatelessWidget {
             ),
             SizedBox(height: 11),
             Text(
-              user.bio ?? 'Madison Blackstone is a director of user experience design, with experience managing global teams.',
+              user.bio ??
+                  'Madison Blackstone is a director of user experience design, with experience managing global teams.',
               style: TextStyle(
                 color: Color(0xFF2D4379),
                 fontSize: 14,

@@ -1,4 +1,4 @@
-import 'package:blog_application/features/blog/domain/entities/article.dart';
+
 import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 import 'package:blog_application/features/blog/presentation/widgets/my_posts_container.dart';
 import 'package:blog_application/service_locator.dart';
@@ -30,13 +30,20 @@ class ProfileScreen extends StatelessWidget {
           ],
         ),
         body:
-            BlocBuilder<ProfileBloc, ProfileState>(
+            BlocConsumer<ProfileBloc, ProfileState>(
+              listener: (context,state){
+                if(state is ProfileUploaded){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded SuccessFully')));
+                } else if(state is ProfileUploadFailed){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded SuccessFully')));
+                } 
+              },
               builder: (context,state) {
                 if(state is ProfileLoading){
                     return Center(child: CircularProgressIndicator()); 
                 } else if(state is ProfileFailed){
                   return Center(child: Text("Failed to load profile"));
-                } else if(state is ProfileLoaded){
+                } else if(state is ProfileLoaded || state is ProfileUploading || state is ProfileUploaded){
                   return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -46,7 +53,14 @@ class ProfileScreen extends StatelessWidget {
                         child: Stack(
                            alignment: Alignment.topCenter,
                           children: [
-                           ProfileCard(user: state.user),
+                           ProfileCard(user: state.user, onSelected:(file) {
+                            if(file != null){
+                              context.read<ProfileBloc>().add(UploadProfilePic(image: file));
+                            }
+                           },
+                            file: state.file,
+                            uploading: state is ProfileUploading,
+                           ),
                             Positioned(
                                 bottom: 40,
                                 child: ProfileTab()),

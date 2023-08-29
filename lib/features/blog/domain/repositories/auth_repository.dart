@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:dartz/dartz.dart';
@@ -10,4 +12,5 @@ abstract class AuthRepository {
   bool isLoggedIn();
   Future<User> getCurrentUser();
   Future<Either<Failure, Tuple2<User, List<Article>>>>  getProfile();
+  Future<Either<Failure, String>> updateProfile(File image);
 }

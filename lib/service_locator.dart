@@ -54,7 +54,7 @@ Future<void> setup() async {
   sl.registerFactory(() => GetProfile(sl()));
 
   sl.registerFactory(() =>
-    ProfileBloc(sl(), sl())
+    ProfileBloc(sl(), sl(), sl())
   );
   sl.registerFactory(()=> GetTags(sl()));
   sl.registerFactory(()=> CreateTaskCubit(getTagsUsecase: sl(), articleRepository: sl()));

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
@@ -7,6 +8,7 @@ import 'package:blog_application/features/blog/data/models/dto/login_response_dt
 import 'package:blog_application/features/blog/domain/entities/user.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
@@ -38,7 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Left(ServerFailure(message: data["error"]));
       }
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(NetworkFailure(message: "Connection Error :)"));
     }
   }
 
@@ -64,7 +66,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Left(ServerFailure(message: data["error"]));
       }
     } catch (e) {
-      return Left(NetworkFailure(message: e.toString()));
+      return Left(NetworkFailure(message: "Connection Error :)"));
 
     }
   }
@@ -98,5 +100,38 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   void setToken(String? fold) {
     token = fold ?? '';
+  }
+  
+  @override
+  Future<Either<Failure, String>> updateProfile(File image) async {
+    try{
+      var urlString = base_url + "user/update/image";
+      var url = Uri.parse(urlString);
+      var response = http.MultipartRequest('PUT', url);
+      response.headers.addAll({
+        "AUTHORIZATION": "Bearer $token",
+        "Content-type": "multipart/form-data"
+      });
+      if (image != null) {
+        response.files.add(await http.MultipartFile.fromPath(
+          'photo',
+          image.path,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+        print(response.files.length);
+      }
+
+      var res = await response.send();
+      if (res.statusCode == 200) {
+        print("wow uploaded successfully");
+        return Right("Succesffully Uploaded");
+
+      }
+      print(res.statusCode);
+      return Left(ServerFailure(message: 'message'));
+    } catch (e) {
+      print(e);
+      return Left(NetworkFailure(message: 'message'));
+    }
   }
 }

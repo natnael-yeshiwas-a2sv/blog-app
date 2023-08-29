@@ -12,17 +12,17 @@ class RegisterUseCase extends UseCase<void, SendRegisterParam> {
   Future<Either<Failure, void>> call(SendRegisterParam param) async {
     String bio =
         "madison blockstone is a director of user experience deisgn, with experience managing global teams";
-    String fullname = "Jovi Daniel";
     String experience = "3 years of experience";
     return await repository.register(
-        param.email, param.password, bio, fullname, experience);
+        param.email, param.password, bio, param.name, experience);
   }
 }
 
 class SendRegisterParam extends Equatable {
-  const SendRegisterParam(this.email, this.password);
+  const SendRegisterParam(this.email, this.password,this.name);
   final String email;
   final String password;
+  final String name;
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [name,password,email];
 }
