@@ -67,13 +67,13 @@ class LocalDataSourceImpl implements LocalDataSource {
   }
 
   @override
-  Future<Either<Failure, LoginResponseDto>> getCachedUser() {
+  Either<Failure, LoginResponseDto> getCachedUser() {
     final jsonString = sharedPreferences.getString('user');
     if (jsonString != null) {
       final user = LoginResponseDto.fromJson(json.decode(jsonString));
-      return Future.value(Right(user));
+      return (Right(user));
     } else {
-      return Future.value(const Left(CacheFailure(message: 'Cache Failure')));
+      return (const Left(CacheFailure(message: 'Cache Failure')));
     }
   }
 

@@ -7,7 +7,7 @@ abstract class AuthRepository {
   Future<Either<Failure,void>> login(String email, String password);
   Future<void> logout();
   Future<Either<Failure,void>> register(String email, String password, [String? bio, String? fullName, String? expertise]);
-  Future<bool> isLoggedIn();
+  bool isLoggedIn();
   Future<User> getCurrentUser();
   Future<Either<Failure, Tuple2<User, List<Article>>>>  getProfile();
 }

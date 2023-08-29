@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-void showAlertDialog(BuildContext context,String error) {
+void showAlertDialog(BuildContext context,String error,[String alert = "Alert"]) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Alert'),
+        title: Text(alert),
         content: Text(error),
         actions: <Widget>[
           TextButton(

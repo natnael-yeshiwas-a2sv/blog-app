@@ -25,3 +25,8 @@ class AuthPass extends AuthState {
   @override
   List<Object?> get props => throw UnimplementedError();
 }
+
+class SignedUp extends AuthState {
+  @override
+  List<Object?> get props => throw UnimplementedError();
+}

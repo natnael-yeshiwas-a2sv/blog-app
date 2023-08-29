@@ -44,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       
     ));
 
-    result.fold((l) => emit(AuthFailed(l.message)), (r) => emit(AuthPass()));
+    result.fold((l) => emit(AuthFailed(l.message)), (r) => emit(SignedUp()));
   }
 
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) async {

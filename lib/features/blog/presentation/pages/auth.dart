@@ -303,6 +303,11 @@ class _AuthState extends State<Auth> {
                                 const SizedBox(height: 10),
                                 BlocListener<AuthBloc, AuthState>(
                                   listener: (context, state) {
+                                    if (state is SignedUp) {
+                                      switchAuth();
+                                      showAlertDialog(context, "successfull",
+                                          "You succesfully signed In");
+                                    }
                                     if (state is AuthPass) {
                                       context
                                           .read<AuthBloc>()
