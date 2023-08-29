@@ -16,4 +16,12 @@ class DeleteArticleEvent extends ProfileEvent {
   // TODO: implement props
   List<Object?> get props => [];
 
+
+}
+
+class UploadProfilePic extends ProfileEvent {
+  final File image;
+  UploadProfilePic({required this.image});
+  @override
+  List<Object?> get props => [image];
 }
