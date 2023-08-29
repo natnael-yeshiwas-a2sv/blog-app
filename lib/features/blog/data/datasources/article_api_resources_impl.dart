@@ -82,9 +82,23 @@ class ArticleApiResourceImpl implements ArticleApiResource {
   }
 
   @override
-  Future<Either<Failure, void>> deleteArticle(String id) {
-    // TODO: implement deleteArticle
-    throw UnimplementedError();
+  Future<Either<Failure, void>> deleteArticle(String id) async {
+    try {
+      var urlString = base_url + "article" + "/$id";
+      var url = Uri.parse(urlString);
+      print(url.toString());
+      var response =
+          await client.delete(url, headers: {"AUTHORIZATION": "Bearer $token"});
+      print(response.body);
+      if (response.statusCode == 200) {
+        print("deleted successfully");
+        return Right(unit);
+      } else {
+        return const Left(ServerFailure(message: 'Server Failure'));
+      }
+    } catch (e) {
+      return const Left(NetworkFailure(message: 'Server Failure'));
+    }
   }
 
   @override
@@ -134,9 +148,66 @@ class ArticleApiResourceImpl implements ArticleApiResource {
   }
 
   @override
-  Future<Either<Failure, Article>> updateArticle(Article article) {
-    //
-    throw UnimplementedError();
+  Future<Either<Failure, Article>> updateArticle(
+      {required String id,
+      required String title,
+      required String content,
+      required List<String> tags,
+      required String subTitle,
+      String? estimatedReadTime,
+      File? image}) async {
+    try {
+      var urlString = base_url + "article" + "/$id";
+      var url = Uri.parse(urlString);
+      print(url.toString());
+      var response = http.MultipartRequest('PUT', url);
+      response.headers.addAll({
+        "AUTHORIZATION": "Bearer $token",
+        "Content-type": "multipart/form-data"
+      });
+      response.fields['title'] = title;
+      response.fields['content'] = content;
+      response.fields['subTitle'] = subTitle;
+      if (estimatedReadTime != null) {
+        response.fields['estimatedReadTime'] = estimatedReadTime;
+      }
+      if (tags.isNotEmpty) {
+        response.fields['tags'] = tags.first;
+      }
+      var headers = {'Content-Type': 'image/jpeg'};
+      if (image != null) {
+        print("hello from this");
+
+        // ...
+        var ext = image.path.split('.').last;
+        print(ext);
+        response.files.add(await http.MultipartFile.fromPath(
+          'photo',
+          image.path,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+        print(response.files.length);
+      }
+
+      var res = await response.send();
+      if (res.statusCode == 200) {
+        return Right(Article(
+          content: content,
+          id: "",
+          image: "",
+          subTitle: subTitle,
+          tags: tags,
+          title: title,
+          estimatedReadTime: estimatedReadTime ?? "",
+          createdAt: DateTime.now(),
+        ));
+      }
+      print(res.statusCode);
+      return Left(ServerFailure(message: 'message'));
+    } catch (e) {
+      print(e);
+      return Left(NetworkFailure(message: 'message'));
+    }
   }
 
   setToken(String? fold) {

@@ -15,7 +15,7 @@ abstract class ArticleApiResource {
       required String subTitle,
       String? estimatedReadTime,
       File? image});
-  Future<Either<Failure, Article>> updateArticle(Article article);
+  Future<Either<Failure, Article>> updateArticle({required String id,required String title, required String content, required List<String> tags, required String subTitle, String? estimatedReadTime, File? image});
   Future<Either<Failure, void>> deleteArticle(String id);
   void setToken(String? fold);
 }

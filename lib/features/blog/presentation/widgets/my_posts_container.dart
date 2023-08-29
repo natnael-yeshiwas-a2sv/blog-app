@@ -1,4 +1,6 @@
+import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
+import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,7 +8,9 @@ import 'my_post_card.dart';
 
 class MyPostsContainer extends StatelessWidget {
   List<Article> articles;
-  MyPostsContainer({super.key, required this.articles});
+  
+   final void Function(String id) onDelete;
+  MyPostsContainer({super.key, required this.articles, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,13 @@ class MyPostsContainer extends StatelessWidget {
                   return MyPostCard(
                     title: articles[index].title,
                     subtitle: articles[index].subTitle,
+                    onClick: (){
+                      Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_EDIT,arguments: articles[index]);
+                    },
+                    imageUrl: articles[index].image,
+                    onDelete: (){
+                      onDelete(articles[index].id);
+                    },
                   );
                 },
               ),

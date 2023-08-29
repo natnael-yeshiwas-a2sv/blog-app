@@ -1,29 +1,29 @@
 part of 'profile_bloc.dart';
 
 @immutable
-abstract class ProfileState extends Equatable {}
+abstract class ProfileState extends Equatable {
+  final User user;
+  final List<Article> articles;
+  ProfileState({required this.user, required this.articles});
+  @override
+  List<Object?> get props => [user, articles];
+}
 
 final class ProfileInitial extends ProfileState {
-  @override
-  List<Object?> get props => throw UnimplementedError();
+  ProfileInitial({required super.user, required super.articles});
 }
 
 class ProfileLoading extends ProfileState {
-  @override
-  List<Object?> get props => throw UnimplementedError();
+  ProfileLoading({required super.user, required super.articles});
+ 
 }
 
 class ProfileFailed extends ProfileState {
-  final String error;
-  ProfileFailed(this.error);
-  @override
-  List<Object?> get props => [error];
+  ProfileFailed({required super.user, required super.articles});
+  
 }
 
 class ProfileLoaded extends ProfileState {
-  final User user;
-  final List<Article> articles;
-  ProfileLoaded({required this.user, required this.articles});
-  @override
-  List<Object?> get props => throw UnimplementedError();
+  ProfileLoaded({required super.user, required super.articles});
+  
 }

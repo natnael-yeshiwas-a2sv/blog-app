@@ -14,6 +14,7 @@ class ArticleInfo extends StatelessWidget {
       children: [
         Text(
           title,
+          softWrap: true,
           style: TextStyle(
             color: const Color(0xFF376AED),
             fontSize: 14,
