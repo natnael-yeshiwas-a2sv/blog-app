@@ -38,7 +38,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Left(ServerFailure(message: data["error"]));
       }
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(NetworkFailure(message: "Connection Error :)"));
     }
   }
 
@@ -64,7 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Left(ServerFailure(message: data["error"]));
       }
     } catch (e) {
-      return Left(NetworkFailure(message: e.toString()));
+      return Left(NetworkFailure(message: "Connection Error :)"));
 
     }
   }
