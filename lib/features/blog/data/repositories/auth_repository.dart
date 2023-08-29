@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source_impl.dart';
@@ -75,6 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
         fullName: r.data?.fullName,
         expertise: r.data?.expertise,
         id: r.data?.id ?? '',
+        image: r.data?.image,
       );
       var articles = r.data?.articles ?? [];
       var articlesDomain = articles.map((e) async {
@@ -91,10 +94,15 @@ class AuthRepositoryImpl implements AuthRepository {
           estimatedReadTime: e.estimatedReadTime ?? '',
           image: e.image ?? '',
           isArticleBookmarked: isArticleBookmarked,
+          
         );
       }).toList();
       var articlesD = await Future.wait(articlesDomain);
       return Right(Tuple2(user, articlesD));
     });
+  }
+  @override
+  Future<Either<Failure, String>> updateProfile(File image){
+    return authRemoteDataSource.updateProfile(image);
   }
 }
