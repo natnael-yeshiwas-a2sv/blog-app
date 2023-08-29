@@ -15,13 +15,13 @@ class Auth extends StatefulWidget {
 class _AuthState extends State<Auth> {
   bool login = true;
   bool hidePassword = true;
-  String? confirm, password, username;
-  String? confirmErr = "", passwordErr = "", usernameErr = "";
+  String? confirm, password, username, fullname;
+  String? confirmErr = "", passwordErr = "", usernameErr = "", fullnameErr = "";
 
   void switchAuth() {
     setState(() {
       login = !login;
-      confirmErr = passwordErr = usernameErr = "";
+      confirmErr = passwordErr = usernameErr = fullnameErr = "";
     });
   }
 
@@ -34,7 +34,7 @@ class _AuthState extends State<Auth> {
         child: Column(
           children: [
             SizedBox(
-              height: 225,
+              height: 205,
               width: double.infinity,
               child: Image.asset(
                 'assets/images/a2sv_blue_2.png',
@@ -42,7 +42,7 @@ class _AuthState extends State<Auth> {
             ),
             BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
               return SizedBox(
-                height: MediaQuery.of(context).size.height - 235,
+                height: MediaQuery.of(context).size.height - 205,
                 child: Stack(
                   children: [
                     Container(
@@ -135,7 +135,52 @@ class _AuthState extends State<Auth> {
                                     fontWeight: FontWeight.w900,
                                   ),
                                 ),
-                                const SizedBox(height: 25),
+                                SizedBox(height: login == false ? 25 : 0),
+                                if (!login)
+                                  Text(
+                                    "Full name",
+                                    style: TextStyle(
+                                      fontSize: fontNormal,
+                                      color: const Color.fromARGB(
+                                          255, 45, 67, 121),
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                if (!login)
+                                  TextField(
+                                    style: TextStyle(fontSize: fontNormal),
+                                    onChanged: (String? text) => setState(() {
+                                      fullname = text;
+                                      fullnameErr = fullname!.isNotEmpty
+                                          ? ""
+                                          : "invalid full name";
+                                    }),
+                                    decoration: const InputDecoration(
+                                      hintText: "full name",
+                                      hintStyle: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 184, 184, 184),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 217, 223, 235),
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.blue),
+                                      ),
+                                    ),
+                                  ),
+                                SizedBox(height: login ? 0 : 2),
+                                Text(
+                                  fullnameErr ?? "",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                const SizedBox(height: 7),
                                 Text(
                                   "Username",
                                   style: TextStyle(
@@ -213,7 +258,7 @@ class _AuthState extends State<Auth> {
                                                 255, 217, 223, 235),
                                           ),
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
+                                        focusedBorder: const UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.blue),
                                         ),
@@ -223,11 +268,16 @@ class _AuthState extends State<Auth> {
                                       right: 0,
                                       child: DecoratedBox(
                                         decoration:
-                                            BoxDecoration(color: Colors.white),
-                                        child: TextButton(
-                                          onPressed: () {
+                                            const BoxDecoration(color: Colors.white),
+                                        child: GestureDetector(
+                                          onLongPress: () {
                                             setState(() {
-                                              hidePassword = !hidePassword;
+                                              hidePassword = false;
+                                            });
+                                          },
+                                          onLongPressEnd: (_){
+                                            setState(() {
+                                              hidePassword = true;
                                             });
                                           },
                                           child: Text(
@@ -266,12 +316,23 @@ class _AuthState extends State<Auth> {
                                                   username != "" &&
                                                   password != null &&
                                                   password != "") {
+                                                if (login == false &&
+                                                    (fullname == null ||
+                                                        fullname == "")) {
+                                                  setState(() {
+                                                    fullnameErr =
+                                                        "invalid full name";
+                                                  });
+                                                  return;
+                                                }
                                                 dynamic sendBloc = login
                                                     ? AuthLogin(username ?? "",
                                                         password ?? "")
                                                     : AuthRegister(
                                                         username ?? "",
-                                                        password ?? "");
+                                                        password ?? "",
+                                                        fullname ?? "",
+                                                      );
                                                 context
                                                     .read<AuthBloc>()
                                                     .add(sendBloc);
@@ -320,7 +381,7 @@ class _AuthState extends State<Auth> {
                                     }
 
                                     if (state is AuthFailed) {
-                                      showAlertDialog(context, state.error);
+                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
                                     }
                                   },
                                   child: Row(
@@ -341,11 +402,13 @@ class _AuthState extends State<Auth> {
                                         onPressed: () {
                                           if (login == false) {
                                             switchAuth();
+                                          } else {
+                                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("sorry,this feature is not available yet!")));
                                           }
                                         },
                                         child: Expanded(
                                           child: Text(
-                                            login ? "Reset here" : "Login",
+                                            login ? "reset" : "Login",
                                             style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 55, 106, 237),
