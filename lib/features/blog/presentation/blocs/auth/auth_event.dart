@@ -16,8 +16,9 @@ class AuthLogin extends AuthEvent {
 class AuthRegister extends AuthEvent {
   final String email;
   final String password;
+  final String name;
 
-  AuthRegister(this.email, this.password);
+  AuthRegister(this.email, this.password,[this.name = ""]);
 
   @override
   List<Object?> get props => [email, password];
