@@ -14,26 +14,20 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  void initState() {
-    super.initState();
+  
 
-    Future.delayed(Duration(milliseconds: 5000), () {
-      Navigator.pushReplacementNamed(context, BlogAppRoutes.ONBOARDING);
-    });
+  Widget changeScreen()  {
+    IsLogedIn login = sl<IsLogedIn>();
+    bool islogedin =  login();
+    return islogedin ? HomePage() : const Onboarding();
   }
-
-  // Widget changeScreen()  {
-  //   IsLogedIn login = sl<IsLogedIn>();
-  //   bool islogedin =  login();
-  //   return islogedin ? HomePage() : const Onboarding();
-  // }
 
   @override
   Widget build(BuildContext context)  {
     return Scaffold(
       body: AnimatedSplashScreen(
         splash: Image.asset("assets/images/a2sv.png"),
-        nextScreen: Container(),
+        nextScreen: changeScreen(),
         splashTransition: SplashTransition.scaleTransition,
         duration: 2000, // Duration in milliseconds
       ),

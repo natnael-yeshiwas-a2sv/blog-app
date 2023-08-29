@@ -9,8 +9,8 @@ class IsLogedIn {
   IsLogedIn(this.repository);
   
   
-  Future<bool> call() async {
-    return await repository.isLoggedIn();
+  bool call()  {
+    return  repository.isLoggedIn();
   }
 
 }
