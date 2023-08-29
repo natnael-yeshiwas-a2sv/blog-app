@@ -305,8 +305,10 @@ class _AuthState extends State<Auth> {
                                   listener: (context, state) {
                                     if (state is SignedUp) {
                                       switchAuth();
-                                      showAlertDialog(context, "successfull",
-                                          "You succesfully signed In");
+                                      showAlertDialog(
+                                          context,
+                                          "You succesfully signed In",
+                                          "successfull");
                                     }
                                     if (state is AuthPass) {
                                       context
