@@ -9,3 +9,11 @@ class GetProfileEvent extends ProfileEvent {
   List<Object?> get props => [];
 
 }
+class DeleteArticleEvent extends ProfileEvent {
+  final String id;
+  DeleteArticleEvent({required this.id});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
+}

@@ -65,9 +65,8 @@ class ArticleRepositoryImpl implements ArticleRepository {
   }
 
   @override
-  Future<Either<Failure, Article>> updateArticle(Article article) {
-    // TODO: implement updateArticle
-    throw UnimplementedError();
+  Future<Either<Failure, Article>> updateArticle({required String id,required String title, required String content, required List<String> tags, required String subTitle, String? estimatedReadTime, File? image}) {
+    final articleResponse = articleApiResourceImpl.updateArticle(id:id, title: title, content: content, tags: tags, subTitle: subTitle, estimatedReadTime: estimatedReadTime, image: image);
+     return articleResponse;
   }
-  
 }

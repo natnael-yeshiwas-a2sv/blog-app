@@ -54,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                     ),
                     ),
-                    MyPostsContainer(articles: state.articles),
+                    MyPostsContainer(articles: state.articles, onDelete: (id) => context.read<ProfileBloc>().add(DeleteArticleEvent(id: id)),),
                   ],
                 );
                 }

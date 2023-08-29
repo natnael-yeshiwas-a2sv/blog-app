@@ -2,6 +2,7 @@ import "package:blog_application/features/blog/data/models/dto/article_model.dar
 import "package:blog_application/features/blog/data/models/dto/get_profile_dto.dart";
 import "package:blog_application/features/blog/domain/entities/article.dart";
 import "package:blog_application/features/blog/presentation/pages/create_article_screans.dart";
+import "package:blog_application/features/blog/presentation/pages/edit_page.dart";
 import "package:blog_application/features/blog/presentation/pages/home_page.dart";
 import "package:blog_application/features/blog/presentation/pages/onboarding_page.dart";
 import "package:blog_application/features/blog/presentation/pages/profile_screen.dart";
@@ -21,6 +22,11 @@ Route<dynamic> controller(RouteSettings settings) {
       final Article article = settings.arguments as Article;
       return MaterialPageRoute(
         builder: (context) => ArticleReading(likes: 4, article: article),
+      );
+    case BlogAppRoutes.ARTICLE_EDIT:
+      final Article article = settings.arguments as Article;
+      return MaterialPageRoute(
+        builder: (context) => EditTaskScreen(article: article),
       );
     case BlogAppRoutes.HOME:
       return MaterialPageRoute(builder: (context) => HomePage());

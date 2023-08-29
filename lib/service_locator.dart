@@ -15,6 +15,7 @@ import 'package:blog_application/features/blog/domain/usecases/get_profile.dart'
 import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
 import 'package:blog_application/features/blog/presentation/blocs/bookmark/bookmark_bloc.dart';
 import 'package:blog_application/features/blog/presentation/blocs/create_task/create_task_bloc.dart';
+import 'package:blog_application/features/blog/presentation/blocs/edit_task/edit_task_bloc.dart';
 import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 
 import 'package:blog_application/features/blog/domain/usecases/isloged_in_usecase.dart';
@@ -39,13 +40,13 @@ Future<void> setup() async {
       LocalDataSourceImpl(sharedPreferences: sharedPreferences));
   sl.registerSingleton<ArticleApiResource>(
       ArticleApiResourceImpl(client: sl()));
-  sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(
+  sl.registerFactory<ArticleRepository>(()=>ArticleRepositoryImpl(
     localDataSource: sl(),
     articleApiResourceImpl: sl(),
   ));
   sl.registerSingleton<AuthRemoteDataSource>(
       AuthRemoteDataSourceImpl(client: sl()));
-  sl.registerSingleton<AuthRepository>(AuthRepositoryImpl(
+  sl.registerFactory<AuthRepository>(()=>AuthRepositoryImpl(
     authRemoteDataSource: sl(),
     localDataSource: sl(),
   ));
@@ -53,10 +54,11 @@ Future<void> setup() async {
   sl.registerFactory(() => GetProfile(sl()));
 
   sl.registerFactory(() =>
-    ProfileBloc(sl())
+    ProfileBloc(sl(), sl())
   );
   sl.registerFactory(()=> GetTags(sl()));
-  sl.registerSingleton(CreateTaskCubit(getTagsUsecase: sl(), articleRepository: sl()));
+  sl.registerFactory(()=> CreateTaskCubit(getTagsUsecase: sl(), articleRepository: sl()));
+  sl.registerFactory(() => EditTaskCubit(getTagsUsecase: sl(), articleRepository: sl()));
 
   sl.registerFactory(() => IsLogedIn(sl()));
   sl.registerFactory(() => LoginUseCase(sl()));
