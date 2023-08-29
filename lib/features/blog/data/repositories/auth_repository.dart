@@ -14,31 +14,30 @@ class AuthRepositoryImpl implements AuthRepository {
       {required this.localDataSource, required this.authRemoteDataSource}) {
     final user = localDataSource.getCachedUser();
 
-    user.then((value) =>
-        authRemoteDataSource.setToken(value.fold((l) => '', (r) => r.token)));
+    authRemoteDataSource.setToken(user.fold((l) => '', (r) => r.token));
   }
 
   @override
   Future<User> getCurrentUser() {
     final user = localDataSource.getCachedUser();
-    return user.then((value) => value.fold((l) {
-          return User(email: '', id: '', fullName: '', bio: '', expertise: '');
-        }, (r) {
-          User user = User(
-            bio: r.data?.bio,
-            email: r.data?.email ?? '',
-            fullName: r.data?.fullName,
-            expertise: r.data?.expertise,
-            id: r.data?.id ?? '',
-          );
-          return (user);
-        }));
+    return user.fold((l) {
+      return Future.value(User(email: '', id: '', fullName: '', bio: '', expertise: ''));
+    }, (r) {
+      User user = User(
+        bio: r.data?.bio,
+        email: r.data?.email ?? '',
+        fullName: r.data?.fullName,
+        expertise: r.data?.expertise,
+        id: r.data?.id ?? '',
+      );
+      return Future.value(user);
+    });
   }
 
   @override
-  Future<bool> isLoggedIn() {
+  bool isLoggedIn() {
     final user = localDataSource.getCachedUser();
-    return user.then((value) => value.isRight());
+    return user.isRight();
   }
 
   @override

@@ -13,7 +13,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
   LocalDataSource localDataSource;
   ArticleRepositoryImpl({required this.articleApiResourceImpl, required this.localDataSource}){
     final user = localDataSource.getCachedUser();
-    user.then((value) => articleApiResourceImpl.setToken(value.fold((l) => '', (r) => r.token)));
+     articleApiResourceImpl.setToken(user.fold((l) => '', (r) => r.token));
   }
   @override
   Future<Either<Failure, void>> bookmarkArticle(String id) {
