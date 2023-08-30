@@ -28,30 +28,70 @@ class Menu extends StatelessWidget {
                 }
     return Drawer(
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
            UserAccountsDrawerHeader(
             decoration: const BoxDecoration(
-              color: Color(0xFF659AFF),
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/background.jpg',
+                
+                  ),
+                fit: BoxFit.cover,
+              )
             ),
             currentAccountPicture:image_url,
             accountName: Text(user.fullName??'Yidnekachew'),
             accountEmail: Text(user.email ),
           ),
           ListTile(
+            leading: const Icon(
+              Icons.home,
+            ),
             title: const Text('Home'),
             onTap: () {
               Navigator.pushNamed(context, BlogAppRoutes.HOME);
             },
+          
+          ),
+          const Divider(
+            endIndent: 30,
+            indent: 20,
           ),
           ListTile(
+            leading: const Icon(
+              Icons.person,
+            ),
             title: const Text('Profile'),
             onTap: () {
               Navigator.pushNamed(context, BlogAppRoutes.PROFILE);
             },
+          ),const Divider(
+            endIndent: 30,
+            indent: 20,
           ),
           ListTile(
+            leading: const Icon(
+              Icons.add,
+            ),
+            title: const Text('Create Article'),
+            onTap: () {
+              Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_CREATE);
+            },
+          ),
+          const Divider(
+            endIndent: 30,
+            indent: 20,
+          ),         ListTile(
+            leading: const Icon(
+              Icons.logout,
+            ),
             title: const Text('Logout'),
             onTap: () => logout(context),
+          ),
+          const Divider(
+            endIndent: 30,
+            indent: 20,
           ),
         ],
       ),
