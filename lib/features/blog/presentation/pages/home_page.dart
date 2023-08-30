@@ -21,6 +21,11 @@ class HomePage extends StatelessWidget {
   final articleController = TextEditingController();
   HomePage({super.key, this.articles, this.tags});
 
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,7 +51,6 @@ class HomePage extends StatelessWidget {
               ),
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
-
           ),
           centerTitle: true,
           title: const Text(
@@ -58,16 +62,16 @@ class HomePage extends StatelessWidget {
           ),
           actions: [
             BlocConsumer<ArticleBloc, ArticleState>(
-              listener: (context, state) {
-              },
+              listener: (context, state) {},
               builder: (context, state) {
                 var image_url = const CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage(
-                        'assets/images/avator.jpg',
-                      ),);
-                if(state is ArticlesAndTagLoaded){
-                  if(state.user.image != null){
+                  radius: 20,
+                  backgroundImage: AssetImage(
+                    'assets/images/avator.jpg',
+                  ),
+                );
+                if (state is ArticlesAndTagLoaded) {
+                  if (state.user.image != null) {
                     image_url = CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(state.user.image!),
@@ -150,65 +154,64 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             );
-            return Padding(
+            return Container(
               padding: const EdgeInsets.all(20.0),
-              child: Container(
-                decoration: ShapeDecoration(
-                  color: const Color(0xFFF8FAFF),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              decoration: ShapeDecoration(
+                color: isDarkMode(context)
+                    ? Theme.of(context).appBarTheme.backgroundColor
+                    : Color(0xFFF8FAFF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  CustomInputField(
+                    controller: articleController,
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    CustomInputField(
-                      controller: articleController,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  if ((state is ArticlesAndTagLoaded || state.tags.isNotEmpty))
+                    SizedBox(
+                      height: 35,
+                      child: ListView.separated(
+                          separatorBuilder: (_, __) => SizedBox(width: 10),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.tags.length,
+                          itemBuilder: (_, ind) {
+                            return FilterTagChip(
+                              controller: articleController,
+                              name: state.tags[ind],
+                              selected:
+                                  state.selectedTags.contains(state.tags[ind]),
+                            );
+                          }),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    if ((state is ArticlesAndTagLoaded ||
-                        state.tags.isNotEmpty))
-                      SizedBox(
-                        height: 50,
-                        child: ListView.separated(
-                            separatorBuilder: (_, __) => SizedBox(width: 10),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.tags.length,
-                            itemBuilder: (_, ind) {
-                              return FilterTagChip(
-                                controller: articleController,
-                                name: state.tags[ind],
-                                selected: state.selectedTags
-                                    .contains(state.tags[ind]),
-                              );
-                            }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  if (state is ArticleAndTagLoading)
+                    const LoadingScreen()
+                  else if ((state is ArticlesAndTagLoaded &&
+                          state.articles.isEmpty) ||
+                      (state is ArticlesLoadeds && state.articles.isEmpty))
+                    Container(
+                      child: const Center(
+                        child: Text("No Article is found"),
                       ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    if (state is ArticleAndTagLoading)
-                      const LoadingScreen()
-                    else if ((state is ArticlesAndTagLoaded &&
-                            state.articles.isEmpty) ||
-                        (state is ArticlesLoadeds && state.articles.isEmpty))
-                      Container(
-                        child: const Center(
-                          child: Text("No Article is found"),
-                        ),
-                      )
-                    else if ((state is ArticlesAndTagLoaded &&
-                            state.articles.isNotEmpty) ||
-                        (state is ArticlesLoadeds && state.articles.isNotEmpty))
-                      Expanded(
-                        child: RefreshIndicator(
-                          onRefresh: () => dispatchCreate(context),
-                          child: articleCard,
-                        ),
+                    )
+                  else if ((state is ArticlesAndTagLoaded &&
+                          state.articles.isNotEmpty) ||
+                      (state is ArticlesLoadeds && state.articles.isNotEmpty))
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: () => dispatchCreate(context),
+                        child: articleCard,
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
             );
           },

@@ -15,44 +15,48 @@ class ArticleCard extends StatelessWidget {
     super.key,
     required this.imageUrl,
   });
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 388,
       height: 240,
+      margin: EdgeInsets.symmetric(horizontal: 10),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: isDarkMode(context) == false
+            ? Colors.white
+            : const Color.fromARGB(255, 52, 57, 70),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        shadows: const [
+        shadows: [
           BoxShadow(
-            color: Color(0x07000000),
-            blurRadius: 8,
-            offset: Offset(-4, -4),
+            color: Color.fromARGB(179, 230, 229, 229),
+            blurRadius: isDarkMode(context) ? 0 : 8,
+            offset: isDarkMode(context) ? Offset(0, 0) : Offset(0, 4),
             spreadRadius: 0,
           )
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
-      
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
+              Expanded(
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0 , left: 8),
+                      padding: const EdgeInsets.only(top: 0, left: 0),
                       child: Image(
                         image: NetworkImage(imageUrl),
                         width: 200,
-                        height: 160,
-                        
-                        
+                        height: 220,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -84,7 +88,6 @@ class ArticleCard extends StatelessWidget {
                   ],
                 ),
               ),
-              
               const SizedBox(width: 20),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -96,7 +99,9 @@ class ArticleCard extends StatelessWidget {
                       child: Text(
                         title,
                         style: TextStyle(
-                          color: Color(0xFF4D4A49),
+                          color: isDarkMode(context)
+                              ? Colors.white
+                              : Color(0xFF4D4A49),
                           fontSize: 15,
                           fontFamily: GoogleFonts.urbanist().fontFamily,
                           fontWeight: FontWeight.w600,
@@ -128,8 +133,10 @@ class ArticleCard extends StatelessWidget {
                     const SizedBox(height: 15),
                     Text(
                       "by $author",
-                      style: const TextStyle(
-                        color: Color(0xFF414141),
+                      style: TextStyle(
+                        color: isDarkMode(context)
+                            ? Colors.white
+                            : Color(0xFF4D4A49),
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 0.28,
@@ -140,13 +147,16 @@ class ArticleCard extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            date,
-            style: const TextStyle(
-              color: Color(0xFF7D7D7D),
-              fontSize: 12,
-              fontWeight: FontWeight.w300,
-              letterSpacing: 0.24,
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Text(
+              date,
+              style: const TextStyle(
+                color: Color(0xFF7D7D7D),
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
+                letterSpacing: 0.24,
+              ),
             ),
           )
         ],

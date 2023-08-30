@@ -14,28 +14,22 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  
-
-  Widget changeScreen()  {
+  Widget changeScreen() {
     IsLogedIn login = sl<IsLogedIn>();
-    bool islogedin =  login();
+    bool islogedin = login();
     return islogedin ? HomePage() : const Onboarding();
   }
 
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSplashScreen(
+        backgroundColor: Theme.of(context).colorScheme.background,
         splash: Image.asset("assets/images/a2sv.png"),
         nextScreen: changeScreen(),
         splashTransition: SplashTransition.scaleTransition,
         duration: 2000, // Duration in milliseconds
       ),
     );
-    
-    
-    
-    
-    
   }
 }
