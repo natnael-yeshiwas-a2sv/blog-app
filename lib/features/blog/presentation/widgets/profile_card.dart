@@ -13,10 +13,12 @@ class ProfileCard extends StatelessWidget {
   const ProfileCard({super.key, required this.user, required this.onSelected, this.file, required  this.uploading});
   @override
   Widget build(BuildContext context) {
-    var image_url = NetworkImage(user.image ?? '');
-    if(file != null){
-      FileImage image_url = FileImage(file!);
+    
+    const image_url = AssetImage("assets/images/avator.jpg");
+    if(user.image!= null){
+      NetworkImage image_url = NetworkImage(user.image?? "");
     }
+    
     return Container(
         width: 295,
         height: 284,
@@ -34,6 +36,8 @@ class ProfileCard extends StatelessWidget {
             )
           ],
         ),
+      
+
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child:
@@ -88,22 +92,25 @@ class ProfileCard extends StatelessWidget {
                     Text(
                       user.fullName ?? "Jovi Daniel",
                       style: TextStyle(
-                        color: Color(0xFF0D253C),
+                        color:const  Color(0xFF0D253C),
                         fontSize: 18,
                         fontStyle: FontStyle.italic,
                         fontFamily: GoogleFonts.urbanist().fontFamily,
                         fontWeight: FontWeight.w100,
                       ),
                     ),
-                    Text(
-                      user.expertise ?? 'UX Designer',
-                      style: TextStyle(
-                        color: Color(0xFF376AED),
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
-                        fontFamily: GoogleFonts.urbanist().fontFamily,
-                        fontWeight: FontWeight.w100,
-                        height: 1.25,
+                    Container(
+                      width: 100,
+                      child: Text(
+                        user.expertise ?? 'UX Designer',
+                        style: TextStyle(
+                          color: Color(0xFF376AED),
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w100,
+                          height: 1.25,
+                        ),
                       ),
                     )
                   ],

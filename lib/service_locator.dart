@@ -10,6 +10,7 @@ import 'package:blog_application/features/blog/domain/repositories/article_repos
 import 'package:blog_application/features/blog/domain/repositories/auth_repository.dart';
 import 'package:blog_application/features/blog/domain/usecases/bookmark_article.dart';
 import 'package:blog_application/features/blog/domain/usecases/get_bookmarked.dart';
+import 'package:blog_application/features/blog/domain/usecases/get_current_user.dart';
 
 import 'package:blog_application/features/blog/domain/usecases/get_profile.dart';
 import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
@@ -64,6 +65,7 @@ Future<void> setup() async {
   sl.registerFactory(() => LoginUseCase(sl()));
   sl.registerFactory(() => RegisterUseCase(sl()));
   sl.registerFactory(() => Logout(sl()));
+  sl.registerFactory(() => GetCurrentUser(sl()));
 
   sl.registerSingleton<AuthBloc>(AuthBloc(
     sl<LoginUseCase>(),
@@ -79,6 +81,7 @@ Future<void> setup() async {
     ArticleBloc(
       getArticles : sl(), 
       getTags: sl(),
+      getCurrentUser: sl()
       )
   );
 
