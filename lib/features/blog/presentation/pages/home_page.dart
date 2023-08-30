@@ -79,11 +79,8 @@ class HomePage extends StatelessWidget {
         body: BlocConsumer<ArticleBloc, ArticleState>(
           listener: (context, state) {
             if (state is ArticleAndTagError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
+              const Center(
+                child: Text("Failed to load articles"),);
             } else if (state is ArticleAndTagLoading) {
               const LoadingScreen();
             }
