@@ -40,41 +40,6 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
     );
   }
 
-  Widget buildListView() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: widget.articles.length,
-        itemBuilder: (context, index) {
-          String title = widget.articles[index].title;
-          if (widget.articles[index].title.length > 25) {
-            title = "${widget.articles[index].title.substring(0, 25)}...";
-          }
-          String subtitle = widget.articles[index].subTitle;
-          if (widget.articles[index].subTitle.length > 80) {
-            subtitle = "${widget.articles[index].subTitle.substring(0, 80)}...";
-          }
-          return MyPostCard(
-            title: title,
-            subtitle: subtitle,
-            date: widget.articles[index].createdAt ?? DateTime.now(),
-            onClick: () {
-              Navigator.pushNamed(
-                context,
-                BlogAppRoutes.ARTICLE_EDIT,
-                arguments: widget.articles[index],
-              );
-            },
-            imageUrl: widget.articles[index].image,
-            onDelete: () {
-              
-              widget.onDelete(widget.articles[index].id);
-            },
-          );
-        },
-      ),
-    );
-  }
-
   void onSelected(bool value) {
     setState(() {
       selected = value;
@@ -91,7 +56,7 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
           return AlertDialog(
             title: const Row(
               children: [
-                Icon(Icons.delete_forever_outlined,color: Colors.redAccent),
+                Icon(Icons.delete_forever_outlined, color: Colors.redAccent),
                 Text('Article Delete'),
               ],
             ),
@@ -122,6 +87,46 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
         },
       );
     }
+
+    Widget buildListView() {
+      return Expanded(
+        child: ListView.builder(
+          itemCount: widget.articles.length,
+          itemBuilder: (context, index) {
+            String title = widget.articles[index].title;
+            if (widget.articles[index].title.length > 25) {
+              title = "${widget.articles[index].title.substring(0, 25)}...";
+            }
+            String subtitle = widget.articles[index].subTitle;
+            if (widget.articles[index].subTitle.length > 80) {
+              subtitle =
+                  "${widget.articles[index].subTitle.substring(0, 80)}...";
+            }
+            return MyPostCard(
+              title: title,
+              subtitle: subtitle,
+              date: widget.articles[index].createdAt ?? DateTime.now(),
+              onClick: () {
+                Navigator.pushNamed(
+                  context,
+                  BlogAppRoutes.ARTICLE_EDIT,
+                  arguments: widget.articles[index],
+                );
+              },
+              imageUrl: widget.articles[index].image,
+              onDelete: () async {
+                var ans = await showDeleteDialog(widget.articles[index].title);
+                if (ans == 'yes') {
+                  widget.onDelete(widget.articles[index].id);
+                }
+                
+              },
+            );
+          },
+        ),
+      );
+    }
+
     Widget myCard = widget.articles.isEmpty
         ? Column(children: [
             Center(child: Text("You've No Post")),
@@ -129,7 +134,6 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
         : selected
             ? buildListView()
             : buildGridView();
-
 
     return Expanded(
       child: Container(
@@ -179,7 +183,7 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
                 const SizedBox(
                   width: 10,
                 ),
-IconButton(
+                IconButton(
                   icon: const Icon(
                     Icons.format_list_bulleted,
                     size: 25,
@@ -187,7 +191,6 @@ IconButton(
                   color: !selected ? Colors.black : Color(0xFF386BED),
                   onPressed: () => onSelected(true),
                 ),
-
               ],
             ),
             const SizedBox(
@@ -199,8 +202,4 @@ IconButton(
       ),
     );
   }
-
 }
-
-}
-
