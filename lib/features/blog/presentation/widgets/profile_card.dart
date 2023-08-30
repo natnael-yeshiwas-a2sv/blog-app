@@ -20,10 +20,15 @@ class ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     
-    const image_url = AssetImage("assets/images/avator.jpg");
+    var  image_url = DecorationImage(
+                              image: AssetImage('assets/images/avator.jpeg') ,
+                              fit: BoxFit.fill,
+                            );
     if(user.image!= null){
-      NetworkImage image_url = NetworkImage(user.image?? "");
-
+      image_url = DecorationImage(
+                              image: NetworkImage(user.image!) ,
+                              fit: BoxFit.fill,
+                            );
     }
     
     return Container(
@@ -67,10 +72,7 @@ class ProfileCard extends StatelessWidget {
                           width: 66.71,
                           height: 66.71,
                           decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: image_url,
-                              fit: BoxFit.fill,
-                            ),
+                            image: image_url,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(22),
                             ),
