@@ -1,10 +1,12 @@
+import 'package:blog_application/core/presentation/util/input_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ArticleInfo extends StatelessWidget {
   final String title;
   final String subtitle;
-  const ArticleInfo({required this.title, required this.subtitle, super.key});
+  final DateTime date;
+  const ArticleInfo({required this.title, required this.subtitle, required this.date ,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class ArticleInfo extends StatelessWidget {
               size: 15,
             ),
             Text(
-              '1hr ago',
+              InputConverter.calculatePostDate(date),
               style: TextStyle(
                 color:const Color(0xFF2D4379),
                 fontSize: 12,
@@ -76,11 +78,7 @@ class ArticleInfo extends StatelessWidget {
             const SizedBox(
               width: 20,
             ),
-            const Icon(
-              Icons.bookmark,
-              color: Color(0xFF2151CD),
-              size: 20,
-            ),
+            
           ],
         )
       ],

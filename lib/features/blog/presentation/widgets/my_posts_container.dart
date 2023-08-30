@@ -2,15 +2,84 @@ import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'article_grid_view.dart';
 import 'my_post_card.dart';
 
-class MyPostsContainer extends StatelessWidget {
-  List<Article> articles;
-
+class MyPostsContainer extends StatefulWidget {
+  final List<Article> articles;
   final void Function(String id) onDelete;
-  MyPostsContainer({super.key, required this.articles, required this.onDelete});
+
+  MyPostsContainer({Key? key, required this.articles, required this.onDelete})
+      : super(key: key);
+
+  @override
+  State<MyPostsContainer> createState() => _MyPostsContainerState();
+}
+
+class _MyPostsContainerState extends State<MyPostsContainer> {
+  bool selected = false;
+
+  Widget buildGridView() {
+    return Expanded(
+      child: GridView.builder(
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.8,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 20,
+        ),
+        itemCount: widget.articles.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ArticleGridView(article: widget.articles[index]);
+        },
+      ),
+    );
+  }
+
+  Widget buildListView() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: widget.articles.length,
+        itemBuilder: (context, index) {
+          String title = widget.articles[index].title;
+          if (widget.articles[index].title.length > 25) {
+            title = "${widget.articles[index].title.substring(0, 25)}...";
+          }
+          String subtitle = widget.articles[index].subTitle;
+          if (widget.articles[index].subTitle.length > 80) {
+            subtitle = "${widget.articles[index].subTitle.substring(0, 80)}...";
+          }
+          return MyPostCard(
+            title: title,
+            subtitle: subtitle,
+            date: widget.articles[index].createdAt ?? DateTime.now(),
+            onClick: () {
+              Navigator.pushNamed(
+                context,
+                BlogAppRoutes.ARTICLE_EDIT,
+                arguments: widget.articles[index],
+              );
+            },
+            imageUrl: widget.articles[index].image,
+            onDelete: () {
+              
+              widget.onDelete(widget.articles[index].id);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void onSelected(bool value) {
+    setState(() {
+      selected = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,43 +122,19 @@ class MyPostsContainer extends StatelessWidget {
         },
       );
     }
+    Widget myCard = widget.articles.isEmpty
+        ? Column(children: [
+            Center(child: Text("You've No Post")),
+          ])
+        : selected
+            ? buildListView()
+            : buildGridView();
 
-    Widget myPost = Container();
-    if (articles.isEmpty) {
-      myPost = Column(children: [
-        Center(
-          child: Text("You've No Post"),
-        )
-      ]);
-    } else {
-      myPost = Expanded(
-        child: ListView.builder(
-          itemCount: articles.length,
-          itemBuilder: (context, index) {
-            return MyPostCard(
-              title: articles[index].title,
-              subtitle: articles[index].subTitle,
-              onClick: () {
-                Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_EDIT,
-                    arguments: articles[index]);
-              },
-              imageUrl: articles[index].image,
-              onDelete: () async {
-                var ans = await showDeleteDialog(articles[index].title);
-                if(ans == 'yes'){
-                  onDelete(articles[index].id);
-                }
-              },
-            );
-          },
-        ),
-      );
-    }
+
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(20),
         width: 375,
-        height: 345,
         decoration: const ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -123,25 +168,39 @@ class MyPostsContainer extends StatelessWidget {
                 const SizedBox(
                   width: 150,
                 ),
-                const Icon(
-                  Icons.grid_view,
-                  size: 25,
-                  color: Color(0xFF386BED),
+                IconButton(
+                  icon: const Icon(
+                    Icons.grid_view,
+                    size: 25,
+                  ),
+                  color: !selected ? Color(0xFF386BED) : Colors.black,
+                  onPressed: () => onSelected(false),
                 ),
                 const SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
-                const Icon(
-                  Icons.format_list_bulleted,
-                  color: Color.fromARGB(255, 106, 125, 173),
-                  size: 25,
-                )
+IconButton(
+                  icon: const Icon(
+                    Icons.format_list_bulleted,
+                    size: 25,
+                  ),
+                  color: !selected ? Colors.black : Color(0xFF386BED),
+                  onPressed: () => onSelected(true),
+                ),
+
               ],
             ),
-            myPost
+            const SizedBox(
+              height: 20,
+            ),
+            myCard,
           ],
         ),
       ),
     );
   }
+
 }
+
+}
+
