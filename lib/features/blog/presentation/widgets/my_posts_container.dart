@@ -66,6 +66,7 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
             },
             imageUrl: widget.articles[index].image,
             onDelete: () {
+              
               widget.onDelete(widget.articles[index].id);
             },
           );
@@ -82,6 +83,45 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
 
   @override
   Widget build(BuildContext context) {
+    showDeleteDialog(String title) async {
+      return await showDialog<String>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Row(
+              children: [
+                Icon(Icons.delete_forever_outlined,color: Colors.redAccent),
+                Text('Article Delete'),
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text("You're deleting article $title"),
+                  const Text(
+                      'Are you sure do you want to delete this article?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.pop(context, 'no');
+                },
+              ),
+              TextButton(
+                child: const Text('Yes'),
+                onPressed: () {
+                  Navigator.pop(context, 'yes');
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
     Widget myCard = widget.articles.isEmpty
         ? Column(children: [
             Center(child: Text("You've No Post")),
@@ -89,6 +129,7 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
         : selected
             ? buildListView()
             : buildGridView();
+
 
     return Expanded(
       child: Container(
@@ -146,6 +187,7 @@ IconButton(
                   color: !selected ? Colors.black : Color(0xFF386BED),
                   onPressed: () => onSelected(true),
                 ),
+
               ],
             ),
             const SizedBox(
@@ -157,4 +199,8 @@ IconButton(
       ),
     );
   }
+
 }
+
+}
+

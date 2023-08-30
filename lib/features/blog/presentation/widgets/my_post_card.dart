@@ -9,7 +9,7 @@ class MyPostCard extends StatelessWidget {
   final String imageUrl;
   final DateTime date;
   final Null Function() onClick;
-  final Null Function() onDelete;
+  final Future<void> Function() onDelete;
   const MyPostCard({
     required this.title,
     required this.subtitle,
