@@ -30,13 +30,12 @@ class HomePage extends StatelessWidget {
         drawer: BlocConsumer<ArticleBloc, ArticleState>(
           listener: (context, state) {},
           builder: (context, state) {
-            if(state is ArticlesAndTagLoaded){
-            return Menu(user : state.user);
-           
-          }else{
-            return const CircularProgressIndicator();
-          }
-           },
+            if (state is ArticlesAndTagLoaded) {
+              return Menu(user: state.user);
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
         ),
         appBar: AppBar(
           leading: Builder(
@@ -47,27 +46,43 @@ class HomePage extends StatelessWidget {
               ),
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
+
           ),
+          centerTitle: true,
           title: const Text(
             'Welcome Back!',
             style: TextStyle(
-              fontSize: 27,
+              fontSize: 23,
               fontWeight: FontWeight.w600,
             ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: GestureDetector(
-                onTap: () =>
-                    Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
-                child: const CircleAvatar(
-                  radius: 26,
-                  backgroundImage: AssetImage(
-                    'assets/images/avator.jpg',
+            BlocConsumer<ArticleBloc, ArticleState>(
+              listener: (context, state) {
+              },
+              builder: (context, state) {
+                var image_url = const CircleAvatar(
+                      radius: 20,
+                      backgroundImage: AssetImage(
+                        'assets/images/avator.jpg',
+                      ),);
+                if(state is ArticlesAndTagLoaded){
+                  if(state.user.image != null){
+                    image_url = CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(state.user.image!),
+                    );
+                  }
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: GestureDetector(
+                    onTap: () =>
+                        Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
+                    child: image_url,
                   ),
-                ),
-              ),
+                );
+              },
             )
           ],
         ),
@@ -79,10 +94,8 @@ class HomePage extends StatelessWidget {
         body: BlocConsumer<ArticleBloc, ArticleState>(
           listener: (context, state) {
             if (state is ArticleAndTagError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
+              const Center(
+                child: Text("Failed to load articles"),
               );
             } else if (state is ArticleAndTagLoading) {
               const LoadingScreen();
@@ -95,49 +108,48 @@ class HomePage extends StatelessWidget {
             } else if (state is ArticlesLoadeds) {
               articles = state.articles;
             }
-            
+
             var articleCard = SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: articles.length,
-                                  itemBuilder: (context, index) {
-                                    String title = articles[index].title;
-                                    if(title.length > 90){
-                                      title  = "${title.substring(0,90)}...";
-                                    }
-                                    String date = InputConverter.toDateFormat(
-                                        articles[index].createdAt);
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, BlogAppRoutes.ARTICLE_DETAIL,
-                                            arguments: articles[index]);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          ArticleCard(
-                                            author:
-                                                articles[index].user?.fullName ??
-                                                    'Joe Doe',
-                                            date: date,
-                                            tag: articles[index].tags.isNotEmpty
-                                                ? articles[index].tags[0]
-                                                : '',
-                                            title: title,
-                                            imageUrl: articles[index].image,
-                                          ),
-                                          const SizedBox(height: 20),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
+              child: Column(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: articles.length,
+                    itemBuilder: (context, index) {
+                      String title = articles[index].title;
+                      if (title.length > 90) {
+                        title = "${title.substring(0, 90)}...";
+                      }
+                      String date = InputConverter.toDateFormat(
+                          articles[index].createdAt);
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, BlogAppRoutes.ARTICLE_DETAIL,
+                              arguments: articles[index]);
+                        },
+                        child: Column(
+                          children: [
+                            ArticleCard(
+                              author:
+                                  articles[index].user?.fullName ?? 'Joe Doe',
+                              date: date,
+                              tag: articles[index].tags.isNotEmpty
+                                  ? articles[index].tags[0]
+                                  : '',
+                              title: title,
+                              imageUrl: articles[index].image,
                             ),
-                          );
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
             return Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
@@ -161,16 +173,17 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: 50,
                         child: ListView.separated(
-                          separatorBuilder: (_,__) => SizedBox(width: 10),
-                           scrollDirection: Axis.horizontal,
-                           itemCount: state.tags.length, 
-                           itemBuilder: (_, ind) {
-                          return FilterTagChip(
-                            controller: articleController,
-                            name: state.tags[ind],
-                            selected: state.selectedTags.contains(state.tags[ind]),
-                          );
-                        }),
+                            separatorBuilder: (_, __) => SizedBox(width: 10),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.tags.length,
+                            itemBuilder: (_, ind) {
+                              return FilterTagChip(
+                                controller: articleController,
+                                name: state.tags[ind],
+                                selected: state.selectedTags
+                                    .contains(state.tags[ind]),
+                              );
+                            }),
                       ),
                     const SizedBox(
                       height: 20,
@@ -190,7 +203,7 @@ class HomePage extends StatelessWidget {
                         (state is ArticlesLoadeds && state.articles.isNotEmpty))
                       Expanded(
                         child: RefreshIndicator(
-                            onRefresh: ()=>dispatchCreate(context),
+                          onRefresh: () => dispatchCreate(context),
                           child: articleCard,
                         ),
                       ),

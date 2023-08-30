@@ -16,16 +16,24 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var image_url = const CircleAvatar(
+                      backgroundImage: AssetImage(
+                        'assets/images/avator.jpg',
+                      ),);
+                  if(user.image != null){
+                    image_url = CircleAvatar(
+                      backgroundImage: NetworkImage(user.image!),
+                    );
+                  
+                }
     return Drawer(
       child: ListView(
         children: [
            UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFF659AFF),
             ),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/avator.jpg'),
-            ),
+            currentAccountPicture:image_url,
             accountName: Text(user.fullName??'Yidnekachew'),
             accountEmail: Text(user.email ),
           ),
