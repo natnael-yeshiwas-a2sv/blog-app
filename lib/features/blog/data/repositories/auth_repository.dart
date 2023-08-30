@@ -31,6 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
         fullName: r.data?.fullName,
         expertise: r.data?.expertise,
         id: r.data?.id ?? '',
+        image: r.data?.image,
       );
       return Future.value(user);
     });
