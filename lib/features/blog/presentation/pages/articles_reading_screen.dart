@@ -84,6 +84,9 @@ class _ArticleReadingState extends State<ArticleReading> {
       ),
       floatingActionButton: ElevatedButton(
           onPressed: () => _increment(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
