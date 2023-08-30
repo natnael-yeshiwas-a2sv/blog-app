@@ -27,7 +27,7 @@ class MyPostCard extends StatelessWidget {
         width: 295,
         height: 141,
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

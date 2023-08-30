@@ -26,19 +26,19 @@ class ArticleBody extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.00, -1.00),
-                end: Alignment(0, 1),
-                colors: [Color(0x00F9FAFF), Color(0xFFFAFBFF)],
-              ),
-            ),
+            // decoration: const BoxDecoration(
+            //   gradient: LinearGradient(
+            //     begin: Alignment(0.00, -1.00),
+            //     end: Alignment(0, 1),
+            //     colors: [Color(0x00F9FAFF), Color(0xFFFAFBFF)],
+            //   ),
+            // ),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
                 article_body,
-                style: const TextStyle(
-                  color: Color(0xFF2D4379),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 16,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w400,
