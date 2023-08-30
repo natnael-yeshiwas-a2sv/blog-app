@@ -68,6 +68,7 @@ class AuthRepositoryImpl implements AuthRepository {
         }));
   }
 
+  @override
   Future<Either<Failure, Tuple2<User, List<Article>>>> getProfile() async {
     final getProfileResponse = await authRemoteDataSource.getProfile();
     return getProfileResponse.fold((l) => Left(l), (r) async {
@@ -94,7 +95,7 @@ class AuthRepositoryImpl implements AuthRepository {
           estimatedReadTime: e.estimatedReadTime ?? '',
           image: e.image ?? '',
           isArticleBookmarked: isArticleBookmarked,
-          
+          createdAt: DateTime.parse(e.createdAt ?? ''),
         );
       }).toList();
       var articlesD = await Future.wait(articlesDomain);

@@ -36,4 +36,8 @@ class ProfileUploaded extends ProfileState {
 class ProfileUploadFailed extends ProfileState {
   ProfileUploadFailed({required super.user, required super.articles, super.file});
 }
+class ArticleDeleted extends ProfileState {
+  ArticleDeleted({required super.user, required super.articles, super.file});
+}
+
 

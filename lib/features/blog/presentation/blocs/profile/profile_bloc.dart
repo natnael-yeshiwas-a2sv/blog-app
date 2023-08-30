@@ -44,6 +44,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final req = await articleRepository.deleteArticle(event.id);
       req.fold((l) => ProfileLoaded(user: state.user, articles: [...articles]),
           (r) => ProfileLoaded(articles: filteredArticle, user: state.user));
+      emit(ArticleDeleted(articles: filteredArticle, user: state.user,file: state.file));
     });
     on<UploadProfilePic>(((event, emit) async {
       emit(ProfileUploading(user: state.user, articles: state.articles, file: event.image));

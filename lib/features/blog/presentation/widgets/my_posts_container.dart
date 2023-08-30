@@ -8,35 +8,82 @@ import 'my_post_card.dart';
 
 class MyPostsContainer extends StatelessWidget {
   List<Article> articles;
-  
-   final void Function(String id) onDelete;
+
+  final void Function(String id) onDelete;
   MyPostsContainer({super.key, required this.articles, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
-    Widget myPost = Container();
-    if(articles.isEmpty){
-      myPost = Column(children:[Center(child: Text("You've No Post"),)]);
-    } else {
-      myPost =Expanded(
-              child: ListView.builder(
-                itemCount: articles.length,
-                itemBuilder: (context, index) {
-                  return MyPostCard(
-                    title: articles[index].title,
-                    subtitle: articles[index].subTitle,
-                    onClick: (){
-                      Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_EDIT,arguments: articles[index]);
-                    },
-                    imageUrl: articles[index].image,
-                    onDelete: (){
-                      onDelete(articles[index].id);
-                    },
-                  );
+    showDeleteDialog(String title) async {
+      return await showDialog<String>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Row(
+              children: [
+                Icon(Icons.delete_forever_outlined,color: Colors.redAccent),
+                Text('Article Delete'),
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text("You're deleting article $title"),
+                  const Text(
+                      'Are you sure do you want to delete this article?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.pop(context, 'no');
                 },
               ),
-            );
+              TextButton(
+                child: const Text('Yes'),
+                onPressed: () {
+                  Navigator.pop(context, 'yes');
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
+    Widget myPost = Container();
+    if (articles.isEmpty) {
+      myPost = Column(children: [
+        Center(
+          child: Text("You've No Post"),
+        )
+      ]);
+    } else {
+      myPost = Expanded(
+        child: ListView.builder(
+          itemCount: articles.length,
+          itemBuilder: (context, index) {
+            return MyPostCard(
+              title: articles[index].title,
+              subtitle: articles[index].subTitle,
+              onClick: () {
+                Navigator.pushNamed(context, BlogAppRoutes.ARTICLE_EDIT,
+                    arguments: articles[index]);
+              },
+              imageUrl: articles[index].image,
+              onDelete: () async {
+                var ans = await showDeleteDialog(articles[index].title);
+                if(ans == 'yes'){
+                  onDelete(articles[index].id);
+                }
+              },
+            );
+          },
+        ),
+      );
     }
     return Expanded(
       child: Container(
@@ -62,12 +109,12 @@ class MyPostsContainer extends StatelessWidget {
         ),
         child: Column(
           children: [
-             Row(
+            Row(
               children: [
                 Text(
                   'My Posts',
                   style: TextStyle(
-                    color:const Color(0xFF0D253C),
+                    color: const Color(0xFF0D253C),
                     fontSize: 20,
                     fontFamily: GoogleFonts.urbanist().fontFamily,
                     fontWeight: FontWeight.w500,
@@ -88,9 +135,8 @@ class MyPostsContainer extends StatelessWidget {
                   Icons.format_list_bulleted,
                   color: Color.fromARGB(255, 106, 125, 173),
                   size: 25,
-                
                 )
-              ],              
+              ],
             ),
             myPost
           ],
@@ -99,4 +145,3 @@ class MyPostsContainer extends StatelessWidget {
     );
   }
 }
-

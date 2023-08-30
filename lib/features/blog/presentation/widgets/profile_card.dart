@@ -8,17 +8,22 @@ import 'package:google_fonts/google_fonts.dart';
 class ProfileCard extends StatelessWidget {
   final User user;
   final File? file;
-  final Null Function(File?) onSelected;
+  final Future<void> Function(File?) onSelected;
   final bool uploading;
-  const ProfileCard({super.key, required this.user, required this.onSelected, this.file, required  this.uploading});
+  const ProfileCard(
+      {super.key,
+      required this.user,
+      required this.onSelected,
+      this.file,
+      required this.uploading});
   @override
   Widget build(BuildContext context) {
     var image_url = NetworkImage(user.image ?? '');
-    if(file != null){
+    if (file != null) {
       FileImage image_url = FileImage(file!);
     }
     return Container(
-        width: 295,
+        width: 340,
         height: 284,
         decoration: ShapeDecoration(
           color: Colors.white,
@@ -66,7 +71,9 @@ class ProfileCard extends StatelessWidget {
                           ),
                         )),
                     Positioned(
-                        child: uploading?Center(child: CircularProgressIndicator()) :ProfileImageSelect(onSelected: onSelected),
+                        child: uploading
+                            ? Center(child: CircularProgressIndicator())
+                            : ProfileImageSelect(onSelected: onSelected),
                         right: 0,
                         bottom: 0)
                   ],
@@ -77,6 +84,7 @@ class ProfileCard extends StatelessWidget {
                   children: [
                     Text(
                       "@" + user.email.substring(0, 5),
+                      overflow: TextOverflow.clip,
                       style: TextStyle(
                         color: Color(0xFF2D4379),
                         fontSize: 14,
@@ -86,17 +94,22 @@ class ProfileCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      user.fullName ?? "Jovi Daniel",
+                      user.fullName ?? 'Natinael Tafese',
+                      overflow: TextOverflow.clip,
+                      maxLines: 2,
                       style: TextStyle(
-                        color: Color(0xFF0D253C),
-                        fontSize: 18,
+                        color: Color(0xFF376AED),
+                        fontSize: 16,
                         fontStyle: FontStyle.italic,
                         fontFamily: GoogleFonts.urbanist().fontFamily,
                         fontWeight: FontWeight.w100,
+                        height: 1.25,
                       ),
                     ),
                     Text(
                       user.expertise ?? 'UX Designer',
+                      overflow: TextOverflow.clip,
+                      maxLines: 2,
                       style: TextStyle(
                         color: Color(0xFF376AED),
                         fontSize: 16,
