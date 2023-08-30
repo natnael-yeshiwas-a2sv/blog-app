@@ -21,6 +21,11 @@ class HomePage extends StatelessWidget {
   final articleController = TextEditingController();
   HomePage({super.key, this.articles, this.tags});
 
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -152,7 +157,9 @@ class HomePage extends StatelessWidget {
             return Container(
               padding: const EdgeInsets.all(20.0),
               decoration: ShapeDecoration(
-                color: const Color(0xFFF8FAFF),
+                color: isDarkMode(context)
+                    ? Theme.of(context).appBarTheme.backgroundColor
+                    : Color(0xFFF8FAFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

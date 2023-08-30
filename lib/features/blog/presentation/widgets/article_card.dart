@@ -15,6 +15,10 @@ class ArticleCard extends StatelessWidget {
     super.key,
     required this.imageUrl,
   });
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +27,17 @@ class ArticleCard extends StatelessWidget {
       height: 240,
       margin: EdgeInsets.symmetric(horizontal: 10),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: isDarkMode(context) == false
+            ? Colors.white
+            : const Color.fromARGB(255, 52, 57, 70),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        shadows: const [
+        shadows: [
           BoxShadow(
             color: Color.fromARGB(179, 230, 229, 229),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+            blurRadius: isDarkMode(context) ? 0 : 8,
+            offset: isDarkMode(context) ? Offset(0, 0) : Offset(0, 4),
             spreadRadius: 0,
           )
         ],
@@ -93,7 +99,9 @@ class ArticleCard extends StatelessWidget {
                       child: Text(
                         title,
                         style: TextStyle(
-                          color: Color(0xFF4D4A49),
+                          color: isDarkMode(context)
+                              ? Colors.white
+                              : Color(0xFF4D4A49),
                           fontSize: 15,
                           fontFamily: GoogleFonts.urbanist().fontFamily,
                           fontWeight: FontWeight.w600,
@@ -125,8 +133,10 @@ class ArticleCard extends StatelessWidget {
                     const SizedBox(height: 15),
                     Text(
                       "by $author",
-                      style: const TextStyle(
-                        color: Color(0xFF414141),
+                      style: TextStyle(
+                        color: isDarkMode(context)
+                            ? Colors.white
+                            : Color(0xFF4D4A49),
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 0.28,

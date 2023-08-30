@@ -54,9 +54,7 @@ class _OnboardingState extends State<Onboarding> {
                 height: 180,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                     image: AssetImage("assets/images/sunset.png"),
-
-                    
+                    image: AssetImage("assets/images/sunset.png"),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(24),
@@ -79,8 +77,7 @@ class _OnboardingState extends State<Onboarding> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/vr.png"),
-
-                       fit: BoxFit.cover,
+                    fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
@@ -107,8 +104,7 @@ class _OnboardingState extends State<Onboarding> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/diver.png"),
-
-                      fit: BoxFit.cover,
+                    fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
@@ -132,7 +128,7 @@ class _OnboardingState extends State<Onboarding> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/horizon.png"),
-                     fit: BoxFit.cover,
+                    fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
@@ -150,6 +146,11 @@ class _OnboardingState extends State<Onboarding> {
         ],
       ),
     );
+  }
+
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
   }
 
   @override
@@ -170,7 +171,6 @@ class _OnboardingState extends State<Onboarding> {
                 buildOnboardingBody(),
                 buildOnboardingBody(),
                 buildOnboardingBody(),
-                
               ],
             ),
           ),

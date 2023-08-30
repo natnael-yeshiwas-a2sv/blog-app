@@ -15,7 +15,7 @@ class CustomizedButton extends StatelessWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: onpressed,
-      backgroundColor: const Color(0xFF659AFF),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       child: Icon(
         icon.icon,
         size: 30,
