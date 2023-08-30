@@ -139,8 +139,8 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
       child: Container(
         padding: EdgeInsets.all(20),
         width: 375,
-        decoration: const ShapeDecoration(
-          color: Colors.white,
+        decoration: ShapeDecoration(
+          color: Theme.of(context).colorScheme.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
@@ -163,7 +163,7 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
                 Text(
                   'My Posts',
                   style: TextStyle(
-                    color: const Color(0xFF0D253C),
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 20,
                     fontFamily: GoogleFonts.urbanist().fontFamily,
                     fontWeight: FontWeight.w500,
@@ -177,7 +177,7 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
                     Icons.grid_view,
                     size: 25,
                   ),
-                  color: !selected ? Color(0xFF386BED) : Colors.black,
+                  color: !selected ? Color(0xFF386BED) : Theme.of(context).colorScheme.onBackground,
                   onPressed: () => onSelected(false),
                 ),
                 const SizedBox(
@@ -188,7 +188,7 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
                     Icons.format_list_bulleted,
                     size: 25,
                   ),
-                  color: !selected ? Colors.black : Color(0xFF386BED),
+                  color: !selected ? Theme.of(context).colorScheme.onBackground : Color(0xFF386BED),
                   onPressed: () => onSelected(true),
                 ),
               ],

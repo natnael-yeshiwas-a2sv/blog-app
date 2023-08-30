@@ -9,8 +9,8 @@ class ArticleGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String title = article.title;
-    if(article.title.length > 50){
-      title = "${article.title.substring(0,50)}...";}
+    if(article.title.length > 15){
+      title = "${article.title.substring(0,15)}...";}
      return Container(
       width: 250,
       height: 300,
@@ -36,17 +36,17 @@ class ArticleGridView extends StatelessWidget {
           child: Image(
             width: 200,
             image: NetworkImage(article.image),
-            fit: BoxFit.scaleDown,
+            fit: BoxFit.cover,
           ),
         ),
       ),
-          const SizedBox(width: 20),
+          const SizedBox(height: 20),
           Text(
             "$title",
-            style: const TextStyle(
-              color: Color.fromARGB(255, 25, 49, 206),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
               fontSize: 16,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w300,
             ),
           ),
           

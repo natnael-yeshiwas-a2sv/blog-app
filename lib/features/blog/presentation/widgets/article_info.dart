@@ -18,7 +18,7 @@ class ArticleInfo extends StatelessWidget {
           title,
           softWrap: true,
           style: TextStyle(
-            color: const Color(0xFF376AED),
+            color: Theme.of(context).colorScheme.primary,
             fontSize: 14,
             fontStyle: FontStyle.italic,
             fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -31,7 +31,6 @@ class ArticleInfo extends StatelessWidget {
           child: Text(
             subtitle,
             style: TextStyle(
-              color: const Color(0xFF0D253C),
               fontSize: 14,
               fontFamily: GoogleFonts.urbanist().fontFamily,
               fontWeight: FontWeight.w500,
@@ -51,7 +50,7 @@ class ArticleInfo extends StatelessWidget {
             Text(
               '2.1k',
               style: TextStyle(
-                color:const Color(0xFF2D4379),
+                color:Theme.of(context).colorScheme.primary,
                 fontSize: 12,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
                 fontWeight: FontWeight.w500,
@@ -68,7 +67,7 @@ class ArticleInfo extends StatelessWidget {
             Text(
               InputConverter.calculatePostDate(date),
               style: TextStyle(
-                color:const Color(0xFF2D4379),
+                color:Theme.of(context).colorScheme.primary,
                 fontSize: 12,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
                 fontWeight: FontWeight.w500,
