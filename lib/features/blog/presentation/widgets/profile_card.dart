@@ -99,15 +99,18 @@ class ProfileCard extends StatelessWidget {
                         fontWeight: FontWeight.w100,
                       ),
                     ),
-                    Text(
-                      user.expertise ?? 'UX Designer',
-                      style: TextStyle(
-                        color: Color(0xFF376AED),
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
-                        fontFamily: GoogleFonts.urbanist().fontFamily,
-                        fontWeight: FontWeight.w100,
-                        height: 1.25,
+                    Container(
+                      width: 100,
+                      child: Text(
+                        user.expertise ?? 'UX Designer',
+                        style: TextStyle(
+                          color: Color(0xFF376AED),
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w100,
+                          height: 1.25,
+                        ),
                       ),
                     )
                   ],

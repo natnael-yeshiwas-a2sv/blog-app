@@ -27,9 +27,12 @@ final class ArticleAndTagLoading extends ArticleState {
 
 final class ArticlesAndTagLoaded extends ArticleState {
   final List<Article> articles;
+  final User user;
+
 
 
   const ArticlesAndTagLoaded({
+    required this.user,
     selectedTags,
     required this.articles,
     required List<String> tags,

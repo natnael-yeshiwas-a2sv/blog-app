@@ -8,41 +8,50 @@ class ArticleGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: 
-        Column(
-          children: [
-            Image(
-              image: NetworkImage(article.image?? ""),
-              width: 200,
-              height: 160,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:8.0 , left: 8),
-              child: Text(
-                article.title,
-                style: const TextStyle(
-                  color: Color(0xFF1A1A1A),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:8.0 , left: 8),
-              child: Text(
-                article.subTitle,
-                style: const TextStyle(
-                  color: Color(0xFF1A1A1A),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            
-          ],
+    String title = article.title;
+    if(article.title.length > 50){
+      title = "${article.title.substring(0,50)}...";}
+     return Container(
+      width: 250,
+      height: 300,
+      decoration: BoxDecoration(
+        // color: Colors.black12,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x07000000),
+            blurRadius: 8,
+            offset: Offset(-4, -4),
+            spreadRadius: 4,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            // padding: EdgeInsets.only(bottom:50),
+        child: Expanded(
+          child: Image(
+            width: 200,
+            image: NetworkImage(article.image),
+            fit: BoxFit.scaleDown,
+          ),
         ),
-    );
+      ),
+          const SizedBox(width: 20),
+          Text(
+            "$title",
+            style: const TextStyle(
+              color: Color.fromARGB(255, 25, 49, 206),
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          
+        ],
+      ),
+      );
   }
 }

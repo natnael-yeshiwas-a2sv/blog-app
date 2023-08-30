@@ -27,7 +27,17 @@ class HomePage extends StatelessWidget {
       create: (context) => sl<ArticleBloc>()
         ..add(const LoadArticlesAndTags(searchparams: "", tags: [])),
       child: Scaffold(
-        drawer: const Menu(),
+        drawer: BlocConsumer<ArticleBloc, ArticleState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if(state is ArticlesAndTagLoaded){
+            return Menu(user : state.user);
+           
+          }else{
+            return const CircularProgressIndicator();
+          }
+           },
+        ),
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
