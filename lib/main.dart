@@ -20,8 +20,14 @@ void main() async {
           fontFamily: GoogleFonts.poppins().fontFamily,
           colorScheme:
               ColorScheme.fromSeed(seedColor: const Color(0xFF376AED))),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF376AED), brightness: Brightness.dark)),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: route.controller,
+      themeMode: ThemeMode.system,
       initialRoute: BlogAppRoutes.SPLASH,
     ),
   ));

@@ -20,7 +20,7 @@ class MyPostsContainer extends StatefulWidget {
 }
 
 class _MyPostsContainerState extends State<MyPostsContainer> {
-  bool selected = false;
+  bool selected = true;
 
   Widget buildGridView() {
     return Expanded(
