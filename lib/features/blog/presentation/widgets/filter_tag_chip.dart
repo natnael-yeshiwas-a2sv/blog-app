@@ -12,12 +12,16 @@ class FilterTagChip extends StatelessWidget {
     required this.controller,
     required this.name,
     required this.selected,
-  }):super(key: key);
+  }) : super(key: key);
+
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
 
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-      
       selected: selected,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
       showCheckmark: false,
@@ -26,7 +30,7 @@ class FilterTagChip extends StatelessWidget {
         dispatchSearch(context);
       },
       labelStyle: TextStyle(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
       side: BorderSide(
         width: 2,
@@ -36,10 +40,13 @@ class FilterTagChip extends StatelessWidget {
         child: Text(
           name,
           style: TextStyle(
-            color: selected
-                ? Colors.white
-                : Theme.of(context).colorScheme.primary,
-          ),
+              color: selected
+                  ? Colors.white
+                  : !isDarkMode(context)
+                      ? Colors.black
+                      : Colors.white
+              // : Theme.of(context).colorScheme.primary,
+              ),
         ),
       ),
       shape: RoundedRectangleBorder(
@@ -49,11 +56,9 @@ class FilterTagChip extends StatelessWidget {
   }
 
   void dispatchSearch(BuildContext context) {
-      BlocProvider.of<ArticleBloc>(context).add(LoadAllArticles(
-        searchparams: controller.text,
-        selectedTag: name,
-        
-      ));
-    
+    BlocProvider.of<ArticleBloc>(context).add(LoadAllArticles(
+      searchparams: controller.text,
+      selectedTag: name,
+    ));
   }
 }

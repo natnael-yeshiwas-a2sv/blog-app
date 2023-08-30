@@ -10,15 +10,14 @@ class MyPostCard extends StatelessWidget {
   final DateTime date;
   final Null Function() onClick;
   final Future<void> Function() onDelete;
-  const MyPostCard({
-    required this.title,
-    required this.subtitle,
-    required this.imageUrl,
-    required this.date,
-    super.key,
-    required this.onClick,
-    required this.onDelete
-  });
+  const MyPostCard(
+      {required this.title,
+      required this.subtitle,
+      required this.imageUrl,
+      required this.date,
+      super.key,
+      required this.onClick,
+      required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +51,13 @@ class MyPostCard extends StatelessWidget {
           ArticleInfo(
             title: title,
             subtitle: subtitle,
-            date : date,
-
+            date: date,
           ),
-          IconButton(icon: const Icon(Icons.delete_forever_outlined, color: Colors.redAccent),onPressed: onDelete,)
+          IconButton(
+            icon: const Icon(Icons.delete_forever_outlined,
+                color: Colors.redAccent),
+            onPressed: onDelete,
+          )
         ]),
       ),
     );

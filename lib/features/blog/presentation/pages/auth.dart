@@ -18,6 +18,11 @@ class _AuthState extends State<Auth> {
   String? confirm, password, username, fullname;
   String? confirmErr = "", passwordErr = "", usernameErr = "", fullnameErr = "";
 
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
+
   void switchAuth() {
     setState(() {
       login = !login;
@@ -66,7 +71,7 @@ class _AuthState extends State<Auth> {
                             child: AnimatedOpacity(
                               duration: Duration(milliseconds: 300),
                               opacity: login ? 1 : .25,
-                              child: const Text(
+                              child: Text(
                                 "LOGIN",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -102,8 +107,8 @@ class _AuthState extends State<Auth> {
                       child: Container(
                         padding:
                             const EdgeInsets.only(top: 30, left: 50, right: 50),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(28),
                             topRight: Radius.circular(28),
@@ -119,9 +124,11 @@ class _AuthState extends State<Auth> {
                               children: [
                                 Text(
                                   login ? "Welcome back" : "Welcome",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 19,
-                                    color: Color.fromARGB(255, 13, 37, 60),
+                                    color: isDarkMode(context)
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -258,7 +265,8 @@ class _AuthState extends State<Auth> {
                                                 255, 217, 223, 235),
                                           ),
                                         ),
-                                        focusedBorder: const UnderlineInputBorder(
+                                        focusedBorder:
+                                            const UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.blue),
                                         ),
@@ -266,25 +274,21 @@ class _AuthState extends State<Auth> {
                                     ),
                                     Positioned(
                                       right: 0,
-                                      child: DecoratedBox(
-                                        decoration:
-                                            const BoxDecoration(color: Colors.white),
-                                        child: GestureDetector(
-                                          onLongPress: () {
-                                            setState(() {
-                                              hidePassword = false;
-                                            });
-                                          },
-                                          onLongPressEnd: (_){
-                                            setState(() {
-                                              hidePassword = true;
-                                            });
-                                          },
-                                          child: Text(
-                                            hidePassword ? "show" : "hide",
-                                            style: const TextStyle(
-                                              color: Colors.blue,
-                                            ),
+                                      child: GestureDetector(
+                                        onLongPress: () {
+                                          setState(() {
+                                            hidePassword = false;
+                                          });
+                                        },
+                                        onLongPressEnd: (_) {
+                                          setState(() {
+                                            hidePassword = true;
+                                          });
+                                        },
+                                        child: Text(
+                                          hidePassword ? "show" : "hide",
+                                          style: const TextStyle(
+                                            color: Colors.blue,
                                           ),
                                         ),
                                       ),
@@ -381,7 +385,9 @@ class _AuthState extends State<Auth> {
                                     }
 
                                     if (state is AuthFailed) {
-                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(state.error)));
                                     }
                                   },
                                   child: Row(
@@ -403,7 +409,10 @@ class _AuthState extends State<Auth> {
                                           if (login == false) {
                                             switchAuth();
                                           } else {
-                                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("sorry,this feature is not available yet!")));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                    content: Text(
+                                                        "sorry,this feature is not available yet!")));
                                           }
                                         },
                                         child: Expanded(

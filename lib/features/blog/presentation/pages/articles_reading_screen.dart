@@ -51,6 +51,11 @@ class _ArticleReadingState extends State<ArticleReading> {
     }
   }
 
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
+
   @override
   Widget build(BuildContext context) {
     String articleText = widget.article.content;
@@ -62,22 +67,23 @@ class _ArticleReadingState extends State<ArticleReading> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 25),
           child: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(
+              icon: Icon(
                 Icons.chevron_left,
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onBackground,
               )),
         ),
-        actions: const [
+        actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             child: Icon(
               Icons.more_horiz,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onBackground,
+
             ),
           )
         ],
