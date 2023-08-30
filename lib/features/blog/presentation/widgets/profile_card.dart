@@ -35,7 +35,7 @@ class ProfileCard extends StatelessWidget {
         width: 340,
         height: 284,
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -94,7 +94,7 @@ class ProfileCard extends StatelessWidget {
                       "@" + user.email.substring(0, 5),
                       overflow: TextOverflow.clip,
                       style: TextStyle(
-                        color: Color(0xFF2D4379),
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 14,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w900,
@@ -106,7 +106,7 @@ class ProfileCard extends StatelessWidget {
                       overflow: TextOverflow.clip,
                       maxLines: 2,
                       style: TextStyle(
-                        color:const  Color(0xFF0D253C),
+                        color:Theme.of(context).colorScheme.primary,
                         fontSize: 18,
 
                         fontStyle: FontStyle.italic,
@@ -120,7 +120,7 @@ class ProfileCard extends StatelessWidget {
                       child: Text(
                         user.expertise ?? 'UX Designer',
                         style: TextStyle(
-                          color: Color(0xFF376AED),
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
                           fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -138,7 +138,7 @@ class ProfileCard extends StatelessWidget {
             Text(
               'About me',
               style: TextStyle(
-                color: Color(0xFF0D253C),
+                color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 16,
                 fontStyle: FontStyle.italic,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -150,7 +150,7 @@ class ProfileCard extends StatelessWidget {
               user.bio ??
                   'Madison Blackstone is a director of user experience design, with experience managing global teams.',
               style: TextStyle(
-                color: Color(0xFF2D4379),
+                color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 14,
                 fontStyle: FontStyle.italic,
                 fontFamily: GoogleFonts.urbanist().fontFamily,

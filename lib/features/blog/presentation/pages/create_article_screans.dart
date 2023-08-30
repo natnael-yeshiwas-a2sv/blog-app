@@ -21,22 +21,19 @@ class CreateTaskScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<CreateTaskCubit>()..fetchTags(),
       child: BlocBuilder<CreateTaskCubit, CreateTaskState>(
-      
-        builder:(context, state) => Scaffold(
-          backgroundColor: Colors.white,
+        builder: (context, state) => Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
           appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              foregroundColor: Colors.black,
+              foregroundColor: Theme.of(context).colorScheme.onBackground,
               centerTitle: true,
               leading: Container(
                 padding: EdgeInsets.all(8.0),
                 child: IconButton(
                     style: ButtonStyle(
-                        padding:
-                            MaterialStateProperty.all(const EdgeInsets.all(6.0)),
-                        minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-                        backgroundColor:
-                            MaterialStateProperty.all(const Color(0xFFE9EBF0)),
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.all(6.0)),
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(0, 0)),
                         shape: MaterialStateProperty.all(
                             const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -50,20 +47,20 @@ class CreateTaskScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: BlocConsumer<CreateTaskCubit, CreateTaskState>(
-                listener: (context, state){
-                  if(state.status == Status.submitFailed){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('failed to submit article')));
-                  } else if(state.status == Status.submitSuccessFul){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('article submitted successfully')));
-                    Navigator.of(context).pop();
-                  }
-                },
-                  builder: (context, state) {
+                  listener: (context, state) {
+                if (state.status == Status.submitFailed) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('failed to submit article')));
+                } else if (state.status == Status.submitSuccessFul) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('article submitted successfully')));
+                  Navigator.of(context).pop();
+                }
+              }, builder: (context, state) {
                 inputDecoration(String val, [String? error]) => InputDecoration(
                       errorText: error,
                       hintText: val,
                       hintStyle: const TextStyle(
-                        color: Color(0xFF969DA4),
                         fontSize: 19,
                         fontWeight: FontWeight.w300,
                       ),
@@ -73,10 +70,9 @@ class CreateTaskScreen extends StatelessWidget {
                         ? null
                         : state.content.displayError!.message,
                     filled: true,
-                    fillColor: const Color(0xFFF8FAFF),
+                    fillColor: Theme.of(context).colorScheme.surface,
                     hintText: 'Add Content',
                     hintStyle: const TextStyle(
-                      color: Color(0xFF969DA4),
                       fontSize: 19,
                       fontWeight: FontWeight.w300,
                     ),
@@ -112,7 +108,9 @@ class CreateTaskScreen extends StatelessWidget {
                           key: const Key('add_subtitle'),
                           controller: subtitleController,
                           onChanged: (val) {
-                            context.read<CreateTaskCubit>().subtitleChanged(val);
+                            context
+                                .read<CreateTaskCubit>()
+                                .subtitleChanged(val);
                           },
                           decoration: inputDecoration(
                               "Add Subtitle",
@@ -162,7 +160,9 @@ class CreateTaskScreen extends StatelessWidget {
                         ),
                         SelectImage(
                           onSelected: (File? file) {
-                            context.read<CreateTaskCubit>().onImageChanged(file);
+                            context
+                                .read<CreateTaskCubit>()
+                                .onImageChanged(file);
                           },
                         ),
                         const SizedBox(
@@ -172,7 +172,9 @@ class CreateTaskScreen extends StatelessWidget {
                           flex: 2,
                           child: TextFormField(
                             onChanged: (val) {
-                              context.read<CreateTaskCubit>().contentChanged(val);
+                              context
+                                  .read<CreateTaskCubit>()
+                                  .contentChanged(val);
                             },
                             textAlignVertical: TextAlignVertical.top,
                             expands: true,
@@ -192,14 +194,19 @@ class CreateTaskScreen extends StatelessWidget {
           floatingActionButton: Visibility(
             visible: !keyboardIsOpen,
             child: FilledButton(
-                onPressed: state.status == Status.submitting ? null : () {
-                  context.read<CreateTaskCubit>().publish();
-                },
-              
-                child: state.status == Status.submitting ? CircularProgressIndicator(): Text('publish',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
+                onPressed: state.status == Status.submitting
+                    ? null
+                    : () {
+                        context.read<CreateTaskCubit>().publish();
+                      },
+                child: state.status == Status.submitting
+                    ? CircularProgressIndicator()
+                    : Text('publish',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15))),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );
