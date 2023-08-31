@@ -92,11 +92,13 @@ class _ArticleReadingState extends State<ArticleReading> {
           onPressed: () => _increment(),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Colors.white
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.thumb_up_off_alt_outlined),
+              SizedBox(width: 10),
               Text('$_likes')
             ],
           )),
