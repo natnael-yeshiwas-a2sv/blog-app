@@ -28,7 +28,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
       String? estimatedReadTime,
       File? image}) async {
     try {
-      var urlString = base_url + "article";
+      var urlString = "${base_url}article";
       var url = Uri.parse(urlString);
       print(url.toString());
       var response = http.MultipartRequest('POST', url);
@@ -74,17 +74,17 @@ class ArticleApiResourceImpl implements ArticleApiResource {
         ));
       }
       print(res.statusCode);
-      return Left(ServerFailure(message: 'message'));
+      return const Left(ServerFailure(message: 'message'));
     } catch (e) {
       print(e);
-      return Left(NetworkFailure(message: 'message'));
+      return const Left(NetworkFailure(message: 'message'));
     }
   }
 
   @override
   Future<Either<Failure, void>> deleteArticle(String id) async {
     try {
-      var urlString = base_url + "article" + "/$id";
+      var urlString = "${base_url}article/$id";
       var url = Uri.parse(urlString);
       print(url.toString());
       var response =
@@ -92,7 +92,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
       print(response.body);
       if (response.statusCode == 200) {
         print("deleted successfully");
-        return Right(unit);
+        return const Right(unit);
       } else {
         return const Left(ServerFailure(message: 'Server Failure'));
       }
@@ -114,8 +114,8 @@ class ArticleApiResourceImpl implements ArticleApiResource {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 
-        var get_articles_dto = GetArticlesResponseDto.fromJson(data);
-        var articleslist = get_articles_dto!.data;
+        var getArticlesDto = GetArticlesResponseDto.fromJson(data);
+        var articleslist = getArticlesDto.data;
         var articles = articleslist!.map((e) => e.toDomain()).toList();
         print(articles);
         return Right(articles);
@@ -130,7 +130,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
   @override
   Future<Either<Failure, List<String>>> getTags() async {
     try {
-      var urlString = base_url + "tags";
+      var urlString = "${base_url}tags";
       var url = Uri.parse(urlString);
       print(url.toString());
       var response = await client.get(url);
@@ -157,7 +157,7 @@ class ArticleApiResourceImpl implements ArticleApiResource {
       String? estimatedReadTime,
       File? image}) async {
     try {
-      var urlString = base_url + "article" + "/$id";
+      var urlString = "${base_url}article/$id";
       var url = Uri.parse(urlString);
       print(url.toString());
       var response = http.MultipartRequest('PUT', url);
@@ -203,13 +203,14 @@ class ArticleApiResourceImpl implements ArticleApiResource {
         ));
       }
       print(res.statusCode);
-      return Left(ServerFailure(message: 'message'));
+      return const Left(ServerFailure(message: 'message'));
     } catch (e) {
       print(e);
-      return Left(NetworkFailure(message: 'message'));
+      return const Left(NetworkFailure(message: 'message'));
     }
   }
 
+  @override
   setToken(String? fold) {
     token = fold ?? '';
   }

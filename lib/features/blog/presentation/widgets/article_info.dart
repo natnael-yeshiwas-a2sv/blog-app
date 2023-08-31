@@ -74,9 +74,6 @@ class ArticleInfo extends StatelessWidget {
                 height: 1.33,
               ),
             ),
-            // const SizedBox(
-            //   width: 20,
-            // ),
             
           ],
         )

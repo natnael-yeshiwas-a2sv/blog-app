@@ -24,7 +24,6 @@ import 'package:blog_application/features/blog/domain/usecases/login_usecase.dar
 import 'package:blog_application/features/blog/domain/usecases/logout_usecase.dart';
 import 'package:blog_application/features/blog/domain/usecases/register_usecase.dart';
 import 'package:blog_application/features/blog/presentation/blocs/auth/auth_bloc.dart';
-import 'package:blog_application/features/blog/domain/usecases/get_tags.dart';
 import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 
 import 'package:get_it/get_it.dart';

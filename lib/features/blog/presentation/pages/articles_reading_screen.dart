@@ -1,7 +1,5 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
-import 'package:blog_application/features/blog/data/models/dto/get_profile_dto.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
-import 'package:blog_application/features/blog/domain/entities/user.dart';
 import 'package:blog_application/features/blog/presentation/widgets/author_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:blog_application/features/blog/presentation/widgets/article_reading_title.dart';
@@ -79,7 +77,7 @@ class _ArticleReadingState extends State<ArticleReading> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             child: Icon(
               Icons.more_horiz,
               color: Theme.of(context).colorScheme.onBackground,
@@ -98,7 +96,7 @@ class _ArticleReadingState extends State<ArticleReading> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.thumb_up_off_alt_outlined),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text('$_likes')
             ],
           )),

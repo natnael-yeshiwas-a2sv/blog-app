@@ -7,7 +7,7 @@ class FilterTagChip extends StatelessWidget {
   final TextEditingController controller;
   final String name;
   final bool selected;
-  FilterTagChip({
+  const FilterTagChip({
     Key? key,
     required this.controller,
     required this.name,

@@ -21,7 +21,7 @@ class ProfileTabItem extends StatelessWidget {
         width: 77,
         height: 68,
         decoration: ShapeDecoration(
-          color: selected ? Color(0xFF2151CD) : Color(0xFF386BED),
+          color: selected ? const Color(0xFF2151CD) : const Color(0xFF386BED),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -31,18 +31,18 @@ class ProfileTabItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                this.top,
+                top,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
                   height: 1.10,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
-                this.bottom,
+                bottom,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.8700000047683716),

@@ -5,7 +5,6 @@ import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/features/blog/data/datasources/auth_remote_source.dart';
 import 'package:blog_application/features/blog/data/models/dto/get_profile_dto.dart';
 import 'package:blog_application/features/blog/data/models/dto/login_response_dto.dart';
-import 'package:blog_application/features/blog/domain/entities/user.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -32,15 +31,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         print(data);
-        var login_response_dto = LoginResponseDto.fromJson(data);
+        var loginResponseDto = LoginResponseDto.fromJson(data);
 
-        return Right(login_response_dto);
+        return Right(loginResponseDto);
       } else {
         var data = await jsonDecode(response.body);
         return Left(ServerFailure(message: data["error"]));
       }
     } catch (e) {
-      return Left(NetworkFailure(message: "Connection Error :)"));
+      return const Left(NetworkFailure(message: "Connection Error :)"));
     }
   }
 
@@ -49,7 +48,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       [String? bio, String? fullName, String? expertise]) async {
 
     try {
-      var urlString = base_url + "user";
+      var urlString = "${base_url}user";
       var url = Uri.parse(urlString);
       var response = await client.post(url, body: {
         'email': email,
@@ -60,13 +59,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       });
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        return Right(unit);
+        return const Right(unit);
       } else {
         var data = await jsonDecode(response.body);
         return Left(ServerFailure(message: data["error"]));
       }
     } catch (e) {
-      return Left(NetworkFailure(message: "Connection Error :)"));
+      return const Left(NetworkFailure(message: "Connection Error :)"));
 
     }
   }
@@ -75,7 +74,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<Either<Failure, GetProfileDto>> getProfile() async {
 
     try {
-      final urlString = base_url + "user";
+      final urlString = "${base_url}user";
       final url = Uri.parse(urlString);
 
 
@@ -86,8 +85,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
 
         var data = jsonDecode(response.body);
-        var get_profile_dto = GetProfileDto.fromJson(data);
-        return Right(get_profile_dto);
+        var getProfileDto = GetProfileDto.fromJson(data);
+        return Right(getProfileDto);
       } else {
         var data = await jsonDecode(response.body);
         return Left(ServerFailure(message: data["error"]));
@@ -98,6 +97,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
+  @override
   void setToken(String? fold) {
     token = fold ?? '';
   }
@@ -105,33 +105,31 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<Either<Failure, String>> updateProfile(File image) async {
     try{
-      var urlString = base_url + "user/update/image";
+      var urlString = "${base_url}user/update/image";
       var url = Uri.parse(urlString);
       var response = http.MultipartRequest('PUT', url);
       response.headers.addAll({
         "AUTHORIZATION": "Bearer $token",
         "Content-type": "multipart/form-data"
       });
-      if (image != null) {
-        response.files.add(await http.MultipartFile.fromPath(
-          'photo',
-          image.path,
-          contentType: MediaType('image', 'jpeg'),
-        ));
-        print(response.files.length);
-      }
-
+      response.files.add(await http.MultipartFile.fromPath(
+        'photo',
+        image.path,
+        contentType: MediaType('image', 'jpeg'),
+      ));
+      print(response.files.length);
+    
       var res = await response.send();
       if (res.statusCode == 200) {
         print("wow uploaded successfully");
-        return Right("Succesffully Uploaded");
+        return const Right("Succesffully Uploaded");
 
       }
       print(res.statusCode);
-      return Left(ServerFailure(message: 'message'));
+      return const Left(ServerFailure(message: 'message'));
     } catch (e) {
       print(e);
-      return Left(NetworkFailure(message: 'message'));
+      return const Left(NetworkFailure(message: 'message'));
     }
   }
 }

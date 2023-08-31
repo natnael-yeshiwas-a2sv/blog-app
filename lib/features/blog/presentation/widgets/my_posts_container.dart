@@ -1,8 +1,6 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/domain/entities/article.dart';
-import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'article_grid_view.dart';
@@ -12,7 +10,7 @@ class MyPostsContainer extends StatefulWidget {
   final List<Article> articles;
   final void Function(String id) onDelete;
 
-  MyPostsContainer({Key? key, required this.articles, required this.onDelete})
+  const MyPostsContainer({Key? key, required this.articles, required this.onDelete})
       : super(key: key);
 
   @override
@@ -28,15 +26,110 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.8,
+          childAspectRatio: 0.65,
           crossAxisSpacing: 10,
           mainAxisSpacing: 20,
         ),
         itemCount: widget.articles.length,
         itemBuilder: (BuildContext context, int index) {
-          return ArticleGridView(article: widget.articles[index]);
+          return ArticleGridView(
+            article: widget.articles[index],
+            onClick: () {
+              Navigator.pushNamed(
+                context,
+                BlogAppRoutes.ARTICLE_EDIT,
+                arguments: widget.articles[index],
+              );
+            },
+            onDelete: () async {
+              var ans =
+                  await showDeleteDialog(widget.articles[index].title, context);
+              if (ans == 'yes') {
+                widget.onDelete(widget.articles[index].id);
+              }
+            },
+          );
         },
       ),
+    );
+  }
+
+  Widget buildListView() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: widget.articles.length,
+        itemBuilder: (context, index) {
+          String title = widget.articles[index].title;
+          if (widget.articles[index].title.length > 25) {
+            title = "${widget.articles[index].title.substring(0, 25)}...";
+          }
+          String subtitle = widget.articles[index].subTitle;
+          if (widget.articles[index].subTitle.length > 80) {
+            subtitle = "${widget.articles[index].subTitle.substring(0, 80)}...";
+          }
+          return MyPostCard(
+            title: title,
+            subtitle: subtitle,
+            date: widget.articles[index].createdAt ?? DateTime.now(),
+            onClick: () {
+              Navigator.pushNamed(
+                context,
+                BlogAppRoutes.ARTICLE_EDIT,
+                arguments: widget.articles[index],
+              );
+            },
+            imageUrl: widget.articles[index].image,
+            onDelete: () async {
+              var ans = await showDeleteDialog(
+                widget.articles[index].title,
+                context,
+              );
+              if (ans == 'yes') {
+                widget.onDelete(widget.articles[index].id);
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  showDeleteDialog(String title, context) async {
+    return await showDialog<String>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.delete_forever_outlined, color: Colors.redAccent),
+              Text('Article Delete'),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("You're deleting article $title"),
+                const Text('Are you sure do you want to delete this article?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.pop(context, 'no');
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.pop(context, 'yes');
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -48,87 +141,8 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
 
   @override
   Widget build(BuildContext context) {
-    showDeleteDialog(String title) async {
-      return await showDialog<String>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Row(
-              children: [
-                Icon(Icons.delete_forever_outlined, color: Colors.redAccent),
-                Text('Article Delete'),
-              ],
-            ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text("You're deleting article $title"),
-                  const Text(
-                      'Are you sure do you want to delete this article?'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('No'),
-                onPressed: () {
-                  Navigator.pop(context, 'no');
-                },
-              ),
-              TextButton(
-                child: const Text('Yes'),
-                onPressed: () {
-                  Navigator.pop(context, 'yes');
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-
-    Widget buildListView() {
-      return Expanded(
-        child: ListView.builder(
-          itemCount: widget.articles.length,
-          itemBuilder: (context, index) {
-            String title = widget.articles[index].title;
-            if (widget.articles[index].title.length > 25) {
-              title = "${widget.articles[index].title.substring(0, 25)}...";
-            }
-            String subtitle = widget.articles[index].subTitle;
-            if (widget.articles[index].subTitle.length > 80) {
-              subtitle =
-                  "${widget.articles[index].subTitle.substring(0, 80)}...";
-            }
-            return MyPostCard(
-              title: title,
-              subtitle: subtitle,
-              date: widget.articles[index].createdAt ?? DateTime.now(),
-              onClick: () {
-                Navigator.pushNamed(
-                  context,
-                  BlogAppRoutes.ARTICLE_EDIT,
-                  arguments: widget.articles[index],
-                );
-              },
-              imageUrl: widget.articles[index].image,
-              onDelete: () async {
-                var ans = await showDeleteDialog(widget.articles[index].title);
-                if (ans == 'yes') {
-                  widget.onDelete(widget.articles[index].id);
-                }
-                
-              },
-            );
-          },
-        ),
-      );
-    }
-
     Widget myCard = widget.articles.isEmpty
-        ? Column(children: [
+        ? const Column(children: [
             Center(child: Text("You've No Post")),
           ])
         : selected
@@ -137,17 +151,17 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
 
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         width: 375,
         decoration: ShapeDecoration(
           color: Theme.of(context).colorScheme.surface,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
           ),
-          shadows: [
+          shadows: const [
             BoxShadow(
               color: Color(0x115182FF),
               blurRadius: 32,
@@ -177,7 +191,9 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
                     Icons.grid_view,
                     size: 25,
                   ),
-                  color: !selected ? Color(0xFF386BED) : Theme.of(context).colorScheme.onBackground,
+                  color: !selected
+                      ? const Color(0xFF386BED)
+                      : Theme.of(context).colorScheme.onBackground,
                   onPressed: () => onSelected(false),
                 ),
                 const SizedBox(
@@ -188,7 +204,9 @@ class _MyPostsContainerState extends State<MyPostsContainer> {
                     Icons.format_list_bulleted,
                     size: 25,
                   ),
-                  color: !selected ? Theme.of(context).colorScheme.onBackground : Color(0xFF386BED),
+                  color: !selected
+                      ? Theme.of(context).colorScheme.onBackground
+                      : const Color(0xFF386BED),
                   onPressed: () => onSelected(true),
                 ),
               ],

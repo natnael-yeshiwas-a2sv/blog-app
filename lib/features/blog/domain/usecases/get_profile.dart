@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/exceptions/Failure.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/article.dart';
-import '../repositories/article_repository.dart';
 
 class GetProfile extends UseCase<Tuple2<User, List<Article>>, NoParam> {
   final AuthRepository repository;

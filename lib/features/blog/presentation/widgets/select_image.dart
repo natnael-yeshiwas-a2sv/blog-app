@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 class SelectImage extends StatefulWidget {
@@ -17,7 +16,7 @@ class _SelectImageState extends State<SelectImage> {
    @override
   void initState() {
     super.initState();
-    imagePicker = new ImagePicker();
+    imagePicker = ImagePicker();
   }
   @override
   Widget build(BuildContext context) {

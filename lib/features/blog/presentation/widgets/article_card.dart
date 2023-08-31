@@ -25,7 +25,7 @@ class ArticleCard extends StatelessWidget {
     return Container(
       width: 388,
       height: 240,
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: ShapeDecoration(
         color: isDarkMode(context) == false
             ? Colors.white
@@ -35,9 +35,9 @@ class ArticleCard extends StatelessWidget {
         ),
         shadows: [
           BoxShadow(
-            color: Color.fromARGB(179, 230, 229, 229),
+            color: const Color.fromARGB(179, 230, 229, 229),
             blurRadius: isDarkMode(context) ? 0 : 8,
-            offset: isDarkMode(context) ? Offset(0, 0) : Offset(0, 4),
+            offset: isDarkMode(context) ? const Offset(0, 0) : const Offset(0, 4),
             spreadRadius: 0,
           )
         ],
@@ -101,7 +101,7 @@ class ArticleCard extends StatelessWidget {
                         style: TextStyle(
                           color: isDarkMode(context)
                               ? Colors.white
-                              : Color(0xFF4D4A49),
+                              : const Color(0xFF4D4A49),
                           fontSize: 15,
                           fontFamily: GoogleFonts.urbanist().fontFamily,
                           fontWeight: FontWeight.w600,
@@ -136,7 +136,7 @@ class ArticleCard extends StatelessWidget {
                       style: TextStyle(
                         color: isDarkMode(context)
                             ? Colors.white
-                            : Color(0xFF4D4A49),
+                            : const Color(0xFF4D4A49),
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 0.28,
@@ -148,7 +148,7 @@ class ArticleCard extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10),
             child: Text(
               date,
               style: const TextStyle(

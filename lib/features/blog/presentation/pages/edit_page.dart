@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:blog_application/features/blog/domain/entities/article.dart';
 import 'package:blog_application/features/blog/presentation/blocs/edit_task/edit_task_bloc.dart';
-import 'package:blog_application/features/blog/presentation/widgets/search_drop.dart';
 import 'package:blog_application/features/blog/presentation/widgets/select_image.dart';
 import 'package:blog_application/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class EditTaskScreen extends StatelessWidget {
     subtitleController.text = article.subTitle;
     contentController.text = article.content;
   }
-  final ScrollController? _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
   TextEditingController tagController = TextEditingController();
@@ -30,20 +29,18 @@ class EditTaskScreen extends StatelessWidget {
       child: BlocBuilder<EditTaskCubit, EditTaskState>(
       
         builder:(context, state) => Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              foregroundColor: Colors.black,
+ backgroundColor: Theme.of(context).colorScheme.background,          appBar: AppBar(
+              
+              foregroundColor: Theme.of(context).colorScheme.onBackground,
               centerTitle: true,
               leading: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: IconButton(
                     style: ButtonStyle(
                         padding:
                             MaterialStateProperty.all(const EdgeInsets.all(6.0)),
                         minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-                        backgroundColor:
-                            MaterialStateProperty.all(const Color(0xFFE9EBF0)),
+                      
                         shape: MaterialStateProperty.all(
                             const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -59,9 +56,9 @@ class EditTaskScreen extends StatelessWidget {
               child: BlocConsumer<EditTaskCubit, EditTaskState>(
                 listener: (context, state){
                   if(state.status == Status.submitFailed){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('failed to submit article')));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('failed to submit article')));
                   } else if(state.status == Status.submitSuccessFul){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('article submitted successfully')));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('article submitted successfully')));
                     Navigator.of(context).pop();
                   }
                 },
@@ -80,10 +77,10 @@ class EditTaskScreen extends StatelessWidget {
                         ? null
                         : state.content.displayError!.message,
                     filled: true,
-                    fillColor: const Color(0xFFF8FAFF),
+                    fillColor: Theme.of(context).colorScheme.surface,
                     hintText: 'Add Content',
                     hintStyle: const TextStyle(
-                      color: Color(0xFF969DA4),
+                      
                       fontSize: 19,
                       fontWeight: FontWeight.w300,
                     ),
@@ -91,7 +88,7 @@ class EditTaskScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ));
                 return Form(
-                  child: Container(
+                  child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +201,7 @@ class EditTaskScreen extends StatelessWidget {
                   context.read<EditTaskCubit>().publish();
                 },
               
-                child: state.status == Status.submitting ? CircularProgressIndicator(): Text('edit',
+                child: state.status == Status.submitting ? const CircularProgressIndicator(): const Text('edit',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

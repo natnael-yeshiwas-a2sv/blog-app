@@ -18,14 +18,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   AuthRepository authRepository;
   ProfileBloc(
       this.getProfileUseCase, this.articleRepository, this.authRepository)
-      : super(ProfileInitial(articles: [], user: User(id: "", email: ""))) {
+      : super(ProfileInitial(articles: const [], user: const User(id: "", email: ""))) {
     on<GetProfileEvent>((event, emit) async {
-      emit(ProfileLoading(articles: [], user: User(id: "", email: "")));
+      emit(ProfileLoading(articles: const [], user: const User(id: "", email: "")));
       final profile = await getProfileUseCase(NoParam());
       print(profile);
       profile.fold(
           (l) => {
-                emit(ProfileFailed(articles: [], user: User(id: "", email: "")))
+                emit(ProfileFailed(articles: const [], user: const User(id: "", email: "")))
               },
           (r) => {
                 emit(ProfileLoaded(

@@ -20,12 +20,12 @@ class ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     
-    var  image_url = DecorationImage(
+    var  imageUrl = const DecorationImage(
                               image: AssetImage('assets/images/avator.jpeg') ,
                               fit: BoxFit.fill,
                             );
     if(user.image!= null){
-      image_url = DecorationImage(
+      imageUrl = DecorationImage(
                               image: NetworkImage(user.image!) ,
                               fit: BoxFit.fill,
                             );
@@ -64,7 +64,7 @@ class ProfileCard extends StatelessWidget {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             side:
-                                BorderSide(width: 2, color: Color(0xFF376AED)),
+                                const BorderSide(width: 2, color: Color(0xFF376AED)),
                             borderRadius: BorderRadius.circular(28),
                           ),
                         ),
@@ -72,18 +72,18 @@ class ProfileCard extends StatelessWidget {
                           width: 66.71,
                           height: 66.71,
                           decoration: ShapeDecoration(
-                            image: image_url,
+                            image: imageUrl,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(22),
                             ),
                           ),
                         )),
                     Positioned(
-                        child: uploading
-                            ? Center(child: CircularProgressIndicator())
-                            : ProfileImageSelect(onSelected: onSelected),
                         right: 0,
-                        bottom: 0)
+                        bottom: 0,
+                        child: uploading
+                            ? const Center(child: CircularProgressIndicator())
+                            : ProfileImageSelect(onSelected: onSelected))
                   ],
                 ),
                 const SizedBox(width: 24),
@@ -91,7 +91,7 @@ class ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "@" + user.email.substring(0, 5),
+                      "@${user.email.substring(0, 5)}",
                       overflow: TextOverflow.clip,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
@@ -115,7 +115,7 @@ class ProfileCard extends StatelessWidget {
                         height: 1.25,
                       ),
                     ),
-            Container(
+            SizedBox(
                       width: 100,
                       child: Text(
                         user.expertise ?? 'UX Designer',
@@ -134,7 +134,7 @@ class ProfileCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               'About me',
               style: TextStyle(
@@ -145,7 +145,7 @@ class ProfileCard extends StatelessWidget {
                 fontWeight: FontWeight.w100,
               ),
             ),
-            SizedBox(height: 11),
+            const SizedBox(height: 11),
             Text(
               user.bio ??
                   'Madison Blackstone is a director of user experience design, with experience managing global teams.',
