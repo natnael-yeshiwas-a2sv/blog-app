@@ -9,8 +9,8 @@ class TitleInput extends FormzInput<String, InvalidTitleError> {
   InvalidTitleError? validator(String? value) {
     if(value!.isEmpty){
       return InvalidTitleError.empty;
-    } else if(value!.length < 3){
-      return InvalidTitleError._('Title must be at least 3 characters long');
+    } else if(value.length < 3){
+      return const InvalidTitleError._('Title must be at least 3 characters long');
     } else {
       return null;
     }
@@ -33,8 +33,8 @@ class SubtitleInput extends FormzInput<String, InvalidSubtitleError> {
   InvalidSubtitleError? validator(String? value) {
     if(value!.isEmpty){
       return InvalidSubtitleError.empty;
-    } else if(value!.length < 3){
-      return InvalidSubtitleError._('Subtitle must be at least 3 characters long');
+    } else if(value.length < 3){
+      return const InvalidSubtitleError._('Subtitle must be at least 3 characters long');
     } else {
       return null;
     }
@@ -57,8 +57,8 @@ class ContentInput extends FormzInput<String, InvalidContentError> {
   InvalidContentError? validator(String? value) {
     if(value!.isEmpty){
       return InvalidContentError.empty;
-    } else if(value!.length < 10){
-      return InvalidContentError._('Content must be at least 10 characters long');
+    } else if(value.length < 10){
+      return const InvalidContentError._('Content must be at least 10 characters long');
     } else {
       return null;
     }
@@ -78,7 +78,7 @@ class TagInput extends FormzInput<String, InvalidTagError> {
   const TagInput.dirty([String value = '']) : super.dirty(value);
   @override
   InvalidTagError? validator(String? value) {
-    return value?.length == 0
+    return value!.isEmpty
         ? InvalidTagError.empty
         : null;
   }

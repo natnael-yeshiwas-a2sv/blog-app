@@ -1,6 +1,5 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/presentation/blocs/auth/auth_bloc.dart';
-import 'package:blog_application/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "../widgets/auth_custome_alert.dart";
@@ -69,9 +68,9 @@ class _AuthState extends State<Auth> {
                               if (login == false) switchAuth();
                             },
                             child: AnimatedOpacity(
-                              duration: Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 300),
                               opacity: login ? 1 : .25,
-                              child: Text(
+                              child: const Text(
                                 "LOGIN",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -85,7 +84,7 @@ class _AuthState extends State<Auth> {
                               if (login == true) switchAuth();
                             },
                             child: AnimatedOpacity(
-                              duration: Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 300),
                               opacity: login ? .25 : 1,
                               child: const Text(
                                 "SIGN UP",
@@ -109,7 +108,7 @@ class _AuthState extends State<Auth> {
                             const EdgeInsets.only(top: 30, left: 50, right: 50),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.background,
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(28),
                             topRight: Radius.circular(28),
                           ),
@@ -185,7 +184,7 @@ class _AuthState extends State<Auth> {
                                 SizedBox(height: login ? 0 : 2),
                                 Text(
                                   fullnameErr ?? "",
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                                 const SizedBox(height: 7),
                                 Text(
@@ -227,14 +226,14 @@ class _AuthState extends State<Auth> {
                                 const SizedBox(height: 2),
                                 Text(
                                   usernameErr ?? "",
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                                 const SizedBox(height: 7),
                                 Text(
                                   "Password",
                                   style: TextStyle(
                                     fontSize: fontNormal,
-                                    color: Color.fromARGB(255, 45, 67, 121),
+                                    color: const Color.fromARGB(255, 45, 67, 121),
                                     fontWeight: FontWeight.w200,
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -298,7 +297,7 @@ class _AuthState extends State<Auth> {
                                 const SizedBox(height: 2),
                                 Text(
                                   passwordErr ?? "",
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                               ],
                             ),
@@ -311,8 +310,8 @@ class _AuthState extends State<Auth> {
                                       minWidth: double.infinity,
                                       disabledColor: const Color.fromARGB(
                                           255, 230, 230, 230),
-                                      color: Color.fromARGB(255, 55, 106, 237),
-                                      padding: EdgeInsets.all(17),
+                                      color: const Color.fromARGB(255, 55, 106, 237),
+                                      padding: const EdgeInsets.all(17),
                                       onPressed: state is AuthLoading
                                           ? null
                                           : () {
@@ -390,7 +389,7 @@ class _AuthState extends State<Auth> {
                                               content: Text(state.error)));
                                     }
                                   },
-                                  child: SizedBox(height: 5,),
+                                  child: const SizedBox(height: 5,),
                                   // Row(
                                   //   mainAxisAlignment: MainAxisAlignment.center,
                                   //   children: [

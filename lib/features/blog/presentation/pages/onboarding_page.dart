@@ -42,12 +42,12 @@ class _OnboardingState extends State<Onboarding> {
   }
 
   Widget buildOnboardingBody() {
-    return Container(
+    return SizedBox(
       width: Get.width,
       height: Get.height / 2.8,
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 60,
           ),
           Row(
@@ -57,7 +57,7 @@ class _OnboardingState extends State<Onboarding> {
                 width: 100,
                 height: 180,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage("assets/images/sunset.png"),
                     fit: BoxFit.cover,
                   ),
@@ -65,21 +65,21 @@ class _OnboardingState extends State<Onboarding> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2), // Shadow color
-                      offset: Offset(0, 16), // Offset in the Y direction
+                      offset: const Offset(0, 16), // Offset in the Y direction
                       blurRadius: 16, // Spread of the shadow
                       spreadRadius: 0, // Size of the shadow
                     ),
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 13,
               ),
               Container(
                 width: 200,
                 height: 180,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage("assets/images/vr.png"),
                     fit: BoxFit.cover,
                   ),
@@ -87,7 +87,7 @@ class _OnboardingState extends State<Onboarding> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2), // Shadow color
-                      offset: Offset(0, 16), // Offset in the Y direction
+                      offset: const Offset(0, 16), // Offset in the Y direction
                       blurRadius: 16, // Spread of the shadow
                       spreadRadius: 0, // Size of the shadow
                     ),
@@ -96,7 +96,7 @@ class _OnboardingState extends State<Onboarding> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -106,7 +106,7 @@ class _OnboardingState extends State<Onboarding> {
                 width: 200,
                 height: 180,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage("assets/images/diver.png"),
                     fit: BoxFit.cover,
                   ),
@@ -114,14 +114,14 @@ class _OnboardingState extends State<Onboarding> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2), // Shadow color
-                      offset: Offset(0, 16), // Offset in the Y direction
+                      offset: const Offset(0, 16), // Offset in the Y direction
                       blurRadius: 16, // Spread of the shadow
                       spreadRadius: 0, // Size of the shadow
                     ),
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Container(
@@ -130,7 +130,7 @@ class _OnboardingState extends State<Onboarding> {
                 // child: Image.asset("assets/images/horizon.png"),
 
                 decoration: BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage("assets/images/horizon.png"),
                     fit: BoxFit.cover,
                   ),
@@ -138,7 +138,7 @@ class _OnboardingState extends State<Onboarding> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2), // Shadow color
-                      offset: Offset(0, 16), // Offset in the Y direction
+                      offset: const Offset(0, 16), // Offset in the Y direction
                       blurRadius: 16, // Spread of the shadow
                       spreadRadius: 0, // Size of the shadow
                     ),
@@ -156,14 +156,14 @@ class _OnboardingState extends State<Onboarding> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: isDarkMode(context)
-          ? Color.fromARGB(255, 20, 20, 20)
-          : Color(0xFFF4F7FF),
+          ? const Color.fromARGB(255, 20, 20, 20)
+          : const Color(0xFFF4F7FF),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 48),
+            margin: const EdgeInsets.only(top: 48),
             height: Get.height / 1.7,
             child: PageView(
               controller: _pageController,
@@ -179,7 +179,7 @@ class _OnboardingState extends State<Onboarding> {
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(28),
                   topRight: Radius.circular(28),
                 ),
@@ -192,7 +192,7 @@ class _OnboardingState extends State<Onboarding> {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 40, top: 40),
+                          margin: const EdgeInsets.only(left: 40, top: 40),
                           width: 275,
                           child: Text(
                             'Read the article you want instantly',
@@ -210,21 +210,21 @@ class _OnboardingState extends State<Onboarding> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             left: 40,
                           ),
-                          padding: EdgeInsets.only(left: 7),
+                          padding: const EdgeInsets.only(left: 7),
                           width: 295,
                           child: Text(
                             'You can read thousands of articles on Blog Club, save them in the application and share them with your loved ones.',
                             style: TextStyle(
                               color: isDarkMode(context)
                                   ? Theme.of(context).colorScheme.primary
-                                  : Color(0xFF2D4379),
+                                  : const Color(0xFF2D4379),
                               fontSize: 15,
                               fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w900,
@@ -235,11 +235,11 @@ class _OnboardingState extends State<Onboarding> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 40),
+                    padding: const EdgeInsets.only(left: 40),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -249,21 +249,21 @@ class _OnboardingState extends State<Onboarding> {
                           positionIndex: 0,
                           currentIndex: currentIndex,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         DotIndicator(
                           positionIndex: 1,
                           currentIndex: currentIndex,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         DotIndicator(
                           positionIndex: 2,
                           currentIndex: currentIndex,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 160,
                         ),
                         Container(
@@ -288,7 +288,7 @@ class _OnboardingState extends State<Onboarding> {
                                       context, BlogAppRoutes.AUTH);
                                 }
                               },
-                              icon: Icon(Icons.arrow_forward),
+                              icon: const Icon(Icons.arrow_forward),
                             ),
                           ),
                         ),
@@ -317,14 +317,14 @@ class DotIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      margin: EdgeInsets.only(left: 5, top: 20),
+      margin: const EdgeInsets.only(left: 5, top: 20),
       height: 10,
       width: positionIndex == currentIndex ? 20 : 10,
       decoration: BoxDecoration(
           color:
-              positionIndex == currentIndex ? Colors.blue : Color(0xFFF4F7FF),
+              positionIndex == currentIndex ? Colors.blue : const Color(0xFFF4F7FF),
           borderRadius: BorderRadius.circular(32)),
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
     );
   }
 }

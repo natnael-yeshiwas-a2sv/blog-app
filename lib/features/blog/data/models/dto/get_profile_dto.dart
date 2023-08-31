@@ -6,12 +6,12 @@ class GetProfileDto {
 
   GetProfileDto.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -58,27 +58,27 @@ class Data {
     if (json['articles'] != null) {
       articles = <Articles>[];
       json['articles'].forEach((v) {
-        articles!.add(new Articles.fromJson(v));
+        articles!.add(Articles.fromJson(v));
       });
     }
     id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['fullName'] = this.fullName;
-    data['email'] = this.email;
-    data['expertise'] = this.expertise;
-    data['bio'] = this.bio;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
-    data['image'] = this.image;
-    data['imageCloudinaryPublicId'] = this.imageCloudinaryPublicId;
-    if (this.articles != null) {
-      data['articles'] = this.articles!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['fullName'] = fullName;
+    data['email'] = email;
+    data['expertise'] = expertise;
+    data['bio'] = bio;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
+    data['image'] = image;
+    data['imageCloudinaryPublicId'] = imageCloudinaryPublicId;
+    if (articles != null) {
+      data['articles'] = articles!.map((v) => v.toJson()).toList();
     }
-    data['id'] = this.id;
+    data['id'] = id;
     return data;
   }
 }
@@ -127,19 +127,19 @@ class Articles {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['tags'] = this.tags;
-    data['content'] = this.content;
-    data['title'] = this.title;
-    data['subTitle'] = this.subTitle;
-    data['estimatedReadTime'] = this.estimatedReadTime;
-    data['user'] = this.user;
-    data['image'] = this.image;
-    data['imageCloudinaryPublicId'] = this.imageCloudinaryPublicId;
-    data['createdAt'] = this.createdAt;
-    data['__v'] = this.iV;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['tags'] = tags;
+    data['content'] = content;
+    data['title'] = title;
+    data['subTitle'] = subTitle;
+    data['estimatedReadTime'] = estimatedReadTime;
+    data['user'] = user;
+    data['image'] = image;
+    data['imageCloudinaryPublicId'] = imageCloudinaryPublicId;
+    data['createdAt'] = createdAt;
+    data['__v'] = iV;
+    data['id'] = id;
     return data;
   }
 }

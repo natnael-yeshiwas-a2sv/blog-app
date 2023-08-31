@@ -9,7 +9,7 @@ void showAlertDialog(BuildContext context,String error,[String alert = "Alert"])
         content: Text(error),
         actions: <Widget>[
           TextButton(
-            child: Text('OK'),
+            child: const Text('OK'),
             onPressed: () {
               Navigator.of(context).pop(); // Close the dialog
             },

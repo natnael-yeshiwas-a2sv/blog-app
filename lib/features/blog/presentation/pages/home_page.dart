@@ -5,12 +5,10 @@ import 'package:blog_application/features/blog/presentation/widgets/loading_scre
 import 'package:blog_application/features/blog/presentation/widgets/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/presentation/util/input_converter.dart';
 import '../../../../service_locator.dart';
 import '../../domain/entities/article.dart';
-import '../blocs/auth/auth_bloc.dart';
 import '../widgets/article_card.dart';
 import '../widgets/customized_button.dart';
 import '../widgets/filter_tag_chip.dart';
@@ -64,7 +62,7 @@ class HomePage extends StatelessWidget {
             BlocConsumer<ArticleBloc, ArticleState>(
               listener: (context, state) {},
               builder: (context, state) {
-                var image_url = const CircleAvatar(
+                var imageUrl = const CircleAvatar(
                   radius: 20,
                   backgroundImage: AssetImage(
                     'assets/images/avator.jpg',
@@ -72,7 +70,7 @@ class HomePage extends StatelessWidget {
                 );
                 if (state is ArticlesAndTagLoaded) {
                   if (state.user.image != null) {
-                    image_url = CircleAvatar(
+                    imageUrl = CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(state.user.image!),
                     );
@@ -83,7 +81,7 @@ class HomePage extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () =>
                         Navigator.pushNamed(context, BlogAppRoutes.PROFILE),
-                    child: image_url,
+                    child: imageUrl,
                   ),
                 );
               },
@@ -159,7 +157,7 @@ class HomePage extends StatelessWidget {
               decoration: ShapeDecoration(
                 color: isDarkMode(context)
                     ? Theme.of(context).appBarTheme.backgroundColor
-                    : Color(0xFFF8FAFF),
+                    : const Color(0xFFF8FAFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -177,7 +175,7 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: 35,
                       child: ListView.separated(
-                          separatorBuilder: (_, __) => SizedBox(width: 10),
+                          separatorBuilder: (_, __) => const SizedBox(width: 10),
                           scrollDirection: Axis.horizontal,
                           itemCount: state.tags.length,
                           itemBuilder: (_, ind) {

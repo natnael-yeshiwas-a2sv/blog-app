@@ -20,7 +20,7 @@ class ProfileTab extends StatelessWidget {
           ),
 
         ],
-        color: Color(0xFF386BED),
+        color: const Color(0xFF386BED),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

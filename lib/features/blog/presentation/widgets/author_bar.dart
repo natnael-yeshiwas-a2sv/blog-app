@@ -1,6 +1,5 @@
 
 
-import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:blog_application/features/blog/presentation/blocs/bookmark/bookmark_bloc.dart';
 
 import 'package:blog_application/service_locator.dart';
@@ -20,6 +19,7 @@ class AuthorBar extends StatefulWidget {
       required this.time,
       required this.isBookmarked});
 
+  @override
   _AuthorBarState createState() => _AuthorBarState();
 }
 
@@ -96,7 +96,7 @@ class _AuthorBarState extends State<AuthorBar> {
                 },
                 icon: Icon(
                   state.isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
-                  color: Color(0xFF2D4379),
+                  color: const Color(0xFF2D4379),
                 ),
               );
             },

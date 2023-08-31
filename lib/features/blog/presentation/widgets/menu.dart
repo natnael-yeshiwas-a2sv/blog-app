@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/routes/blog_app_routes.dart';
-import '../../domain/usecases/logout_usecase.dart';
-import '../blocs/article/bloc/article_bloc.dart';
 import '../blocs/auth/auth_bloc.dart';
 
 class Menu extends StatelessWidget {
@@ -16,12 +14,12 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var image_url = const CircleAvatar(
+    var imageUrl = const CircleAvatar(
                       backgroundImage: AssetImage(
                         'assets/images/avator.jpg',
                       ),);
                   if(user.image != null){
-                    image_url = CircleAvatar(
+                    imageUrl = CircleAvatar(
                       backgroundImage: NetworkImage(user.image!),
                     );
                   
@@ -40,7 +38,7 @@ class Menu extends StatelessWidget {
                 fit: BoxFit.cover,
               )
             ),
-            currentAccountPicture:image_url,
+            currentAccountPicture:imageUrl,
             accountName: Text(user.fullName??'Yidnekachew'),
             accountEmail: Text(user.email ),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -17,7 +16,7 @@ class _ProfileImageSelectState extends State<ProfileImageSelect> {
   @override
   void initState() {
     super.initState();
-    imagePicker = new ImagePicker();
+    imagePicker = ImagePicker();
   }
 
   @override
@@ -33,11 +32,11 @@ class _ProfileImageSelectState extends State<ProfileImageSelect> {
           await widget.onSelected(File(image.path));
         });
       },
-      child: Container(
+      child: SizedBox(
         width: 30,
         height: 20,
         child: IconButton(
-          icon: Icon(Icons.camera_alt, size: 30),
+          icon: const Icon(Icons.camera_alt, size: 30),
           onPressed: () async {
             XFile image = await imagePicker.pickImage(
                 source: ImageSource.gallery,

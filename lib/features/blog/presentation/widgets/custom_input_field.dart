@@ -1,5 +1,3 @@
-import 'package:blog_application/features/blog/domain/entities/article.dart';
-import 'package:blog_application/features/blog/domain/usecases/get_articles.dart';
 import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +20,7 @@ class CustomInputField extends StatelessWidget {
       height: 50.43,
       decoration: ShapeDecoration(
         color: isDarkMode(context)
-            ? Color.fromARGB(255, 29, 26, 34)
+            ? const Color.fromARGB(255, 29, 26, 34)
             : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -30,10 +28,10 @@ class CustomInputField extends StatelessWidget {
         shadows: [
           BoxShadow(
             color: isDarkMode(context)
-                ? Color.fromARGB(255, 61, 51, 77)
-                : Color(0x3FB1B1B1),
+                ? const Color.fromARGB(255, 61, 51, 77)
+                : const Color(0x3FB1B1B1),
             blurRadius: isDarkMode(context) ? 2 : 6,
-            offset: isDarkMode(context) ? Offset(0, 0) : Offset(0, 1),
+            offset: isDarkMode(context) ? const Offset(0, 0) : const Offset(0, 1),
             spreadRadius: 0,
           )
         ],
@@ -52,7 +50,7 @@ class CustomInputField extends StatelessWidget {
             fontWeight: FontWeight.w300,
           ),
           suffixIcon: CustomizedButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onpressed: () => dispatchCreate(context),
           ),
         ),

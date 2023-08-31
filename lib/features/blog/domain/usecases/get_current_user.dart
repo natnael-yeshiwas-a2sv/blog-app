@@ -1,6 +1,4 @@
-import 'package:blog_application/core/exceptions/Failure.dart';
 import 'package:blog_application/core/usecases/usecase.dart';
-import 'package:dartz/dartz.dart';
 
 import '../entities/user.dart';
 import '../repositories/auth_repository.dart';

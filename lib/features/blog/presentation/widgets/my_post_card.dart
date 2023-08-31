@@ -1,4 +1,3 @@
-import 'package:blog_application/features/blog/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'article_info.dart';
@@ -10,14 +9,15 @@ class MyPostCard extends StatelessWidget {
   final DateTime date;
   final Null Function() onClick;
   final Future<void> Function() onDelete;
-  const MyPostCard(
-      {required this.title,
-      required this.subtitle,
-      required this.imageUrl,
-      required this.date,
-      super.key,
-      required this.onClick,
-      required this.onDelete});
+  const MyPostCard({
+    required this.title,
+    required this.subtitle,
+    required this.imageUrl,
+    required this.date,
+    super.key,
+    required this.onClick,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class MyPostCard extends StatelessWidget {
             icon: const Icon(Icons.delete_forever_outlined,
                 color: Colors.redAccent),
             onPressed: onDelete,
-          )
+          ),
         ]),
       ),
     );

@@ -1,5 +1,3 @@
-import "package:blog_application/features/blog/data/models/dto/article_model.dart";
-import "package:blog_application/features/blog/data/models/dto/get_profile_dto.dart";
 import "package:blog_application/features/blog/domain/entities/article.dart";
 import "package:blog_application/features/blog/presentation/pages/create_article_screans.dart";
 import "package:blog_application/features/blog/presentation/pages/edit_page.dart";

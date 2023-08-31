@@ -20,6 +20,7 @@ class GridViews extends StatelessWidget {
                   if(articles[index].subTitle.length > 80){
                     subtitle = "${articles[index].subTitle.substring(0,80)}...";
                   }
+                  return null;
                   
               //     return MyPostCard(
               //       title: title,

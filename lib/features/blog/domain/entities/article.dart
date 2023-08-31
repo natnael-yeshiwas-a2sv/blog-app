@@ -25,18 +25,18 @@ class Article extends Equatable {
   final DateTime? createdAt;
   bool? isArticleBookmarked;
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.id;
-    data['tags'] = this.tags;
-    data['content'] = this.content;
-    data['title'] = this.title;
-    data['subTitle'] = this.subTitle;
-    data['estimatedReadTime'] = this.estimatedReadTime;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = id;
+    data['tags'] = tags;
+    data['content'] = content;
+    data['title'] = title;
+    data['subTitle'] = subTitle;
+    data['estimatedReadTime'] = estimatedReadTime;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    data['image'] = this.image;
-    data['createdAt'] = this.createdAt;
+    data['image'] = image;
+    data['createdAt'] = createdAt;
     return data;
   }
 
