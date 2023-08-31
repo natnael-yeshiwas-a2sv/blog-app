@@ -390,44 +390,46 @@ class _AuthState extends State<Auth> {
                                               content: Text(state.error)));
                                     }
                                   },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        login
-                                            ? "Forget Your Password?"
-                                            : "Have an account?",
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          color:
-                                              Color.fromARGB(255, 45, 67, 121),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 2),
-                                      TextButton(
-                                        onPressed: () {
-                                          if (login == false) {
-                                            switchAuth();
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: Text(
-                                                        "sorry,this feature is not available yet!")));
-                                          }
-                                        },
-                                        child: Expanded(
-                                          child: Text(
-                                            login ? "reset" : "Login",
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 55, 106, 237),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                  child: SizedBox(height: 5,),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.center,
+                                  //   children: [
+                                  //     Text(
+                                  //       login
+                                  //           ? "Forget Your Password?"
+                                  //           : "Have an account?",
+                                  //       style: const TextStyle(
+                                  //         fontWeight: FontWeight.w900,
+                                  //         color:
+                                  //             Color.fromARGB(255, 45, 67, 121),
+                                  //       ),
+                                  //     ),
+                                  //     const SizedBox(width: 2),
+                                  //     TextButton(
+                                  //       onPressed: () {
+                                  //         if (login == false) {
+                                  //           switchAuth();
+                                  //         } else {
+                                  //           ScaffoldMessenger.of(context)
+                                  //               .showSnackBar(const SnackBar(
+                                  //                   content: Text(
+                                  //                       "sorry,this feature is not available yet!")));
+                                  //         }
+                                  //       },
+                                  //       child: Expanded(
+                                  //         child: Text(
+                                  //           login ? "reset" : "Login",
+                                  //           style: const TextStyle(
+                                  //             color: Color.fromARGB(
+                                  //                 255, 55, 106, 237),
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     )
+                                  //   ],
+                                  // ),
                                 ),
+                                
                                 const SizedBox(height: 30),
                               ],
                             ),

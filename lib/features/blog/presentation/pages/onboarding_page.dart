@@ -13,6 +13,11 @@ class _OnboardingState extends State<Onboarding> {
   late PageController _pageController;
   int currentIndex = 0;
 
+  bool isDarkMode(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.dark;
+  }
+
   var duration = const Duration(milliseconds: 250);
   var curveEase = Curves.ease;
 
@@ -38,7 +43,6 @@ class _OnboardingState extends State<Onboarding> {
 
   Widget buildOnboardingBody() {
     return Container(
-      // color: Colors.yellow.withOpacity(0.1),
       width: Get.width,
       height: Get.height / 2.8,
       child: Column(
@@ -148,15 +152,12 @@ class _OnboardingState extends State<Onboarding> {
     );
   }
 
-  bool isDarkMode(BuildContext context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    return brightness == Brightness.dark;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF4F7FF),
+      backgroundColor: isDarkMode(context)
+          ? Color.fromARGB(255, 20, 20, 20)
+          : Color(0xFFF4F7FF),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
@@ -177,7 +178,7 @@ class _OnboardingState extends State<Onboarding> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(28),
                   topRight: Radius.circular(28),
@@ -196,7 +197,11 @@ class _OnboardingState extends State<Onboarding> {
                           child: Text(
                             'Read the article you want instantly',
                             style: TextStyle(
-                              color: Color(0xFF0D253C),
+                              color: isDarkMode(context)
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer
+                                  : const Color(0xff0d253c),
                               fontSize: 24,
                               fontStyle: FontStyle.italic,
                               fontFamily: 'Urbanist',
@@ -217,7 +222,9 @@ class _OnboardingState extends State<Onboarding> {
                           child: Text(
                             'You can read thousands of articles on Blog Club, save them in the application and share them with your loved ones.',
                             style: TextStyle(
-                              color: Color(0xFF2D4379),
+                              color: isDarkMode(context)
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Color(0xFF2D4379),
                               fontSize: 15,
                               fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w900,
