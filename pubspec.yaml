@@ -47,7 +47,7 @@ dependencies:
   formz: ^0.6.0
   shared_preferences: ^2.2.0
   get: ^4.6.5
-
+  animator: ^3.3.0
   image_picker: ^1.0.2
   http_parser: ^4.0.2
 
