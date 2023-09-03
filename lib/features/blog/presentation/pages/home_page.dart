@@ -1,8 +1,10 @@
 import 'package:blog_application/core/routes/blog_app_routes.dart';
 import 'package:blog_application/features/blog/presentation/blocs/article/bloc/article_bloc.dart';
+import 'package:blog_application/features/blog/presentation/widgets/connection_lost.dart';
 import 'package:blog_application/features/blog/presentation/widgets/custom_input_field.dart';
 import 'package:blog_application/features/blog/presentation/widgets/loading_screen.dart';
 import 'package:blog_application/features/blog/presentation/widgets/menu.dart';
+import 'package:blog_application/features/blog/presentation/widgets/no_article_found.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +25,8 @@ class HomePage extends StatelessWidget {
     var brightness = MediaQuery.of(context).platformBrightness;
     return brightness == Brightness.dark;
   }
+
+  bool networkError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +100,9 @@ class HomePage extends StatelessWidget {
         body: BlocConsumer<ArticleBloc, ArticleState>(
           listener: (context, state) {
             if (state is ArticleAndTagError) {
-              const Center(
-                child: Text("Failed to load articles"),
-              );
+              networkError = true;
             } else if (state is ArticleAndTagLoading) {
+              networkError = false;
               const LoadingScreen();
             }
           },
@@ -152,6 +155,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             );
+
             return Container(
               padding: const EdgeInsets.all(20.0),
               decoration: ShapeDecoration(
@@ -175,7 +179,8 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: 35,
                       child: ListView.separated(
-                          separatorBuilder: (_, __) => const SizedBox(width: 10),
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(width: 10),
                           scrollDirection: Axis.horizontal,
                           itemCount: state.tags.length,
                           itemBuilder: (_, ind) {
@@ -195,11 +200,7 @@ class HomePage extends StatelessWidget {
                   else if ((state is ArticlesAndTagLoaded &&
                           state.articles.isEmpty) ||
                       (state is ArticlesLoadeds && state.articles.isEmpty))
-                    Container(
-                      child: const Center(
-                        child: Text("No Article is found"),
-                      ),
-                    )
+                    const NoArticleFound()
                   else if ((state is ArticlesAndTagLoaded &&
                           state.articles.isNotEmpty) ||
                       (state is ArticlesLoadeds && state.articles.isNotEmpty))
@@ -208,7 +209,11 @@ class HomePage extends StatelessWidget {
                         onRefresh: () => dispatchCreate(context),
                         child: articleCard,
                       ),
-                    ),
+                    )
+                  else if (networkError)
+                    ConnectionLost(
+                      onRefresh: dispatchRefresh,
+                    )
                 ],
               ),
             );
@@ -222,6 +227,13 @@ class HomePage extends StatelessWidget {
     BlocProvider.of<ArticleBloc>(context).add(LoadAllArticles(
       searchparams: articleController.text,
       selectedTag: "",
+    ));
+  }
+
+  Future<void> dispatchRefresh(BuildContext context) async {
+    BlocProvider.of<ArticleBloc>(context).add(LoadArticlesAndTags(
+      searchparams: articleController.text,
+      tags: [] ,
     ));
   }
 }

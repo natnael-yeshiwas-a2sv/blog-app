@@ -28,16 +28,25 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   void _onLoadAllArticlesAndTags(
       LoadArticlesAndTags event, Emitter<ArticleState> emit) async {
     emit(ArticleAndTagLoading(state.selectedTags, const []));
+
     final result = await getArticles(GetArticlesParam(
       tags: event.tags,
       searchParams: event.searchparams,
     ));
+
     print(result);
+
     final tags = await getTags(NoParams());
     final user = await getCurrentUser(NoParams());
 
     result.fold(
-      (l) => emit(ArticleAndTagError(message: l.message)),
+      (l) => emit(
+        ArticleAndTagError(
+          message: l.message,
+          selectedTags: state.selectedTags,
+          tags: state.selectedTags,
+        ),
+      ),
       (r) => emit(
         ArticlesAndTagLoaded(
             articles: r,
@@ -64,8 +73,15 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       searchParams: event.searchparams,
     ));
     final user = await getCurrentUser(NoParams());
+
     result.fold(
-      (l) => emit(ArticleAndTagError(message: l.message)),
+      (l) => emit(
+        ArticleAndTagError(
+          message: l.message,
+          selectedTags: state.selectedTags,
+          tags: state.tags,
+        ),
+      ),
       (r) => emit(
         ArticlesAndTagLoaded(
           articles: r,
@@ -75,6 +91,6 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
         ),
       ),
     );
-    print(state);
+    // print("$state natnael tafesseeeeeeeeeeeee");
   }
 }
